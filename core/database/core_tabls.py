@@ -1,16 +1,13 @@
-
-
 def create_tables():
-        
     """TABLE customers(
-            customer_id SERIAL PRIMARY KEY,
-            first_name varchar(100),
-            middle_name varchar(100),
-            last_name varchar(100),
-            birthdate date,
-            join_date datetime, 
-            customer_status_id int REFERENCES customers_status(customer_status_id),
-            )
+    customer_id SERIAL PRIMARY KEY,
+    first_name varchar(100),
+    middle_name varchar(100),
+    last_name varchar(100),
+    birthdate date,
+    join_date datetime,
+    customer_status_id int REFERENCES customers_status(customer_status_id),
+    )
     """
 
     """TABLE contract_types(
@@ -32,13 +29,13 @@ def create_tables():
     """
 
     """TABLE contracts(
-            contract_id SERIAL PRIMARY KEY,
-            contract_title varchar(200),
-            contract_details_id int REFERENCES contract_details(contract_details_id),
-            contract_type_id int REFERENCES contract_types(contract_type_id),
-            created_at datetime,
-            last_updated datetime,
-            )
+contract_id SERIAL PRIMARY KEY,
+contract_title varchar(200),
+contract_details_id int REFERENCES contract_details(contract_details_id),
+contract_type_id int REFERENCES contract_types(contract_type_id),
+created_at datetime,
+last_updated datetime,
+)
     """
 
     """TABLE customers_contracts(
@@ -49,15 +46,15 @@ def create_tables():
     """
 
     """TABLE sims(
-            sim_id SERIAL PRIMARY KEY,
-            contract_details_id int REFERENCES contract_details(contract_details_id),
-            avail_calls_time int,
-            avail_cellular_data decimal(12,2),
-            avail_roam_data decimal(12,2),
-            avail_roam_calls_time int,
-            created_at datetime,
-            last_updated datetime,
-            )   
+sim_id SERIAL PRIMARY KEY,
+contract_details_id int REFERENCES contract_details(contract_details_id),
+avail_calls_time int,
+avail_cellular_data decimal(12,2),
+avail_roam_data decimal(12,2),
+avail_roam_calls_time int,
+created_at datetime,
+last_updated datetime,
+)
     """
 
     """TABLE devices_type{
@@ -66,8 +63,8 @@ def create_tables():
             }
     """
 
-    """TABLE devices_specification(
-            devices_specification_id SERIAL PRIMARY KEY,
+    """TABLE devices_details(
+            devices_details_id SERIAL PRIMARY KEY,
             device_model varchar(100),
             company varchar(100),
             screen_size decimal(4,1),
@@ -77,14 +74,14 @@ def create_tables():
     """
 
     """TABLE devices()
-            device_id SERIAL PRIMARY KEY,
-            device_name varchar(200),
-            contract_details_id int REFERENCES contract_details(contract_details_id),
-            device_type_id int REFERENCES devices_type(devices_type_id),
-            device_specification_id int REFERENCES devices_specification(devices_specification_id),
-            created_at datetime,
-            last_updated datetime,
-            )
+device_id SERIAL PRIMARY KEY,
+device_name varchar(200),
+contract_details_id int REFERENCES contract_details(contract_details_id),
+device_type_id int REFERENCES devices_type(devices_type_id),
+device_details_id int REFERENCES devices_details(devices_details_id),
+created_at datetime,
+last_updated datetime,
+)
     """
 
     """TABLE customers_usage(
@@ -139,11 +136,11 @@ def create_tables():
     """
 
     """TABLE customer_status_history()
-            customer_status_history_id SERIAL PRIMARY KEY,
-            customer_status_id int REFERENCES customers_status(customer_status_id),
-            customer_id int REFERENCES customers(customer_id),
-            change_date datetime,
-            )
+customer_status_history_id SERIAL PRIMARY KEY,
+customer_status_id int REFERENCES customers_status(customer_status_id),
+customer_id int REFERENCES customers(customer_id),
+change_date datetime,
+)
     """
 
     """TABLE billing_status()
@@ -182,4 +179,3 @@ def create_tables():
             end_date datetime,
             )
     """
-
