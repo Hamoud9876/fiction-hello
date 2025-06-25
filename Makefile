@@ -2,6 +2,9 @@
 PROJECT_NAME = fiction-hello-core
 PYTHON_INTERPRETER = python
 PIP = pip
+WD=$(shell pwd)
+PYTHONPATH=${WD}
+SHELL := /bin/bash
 ACTIVATE_ENV := source venv/bin/activate
 
 ## Create python interpreter environment.
@@ -57,7 +60,7 @@ dev-setup: bandit pip-audit black coverage flake8
 
 ## Run the security test (bandit + safety)
 security-test:
-	$(call execute_in_env, bandit -lll */*.py *c/*/*.py)
+	$(call execute_in_env, bandit -lll */*.py */*src/*.py)
 
 ## Run the security test pip-audit
 pip-audit-check:
@@ -65,19 +68,19 @@ pip-audit-check:
 
 ## Run the black code check
 run-black:
-	$(call execute_in_env, black  ./src/*.py ./tests/*.py ./utils/*.py)
+	$(call execute_in_env, black  core etl)
 
 ## Run the flake8
 run-flake8:
-	$(call execute_in_env, flake8  ./src/*.py ./tests/*.py ./utils/*.py)
+	$(call execute_in_env, flake8 core)
 
 ## Run the unit tests
 unit-test:
-	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest -vvvrP)
+	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest -vvvrP core/test/)
 
 ## Run the coverage check
 check-coverage:
-	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest --cov=src tests/)
-	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest --cov=utils tests/)
+	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest --cov=core core/test/)
+	
 ## Run all checks
 run-checks: security-test run-black unit-test check-coverage pip-audit-check run-flake8
