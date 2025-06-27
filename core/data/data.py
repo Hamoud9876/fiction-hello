@@ -1,5 +1,3 @@
-
-
 male_first_names = [
     "Noah", "Muhammad", "George", "Oliver", "Leo", "Arthur", "Oscar", "Theodore", "Freddie", "Harry",
     "Jack", "Charlie", "Alfie", "Henry", "Thomas", "Lucas", "Isaac", "Teddy", "Tommy", "Finley",
@@ -75,3 +73,8 @@ last_names =[
     "Sharp", "Fleming", "Brady", "Moss", "Armstrong", "Barlow", "Middleton", "Thorpe", "Robson", "Dickinson",
     "Banks", "Kirk", "Yates", "Parry", "Norman", "Fletcher", "Watson", "Howell", "Holmes", "Douglas"
 ]
+
+
+genders = ["Male", "Female", "Non-Binary"]
+
+pronounce = ["He/Him", "She/Her", "They/Them"]

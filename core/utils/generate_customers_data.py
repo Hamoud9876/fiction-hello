@@ -1,4 +1,4 @@
-from core.data.customers_name_list import * 
+from core.data.data import * 
 from random import randint
 from datetime import date
 from faker import Faker
