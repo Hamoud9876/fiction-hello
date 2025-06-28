@@ -1,4 +1,4 @@
-from core.utils.generate_customers_data import generate_customers_data
+from core.src.generate_customers_data import generate_customers_data
 
 
 class TestGenerateCustomerData:
