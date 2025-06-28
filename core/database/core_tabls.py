@@ -40,6 +40,7 @@ def create_tables():
 
     query = """TABLE contract_details(
             contract_details_id SERIAL PRIMARY KEY,
+            contract_title varchar(300),
             initial_price decimal(12,2),
             discount_percent decimal(4,1),
             period int,
@@ -53,7 +54,6 @@ def create_tables():
 
     query = """TABLE contracts(
 contract_id SERIAL PRIMARY KEY,
-contract_title varchar(200),
 contract_details_id int REFERENCES contract_details(contract_details_id),
 contract_type_id int REFERENCES contract_types(contract_type_id),
 created_at datetime,
@@ -71,16 +71,23 @@ last_updated datetime,
     conn.run(query)
 
     query = """TABLE sims(
-sim_id SERIAL PRIMARY KEY,
-contract_details_id int REFERENCES contract_details(contract_details_id),
-avail_calls_time int,
-avail_cellular_data decimal(12,2),
-avail_roam_data decimal(12,2),
-avail_roam_calls_time int,
-created_at datetime,
-last_updated datetime,
-)
+                sim_id SERIAL PRIMARY KEY,
+                avail_calls_time int,
+                avail_cellular_data decimal(12,2),
+                avail_roam_data decimal(12,2),
+                avail_roam_calls_time int,
+                created_at datetime,
+                last_updated datetime,
+                )
     """
+    conn.run(query)
+
+    query = """TABLE contract_details_sims{
+        con_detail_sims_id SERIAL PRIMARY KEY,
+        contract_details_id int REFERENCES contract_details(contract_details_id),
+        sim_id int REFERENCES sims(sim_id)
+}
+"""
     conn.run(query)
 
     query = """TABLE devices_type{
