@@ -3,7 +3,7 @@ from random import randint
 from datetime import date
 from faker import Faker
 
-def generate_customers_data(value):
+def generate_customers_data(value: int):
     """
     creates a random customers details
     -----------------------------------------
@@ -17,7 +17,8 @@ def generate_customers_data(value):
     if not isinstance(value,int):
         return "Value is not valid"
     
-    for _ in range(value):
+    for i in range(1,value+1):
+        cust_id = i 
         #pick a random gender
         gender = randint(0, 2)
         treat_as = None 
@@ -49,11 +50,11 @@ def generate_customers_data(value):
             if treat_as:
                 start_date = date(year=1970, month=1, day=1)
             else:
-                start_date='-90y'
+                start_date='-80y'
             birthdate = fake.date_between(start_date=start_date,
                                         end_date=end_date)
             
-            join_date = fake.date_between(start_date='-25y',
+            join_date = fake.date_between(start_date='-15y',
                                         end_date='now')
         else:
             random_num = randint(0, 99)
@@ -76,10 +77,10 @@ def generate_customers_data(value):
             if treat_as:
                 start_date = date(year=1970, month=1, day=1)
             else:
-                start_date='-90y'
+                start_date='-80y'
             birthdate = fake.date_between(start_date=start_date,
                                         end_date=end_date)
-            join_date = fake.date_between(start_date='-25y',
+            join_date = fake.date_between(start_date='-15y',
                                         end_date='now')
         
         #setting pronounce based on gender
@@ -96,7 +97,9 @@ def generate_customers_data(value):
             pronounce = 0 if rand == 0  else 1
 
         customer_status = randint(0, 3)
-        customers.append({"first_name": first_name,
+        customers.append({
+          "customer_id": cust_id,
+          "first_name": first_name,
           "middle_name": middle_name,
           "last_name":last_name,
           "birthdate":birthdate,
