@@ -27,3 +27,5 @@ class TestGenerateContractsData:
         result = generate_customers_data({"customers": [1]})
 
         assert len(result["contracts"]) == 1
+
+
