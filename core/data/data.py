@@ -78,3 +78,5 @@ last_names =[
 genders = ["Male", "Female", "Non-Binary"]
 
 pronounce = ["He/Him", "She/Her", "They/Them"]
+
+customers_status = ["Active", "Inactive", "Blocked", "departed"]
