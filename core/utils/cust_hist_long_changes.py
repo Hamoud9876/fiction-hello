@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta
 from faker import Faker
 from random import randint, sample
-
+from core.utils.days_between import days_between
 
 def cust_hist_long_changes(customers_status: list, join_date: date , cust_id: int):
     """
@@ -37,9 +37,6 @@ def cust_hist_long_changes(customers_status: list, join_date: date , cust_id: in
     fake = Faker()
 
     change_date = fake.date_between(start_date=join_date, end_date='now')
-
-    def days_between(d1: date, d2: date):
-        return abs((d2-d1).days)
     
         
     days_diff = days_between(join_date,change_date)
