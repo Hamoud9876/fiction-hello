@@ -80,3 +80,7 @@ genders = ["Male", "Female", "Non-Binary"]
 pronounce = ["He/Him", "She/Her", "They/Them"]
 
 customers_status = ["Active", "Inactive", "Blocked", "departed"]
+
+address_type = ["Home","Billing"]
+
+contract_type = ["Pgo", "commitment"]
