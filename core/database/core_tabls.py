@@ -16,7 +16,7 @@ def create_tables():
   pronounce_title varchar(100)
 )"""
     conn.run(query)
-    
+
     query = """TABLE customers(
     customer_id SERIAL PRIMARY KEY,
     first_name varchar(100),
@@ -84,7 +84,7 @@ last_updated datetime,
 
     query = """TABLE contract_details_sims{
         con_detail_sims_id SERIAL PRIMARY KEY,
-        contract_details_id int REFERENCES contract_details(contract_details_id),
+contract_details_id int REFERENCES contract_details(contract_details_id),
         sim_id int REFERENCES sims(sim_id)
 }
 """
@@ -226,3 +226,5 @@ change_date datetime,
             )
     """
     conn.run(query)
+
+    close_db(conn)

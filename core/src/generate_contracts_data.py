@@ -1,4 +1,5 @@
-
+# from core.src.generate_contract_details
+# import generate_contract_details
 
 
 def generate_customers_data(cust_dict: dict):
@@ -10,13 +11,12 @@ def generate_customers_data(cust_dict: dict):
     return: a dict containing a list of contracts
     """
 
-    if (not isinstance(cust_dict,dict) 
+    if (
+        not isinstance(cust_dict, dict)
         or "customers" not in cust_dict
-        or not isinstance(cust_dict["customers"],list)
-        or len(cust_dict["customers"]) == 0 ):
+        or not isinstance(cust_dict["customers"], list)
+        or len(cust_dict["customers"]) == 0
+    ):
         return "Not a valid dict"
-    
-    
-    
-    
+
     return {"contracts": []}

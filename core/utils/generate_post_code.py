@@ -11,11 +11,12 @@ def generate_post_code():
     -----------------------------------------
     return: string representing a post code
     """
-     
-    alphabet = string.ascii_letters 
-    post_code = (''.join(secrets.choice(alphabet) 
-                         if i in [0,4,3] else
-                         str(randint(1,20)) for i in range(4)))
+
+    alphabet = string.ascii_letters
+    post_code = "".join(
+        secrets.choice(alphabet) if i in [0, 4, 3] else str(randint(1, 20))
+        for i in range(4)
+    )
     post_code = post_code.upper()
 
     return post_code

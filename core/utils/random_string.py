@@ -1,6 +1,7 @@
 import secrets
 import string
 
+
 def random_string(str_length: int):
     """
     generates a random string with predetermined length
@@ -12,8 +13,7 @@ def random_string(str_length: int):
     """
     if not isinstance(str_length, int):
         return "Not a valid length"
-    alphabet = string.ascii_letters 
-    rand_str = (''.join(secrets.choice(alphabet) 
-                          for _ in range(str_length)))
-    
+    alphabet = string.ascii_letters
+    rand_str = "".join(secrets.choice(alphabet) for _ in range(str_length))
+
     return rand_str

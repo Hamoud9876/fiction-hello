@@ -1,7 +1,8 @@
 from datetime import date
 from faker import Faker
 
-def cust_hist_inactive(customers_status: list, join_date: date , cust_id: int):
+
+def cust_hist_inactive(customers_status: list, join_date: date, cust_id: int):
     """
     creates one recored for an inactive customer
     -----------------------------------------
@@ -21,19 +22,21 @@ def cust_hist_inactive(customers_status: list, join_date: date , cust_id: int):
         return "Not a valid date input"
     if not isinstance(cust_id, int):
         return "Not a valid customer id"
-    
+
     fake = Faker()
 
-    return {"customer_status": customers_status[1],
-                "cust_sts_hist":[{
-            "customer_status": customers_status[0],
-            "customer_id": cust_id,
-            "change_date": join_date
-        },
-        {
-            "customer_status": customers_status[1],
-            "customer_id": cust_id,
-            "change_date": fake.date_between(start_date=join_date,
-                                        end_date='now')
-        },
-        ]}
+    return {
+        "customer_status": customers_status[1],
+        "cust_sts_hist": [
+            {
+                "customer_status": customers_status[0],
+                "customer_id": cust_id,
+                "change_date": join_date,
+            },
+            {
+                "customer_status": customers_status[1],
+                "customer_id": cust_id,
+                "change_date": fake.date_between(join_date, "now"),
+            },
+        ],
+    }
