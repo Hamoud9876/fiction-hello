@@ -624,3 +624,173 @@ customers_status = ["Active", "Inactive", "Blocked", "departed"]
 address_type = ["Home", "Billing"]
 
 contract_type = ["Pgo", "commitment"]
+
+periods = [12,24,36]
+
+devices = [
+    "Laptop",
+    "Tablet",
+    "Smartwatch",
+    "Phone",
+    "Router",
+]
+
+laptops_details = [{
+        "device_model": "1",
+        "company": "xoxo tech",
+        "screen_size": 17.4,
+        "ram": 16,
+        "storage": 512,
+        "price": 450.00,
+        },
+        {
+        "device_model": "2",
+        "company": "laptop laptop laptop",
+        "screen_size": 13.4,
+        "ram": 8,
+        "storage": 512,
+        "price": 250.00,
+        },
+        {
+        "device_model": "3",
+        "company": "xoxo tech",
+        "screen_size": 14.1,
+        "ram": 8,
+        "storage": 512,
+        "price": 300.00,
+        },
+        {
+        "device_model": "1",
+        "company": "xoxo tech",
+        "screen_size": 17.4,
+        "ram": 16,
+        "storage": 512,
+        "price": 250.00,
+        },      
+]
+tablets_details = [{
+        "device_model": "2000",
+        "company": "xoxo tech",
+        "screen_size": 16.3,
+        "ram": 8,
+        "storage": 1024,
+        "price": 799.99,
+     },
+     {
+        "device_model": "Magic",
+        "company": "tablets tech",
+        "screen_size": 15.0,
+        "ram": 16,
+        "storage": 512,
+        "price": 749.99,
+     },
+     {
+        "device_model": "Magic 2",
+        "company": "tablets tech",
+        "screen_size": 17.0,
+        "ram": 16,
+        "storage": 1024,
+        "price": 1499.99,
+     },
+    ]
+
+watchs_details = [{
+        "device_model": "fit",
+        "company": "xoxo tech",
+        "screen_size": 40,
+        "ram": 512,
+        "storage": 4,
+        "price": 499.99,
+     },
+     {
+        "device_model": "active",
+        "company": "the industry",
+        "screen_size": 46,
+        "ram": 512,
+        "storage": 512,
+        "price": 499.99,
+     },
+     {
+        "device_model": "spell",
+        "company": "tablets tech",
+        "screen_size": 40,
+        "ram": 2,
+        "storage": 256,
+        "price": 99.99,
+     }
+     ]
+router_details = [{
+        "device_model": "Spidre",
+        "company": "xoxo tech",
+        "screen_size": 0,
+        "ram": 128,
+        "storage": 0,
+        "price": 59.99,
+     },
+     {
+        "device_model": "NetGate",
+        "company": "the industry",
+        "screen_size": 0,
+        "ram": 128,
+        "storage": 0,
+        "price": 49.99,
+     },
+     {
+        "device_model": "Homes",
+        "company": "tablets tech",
+        "screen_size": 0,
+        "ram": 40,
+        "storage": 0,
+        "price": 20.99,
+     },
+     ]
+
+phones_details=[{
+        "device_model": "Phone 1",
+        "company": "xoxo tech",
+        "screen_size": 13.2,
+        "ram": 4,
+        "storage": 128,
+        "price": 399.98,
+     },
+     {
+        "device_model": "Phone 1",
+        "company": "xoxo tech",
+        "screen_size": 13.2,
+        "ram": 4,
+        "storage": 256,
+        "price": 329.98,
+     },
+     {
+        "device_model": "Industry XO",
+        "company": "the industry",
+        "screen_size": 12.9,
+        "ram": 8,
+        "storage": 512,
+        "price": 1099.99,
+     },
+     {
+        "device_model": "Industry XO",
+        "company": "the industry",
+        "screen_size": 12.9,
+        "ram": 8,
+        "storage": 512,
+        "price": 1099.99,
+     },
+     {
+        "device_model": "Industry XO",
+        "company": "the industry",
+        "screen_size": 12.9,
+        "ram": 8,
+        "storage": 1024,
+        "price": 1299.99,
+     },
+     {
+        "device_model": "cheap",
+        "company": "tablets tech",
+        "screen_size": 10.1,
+        "ram": 4,
+        "storage": 128,
+        "price": 500.00,
+     },
+     ]
