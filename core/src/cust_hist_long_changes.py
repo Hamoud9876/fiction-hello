@@ -4,7 +4,7 @@ from random import randint, sample
 from core.utils.days_between import days_between
 
 
-def cust_hist_long_changes(cust_status: list, join_date: date, cust_id: int):
+def cust_hist_long_changes(cust_status: list, join_date: date):
     """
     creates one recored for a customer with many changes
     -----------------------------------------
@@ -12,8 +12,6 @@ def cust_hist_long_changes(cust_status: list, join_date: date, cust_id: int):
     any custoemr can have
 
     "join_date" the date the customer join the company
-
-    "cust_id" customer_id
     -----------------------------------------
     return: a dict containing the most recent status
     along with the status history
@@ -23,14 +21,12 @@ def cust_hist_long_changes(cust_status: list, join_date: date, cust_id: int):
         return "Not a valid customer status input"
     if not isinstance(join_date, date):
         return "Not a valid date input"
-    if not isinstance(cust_id, int):
-        return "Not a valid customer id"
+
 
     # customers always active when created
     hist_lst = [
         {
             "customer_status": cust_status[0],
-            "customer_id": cust_id,
             "change_date": join_date,
         },
     ]
@@ -50,7 +46,6 @@ def cust_hist_long_changes(cust_status: list, join_date: date, cust_id: int):
             hist_lst.append(
                 {
                     "customer_status": cust_status[randint(1, 2)],
-                    "customer_id": cust_id,
                     "change_date": change_date,
                 },
             )
@@ -77,7 +72,6 @@ def cust_hist_long_changes(cust_status: list, join_date: date, cust_id: int):
                         if previous_status == "Active"
                         else cust_status[0]
                     ),
-                    "customer_id": cust_id,
                     "change_date": effective_date,
                 },
             )
