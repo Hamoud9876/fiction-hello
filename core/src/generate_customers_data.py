@@ -95,10 +95,8 @@ def generate_customers_data(value: int):
             rand = randint(0, 1)
             pronounce = 0 if rand == 0 else 1
 
-        customer_status = randint(0, 3)
         customers.append(
             {
-                "customer_id": cust_id,
                 "first_name": first_name,
                 "middle_name": middle_name,
                 "last_name": last_name,
@@ -106,8 +104,7 @@ def generate_customers_data(value: int):
                 "gender": gender,
                 "pronounce": pronounce,
                 "join_date": join_date,
-                "customer_status_id": customer_status,
             }
         )
 
-    return {"customers": customers}
+    return customers
