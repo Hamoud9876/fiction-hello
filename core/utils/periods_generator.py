@@ -4,6 +4,15 @@ from core.utils.random_string import random_string
 
 
 def periods_generator(period: int, weight: float):
+    """
+    creates a period contract data
+    -----------------------------------------
+    args: "period" represent the number of months
+
+    "weight" representing the the profit on that period
+    -----------------------------------------
+    return: a dict containing the contract details for that period
+    """
     if not isinstance(period, int) or period not in [12, 24, 36]:
         return "Invalid input for period"
     if not isinstance(weight, float):
