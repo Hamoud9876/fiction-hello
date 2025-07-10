@@ -5,7 +5,7 @@ from datetime import date
 from core.data.data import periods
 
 
-def generate_contract_details(value: int, con_type: int, sts_hist: list):
+def generate_contract_details(value: int, con_type: int, sts_hist: dict):
     """
     creates recoreds for a customer contracts based on their
     history status
@@ -23,22 +23,22 @@ def generate_contract_details(value: int, con_type: int, sts_hist: list):
         return "Not a valid Value"
     if not isinstance(con_type, int) or con_type == 0:
         return "Not a valid contract type"
-    if not isinstance(sts_hist, list):
+    if not isinstance(sts_hist, dict):
         return "Not a valid invalid history"
 
     contracts = []
     years_periods = []
     weights = [1.3, 1.2, 1.1]
-    lst_len = len(sts_hist)
+    lst_len = len(sts_hist["cust_sts_hist"])
 
     for y in range(lst_len):
-        if sts_hist[y]["customer_status"] == "Active":
+        if sts_hist["cust_sts_hist"][y]["customer_status"] == "Active":
             if y + 1 < lst_len:
                 period = (
                     int(
                         days_between(
-                            d1=sts_hist[y + 1]["change_date"],
-                            d2=sts_hist[y]["change_date"],
+                            d1=sts_hist["cust_sts_hist"][y + 1]["change_date"],
+                            d2=sts_hist["cust_sts_hist"][y]["change_date"],
                         )
                     )
                 ) // 365
@@ -46,7 +46,7 @@ def generate_contract_details(value: int, con_type: int, sts_hist: list):
                     years_periods.append(period)
             else:
                 period = (
-                    int(days_between(date.today(), sts_hist[y]["change_date"]))
+                    int(days_between(date.today(), sts_hist["cust_sts_hist"][y]["change_date"]))
                 ) // 365
                 if period >= 1:
                     years_periods.append(period)
@@ -82,5 +82,12 @@ def generate_contract_details(value: int, con_type: int, sts_hist: list):
                 else:
                     contracts.append(periods_generator(periods[0], weights[0]))
                     i -= 1
+    if len(contracts) == 0:
+        contracts.append({"contract_title": "pgo",
+        "num_of_sims": 1,
+        "num_of_devices": 0,
+        "con_period": 0,
+        "devices": 0,
+        "price": 0})
 
     return contracts
