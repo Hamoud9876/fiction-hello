@@ -18,7 +18,6 @@ def cust_hist_active(customers_status: list, join_date: date):
     if not isinstance(join_date, date):
         return "Not a valid date input"
 
-
     return {
         "customer_status": customers_status[0],
         "cust_sts_hist": [
