@@ -3,7 +3,7 @@ from core.utils.get_devices import get_devices
 from core.utils.random_string import random_string
 
 
-def periods_generator(period: int, weight: float):
+def con_period(period: int, weight: float):
     """
     creates a period contract data
     -----------------------------------------
@@ -32,4 +32,10 @@ def periods_generator(period: int, weight: float):
         "con_period": period,
         "devices": devices_lst,
         "price": round((total_devices_price + (10 * period)) * weight, 2),
+        "available_data": {
+            "calls_times": 150,
+            "cellular_data": 150.0,
+            "roam_data": 50.0,
+            "roam_call_time": 50,
+        },
     }

@@ -1,23 +1,23 @@
-from core.utils.periods_generator import periods_generator
+from core.utils.con_period import con_period
 
 
 class TestOnePeriodGenerator:
     def test_handles_wrong_input(self):
-        result = periods_generator(11, 1.2)
+        result = con_period(11, 1.2)
         assert result == "Invalid input for period"
 
-        result = periods_generator("11", 1.2)
+        result = con_period("11", 1.2)
         assert result == "Invalid input for period"
 
-        result = periods_generator(12, 12)
+        result = con_period(12, 12)
         assert result == "Invalid input for weight"
 
     def test_returns_dict(self):
-        result = periods_generator(12, 1.3)
+        result = con_period(12, 1.3)
         assert isinstance(result, dict)
 
     def test_return_expected_output(self):
-        result = periods_generator(12, 1.3)
+        result = con_period(12, 1.3)
 
         assert "contract_title" in result
         assert "num_of_sims" in result
