@@ -700,7 +700,7 @@ watchs_details = [
     {
         "device_model": "fit",
         "company": "xoxo tech",
-        "screen_size": 40,
+        "screen_size": 40.0,
         "ram": 512,
         "storage": 4,
         "price": 499.99,
@@ -726,7 +726,7 @@ router_details = [
     {
         "device_model": "Spidre",
         "company": "xoxo tech",
-        "screen_size": 0,
+        "screen_size": 0.0,
         "ram": 128,
         "storage": 0,
         "price": 59.99,
@@ -756,7 +756,7 @@ phones_details = [
         "screen_size": 13.2,
         "ram": 4,
         "storage": 128,
-        "price": 399.98,
+        "price": 329.98,
     },
     {
         "device_model": "Phone 1",
@@ -764,7 +764,7 @@ phones_details = [
         "screen_size": 13.2,
         "ram": 4,
         "storage": 256,
-        "price": 329.98,
+        "price": 399.98,
     },
     {
         "device_model": "Industry XO",
