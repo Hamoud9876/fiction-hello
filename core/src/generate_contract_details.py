@@ -1,6 +1,6 @@
 from random import randint
 from core.utils.days_between import days_between
-from core.utils.periods_generator import periods_generator
+from core.utils.con_period import con_period
 from datetime import date
 from core.data.data import periods
 
@@ -42,11 +42,17 @@ def generate_contract_details(value: int, con_type: int, sts_hist: dict):
                         )
                     )
                 ) // 365
+
                 if period >= 1:
                     years_periods.append(period)
             else:
                 period = (
-                    int(days_between(date.today(), sts_hist["cust_sts_hist"][y]["change_date"]))
+                    int(
+                        days_between(
+                            d1=date.today(),
+                            d2=sts_hist["cust_sts_hist"][y]["change_date"],
+                        )
+                    )
                 ) // 365
                 if period >= 1:
                     years_periods.append(period)
@@ -54,40 +60,50 @@ def generate_contract_details(value: int, con_type: int, sts_hist: dict):
     for i in years_periods:
         # period of 12 months
         if i == 1:
-            contracts.append(periods_generator(12, 1.3))
+            contracts.append(con_period(12, 1.3))
         # period of 24 months
         elif i == 2:
             if randint(0, 9) < 4:
                 for _ in range(i):
-                    contracts.append(periods_generator(periods[0], weights[0]))
+                    contracts.append(con_period(periods[0], weights[0]))
             else:
-                contracts.append(periods_generator(periods[1], weights[1]))
+                contracts.append(con_period(periods[1], weights[1]))
         # period is more than 24 months
         else:
             while i != 0:
                 rand_num = randint(0, 9)
                 if i >= 3:
                     if rand_num == 0:
-                        contracts.append(periods_generator(periods[0], weights[0]))
+                        contracts.append(con_period(periods[0], weights[0]))
                         i -= 1
                     elif rand_num < 3:
-                        contracts.append(periods_generator(periods[1], weights[1]))
+                        contracts.append(con_period(periods[1], weights[1]))
                         i -= 2
                     else:
-                        contracts.append(periods_generator(periods[2], weights[2]))
+                        contracts.append(con_period(periods[2], weights[2]))
                         i -= 3
                 elif i == 2:
-                    contracts.append(periods_generator(periods[1], weights[1]))
+                    contracts.append(con_period(periods[1], weights[1]))
                     i -= 2
                 else:
-                    contracts.append(periods_generator(periods[0], weights[0]))
+                    contracts.append(con_period(periods[0], weights[0]))
                     i -= 1
     if len(contracts) == 0:
-        contracts.append({"contract_title": "pgo",
-        "num_of_sims": 1,
-        "num_of_devices": 0,
-        "con_period": 0,
-        "devices": 0,
-        "price": 0})
+        contracts.append(
+            {
+                "contract_title": "pgo",
+                "num_of_sims": 1,
+                "num_of_devices": 0,
+                "con_period": 0,
+                "devices": 0,
+                "price": 0,
+                "available_data": {
+                    "calls_times": 0,
+                    "cellular_data": 0.0,
+                    "roam_data": 0.0,
+                    "roam_call_time": 0,
+                },
+            }
+        )
 
     return contracts
