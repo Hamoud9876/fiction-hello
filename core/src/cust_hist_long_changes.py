@@ -22,7 +22,6 @@ def cust_hist_long_changes(cust_status: list, join_date: date):
     if not isinstance(join_date, date):
         return "Not a valid date input"
 
-
     # customers always active when created
     hist_lst = [
         {
