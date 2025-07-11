@@ -23,12 +23,14 @@ class TestGeneratContractDetails:
         result = generate_contract_details(
             1,
             1,
-            {"cust_sts_hist": [
-                {
-                    "customer_status": customers_status[0],
-                    "change_date": join_date,
-                }
-            ]},
+            {
+                "cust_sts_hist": [
+                    {
+                        "customer_status": customers_status[0],
+                        "change_date": join_date,
+                    }
+                ]
+            },
         )
         for i in result:
             assert "contract_title" in i
@@ -37,12 +39,18 @@ class TestGeneratContractDetails:
             assert "con_period" in i
             assert "devices" in i
             assert "price" in i
+            assert "available_data" in i
             assert isinstance(i["contract_title"], str)
             assert isinstance(i["num_of_sims"], int)
             assert isinstance(i["num_of_devices"], int)
             assert isinstance(i["con_period"], int)
             assert isinstance(i["devices"], list)
             assert isinstance(i["price"], float)
+            assert isinstance(i["available_data"], dict)
+            assert isinstance(i["available_data"]["calls_times"], int)
+            assert isinstance(i["available_data"]["cellular_data"], float)
+            assert isinstance(i["available_data"]["roam_data"], float)
+            assert isinstance(i["available_data"]["roam_call_time"], int)
 
     def test_generate_multiple_commitments(self):
         join_date = date(day=1, month=1, year=2022)
@@ -51,23 +59,25 @@ class TestGeneratContractDetails:
         result = generate_contract_details(
             1,
             1,
-            {"cust_sts_hist":[
-                {
-                    "customer_status": customers_status[0],
-                    "customer_id": 1,
-                    "change_date": join_date,
-                },
-                {
-                    "customer_status": customers_status[1],
-                    "customer_id": 1,
-                    "change_date": s2_date,
-                },
-                {
-                    "customer_status": customers_status[0],
-                    "customer_id": 1,
-                    "change_date": s3_date,
-                },
-            ],}
+            {
+                "cust_sts_hist": [
+                    {
+                        "customer_status": customers_status[0],
+                        "customer_id": 1,
+                        "change_date": join_date,
+                    },
+                    {
+                        "customer_status": customers_status[1],
+                        "customer_id": 1,
+                        "change_date": s2_date,
+                    },
+                    {
+                        "customer_status": customers_status[0],
+                        "customer_id": 1,
+                        "change_date": s3_date,
+                    },
+                ],
+            },
         )
 
         assert len(result) == 2
@@ -79,23 +89,25 @@ class TestGeneratContractDetails:
         result = generate_contract_details(
             1,
             1,
-            {"cust_sts_hist":[
-                {
-                    "customer_status": customers_status[0],
-                    "customer_id": 1,
-                    "change_date": join_date,
-                },
-                {
-                    "customer_status": customers_status[1],
-                    "customer_id": 1,
-                    "change_date": s2_date,
-                },
-                {
-                    "customer_status": customers_status[0],
-                    "customer_id": 1,
-                    "change_date": s3_date,
-                },
-            ],}
+            {
+                "cust_sts_hist": [
+                    {
+                        "customer_status": customers_status[0],
+                        "customer_id": 1,
+                        "change_date": join_date,
+                    },
+                    {
+                        "customer_status": customers_status[1],
+                        "customer_id": 1,
+                        "change_date": s2_date,
+                    },
+                    {
+                        "customer_status": customers_status[0],
+                        "customer_id": 1,
+                        "change_date": s3_date,
+                    },
+                ],
+            },
         )
 
         for i in result:
@@ -105,25 +117,33 @@ class TestGeneratContractDetails:
             assert "con_period" in i
             assert "devices" in i
             assert "price" in i
+            assert "available_data" in i
             assert isinstance(i["contract_title"], str)
             assert isinstance(i["num_of_sims"], int)
             assert isinstance(i["num_of_devices"], int)
             assert isinstance(i["con_period"], int)
             assert isinstance(i["devices"], list)
             assert isinstance(i["price"], float)
+            assert isinstance(i["available_data"], dict)
+            assert isinstance(i["available_data"]["calls_times"], int)
+            assert isinstance(i["available_data"]["cellular_data"], float)
+            assert isinstance(i["available_data"]["roam_data"], float)
+            assert isinstance(i["available_data"]["roam_call_time"], int)
 
     def test_generate_commitment_with_long_years(self):
         join_date = date(day=1, month=1, year=2020)
         result = generate_contract_details(
             1,
             1,
-            {"cust_sts_hist":[
-                {
-                    "customer_status": customers_status[0],
-                    "customer_id": 1,
-                    "change_date": join_date,
-                },
-            ],}
+            {
+                "cust_sts_hist": [
+                    {
+                        "customer_status": customers_status[0],
+                        "customer_id": 1,
+                        "change_date": join_date,
+                    },
+                ],
+            },
         )
 
         assert len(result) <= 5
@@ -132,13 +152,15 @@ class TestGeneratContractDetails:
         result = generate_contract_details(
             1,
             1,
-            {"cust_sts_hist":[
-                {
-                    "customer_status": customers_status[0],
-                    "customer_id": 1,
-                    "change_date": join_date,
-                },
-            ],}
+            {
+                "cust_sts_hist": [
+                    {
+                        "customer_status": customers_status[0],
+                        "customer_id": 1,
+                        "change_date": join_date,
+                    },
+                ],
+            },
         )
 
         assert len(result) <= 7
