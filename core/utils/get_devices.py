@@ -14,7 +14,7 @@ def get_devices(num_devices: int):
     devices_lst = []
     for _ in range(num_devices):
         # 40% to be a phone
-        if picker >= 8:
+        if picker <= 8:
             devices_lst.append(phones_details[randint(0, 5)])
         # 25% chance for a home router
         elif picker <= 13:
@@ -23,7 +23,7 @@ def get_devices(num_devices: int):
         elif picker <= 17:
             devices_lst.append(tablets_details[randint(0, 2)])
         # 5% chance for a labtop
-        elif picker <= 18:
+        elif picker == 18:
             devices_lst.append(laptops_details[randint(0, 2)])
         # 5% chance for a smartwatch
         else:
