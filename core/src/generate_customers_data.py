@@ -23,7 +23,6 @@ def generate_customers_data(value: int):
         return "Value is not valid"
 
     for i in range(1, value + 1):
-        cust_id = i
         # pick a random gender
         gender = randint(0, 2)
         treat_as = None
