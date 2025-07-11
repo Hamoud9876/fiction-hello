@@ -49,4 +49,4 @@ def generate_address_data():
             }
         )
 
-    return  address
+    return address
