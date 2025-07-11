@@ -23,7 +23,7 @@ def customers_status_data(join_date: date):
     rand_num = randint(0, 9)
 
     # customer active since joining
-    if rand_num > 3:
+    if rand_num < 3:
         return cust_hist_active(customers_status, join_date)
 
     # customer not active anynore
