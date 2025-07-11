@@ -7,7 +7,7 @@ class TestDBConnection:
     @patch.dict(
         os.environ,
         {
-            "DB_USER": "test_user",
+            "DB_USERNAME": "test_user",
             "DB_PASSWORD": "test_pass",
             "DB_DATABASE": "test_db",
             "DB_HOST": "localhost",
