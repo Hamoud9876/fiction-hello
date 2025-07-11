@@ -52,8 +52,6 @@ change_date timestamp
     """
     conn.run(query)
 
-
-
     query = """
     CREATE TABLE IF NOT EXISTS contract_types(
             contract_type_id SERIAL PRIMARY KEY,
@@ -75,7 +73,7 @@ change_date timestamp
             contract_title varchar(300),
             initial_price decimal(12,2),
             discount_percent decimal(4,1),
-            contract_period_id int REFERENCES contracts_periods(contract_period_id),
+contract_period_id int REFERENCES contracts_periods(contract_period_id),
             num_of_sims int,
             num_of_devices int,
             created_at timestamp,
@@ -143,7 +141,7 @@ contract_details_id int REFERENCES contract_details(contract_details_id),
     query = """ CREATE TABLE IF NOT EXISTS devices(
 device_id SERIAL PRIMARY KEY,
 model varchar(200),
-brand varchar(200), 
+brand varchar(200),
 device_type_id int REFERENCES devices_type(devices_type_id),
 created_at timestamp,
 last_updated timestamp
@@ -169,7 +167,7 @@ last_updated timestamp
   con_details_dev_id SERIAL PRIMARY KEY,
   contract_details_id int REFERENCES contract_details(contract_details_id),
   device_id int REFERENCES devices(device_id)
-);""" 
+);"""
     conn.run(query)
 
     query = """CREATE TABLE IF NOT EXISTS contracts_details_sims(
@@ -249,7 +247,6 @@ last_updated timestamp
     """
     conn.run(query)
 
-
     query = """CREATE TABLE IF NOT EXISTS billing_status_history(
             billing_status_history_id SERIAL PRIMARY KEY,
             bill_id int REFERENCES billing(bill_id),
@@ -259,7 +256,6 @@ last_updated timestamp
     """
     conn.run(query)
 
-    
     query = """CREATE TABLE IF NOT EXISTS charge_rates(
             charge_rate_id SERIAL PRIMARY KEY,
             call_minute_rate decimal(5,2),
