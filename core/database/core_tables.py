@@ -14,7 +14,7 @@ def create_tables():
 
     query = """
     CREATE TABLE IF NOT EXISTS pronounce(
-  pronuonce_id SERIAL PRIMARY KEY,
+  pronounce_id SERIAL PRIMARY KEY,
   pronounce_title varchar(100)
 );"""
     conn.run(query)
@@ -36,8 +36,9 @@ def create_tables():
     birthdate date,
     join_date timestamp,
     gender_id int REFERENCES genders(gender_id),
-    pronuonce_id int REFERENCES pronounce(pronuonce_id),
-    customer_status_id int REFERENCES customers_status(customer_status_id)
+    pronounce_id int REFERENCES pronounce(pronounce_id),
+    customer_status_id int REFERENCES customers_status(customer_status_id),
+    last_updated timestamp
     );
     """
     conn.run(query)
@@ -68,6 +69,29 @@ change_date timestamp
        """
     conn.run(query)
 
+    query = """CREATE TABLE IF NOT EXISTS sims(
+                sim_id SERIAL PRIMARY KEY,
+                number int,
+                created_at timestamp,
+                last_updated timestamp
+                );
+    """
+    conn.run(query)
+
+    query = """CREATE TABLE IF NOT EXISTS personal_data(
+    personal_data_id SERIAL PRIMARY KEY,
+  sim_id int REFERENCES sims(sim_id),
+  avail_calls_time int,
+  avail_cellular_data decimal(12,2),
+  avail_roam_data decimal(12,2),
+  avail_roam_calls_time int,
+  start_date timestamp,
+  end_date timestamp
+    );
+"""
+
+    conn.run(query)
+
     query = """CREATE TABLE IF NOT EXISTS contract_details(
             contract_details_id SERIAL PRIMARY KEY,
             contract_title varchar(300),
@@ -76,6 +100,7 @@ change_date timestamp
 contract_period_id int REFERENCES contracts_periods(contract_period_id),
             num_of_sims int,
             num_of_devices int,
+            personal_data_id int REFERENCES personal_data(personal_data_id),
             created_at timestamp,
             last_updated timestamp
             );
@@ -100,17 +125,6 @@ last_updated timestamp
     """
     conn.run(query)
 
-    query = """CREATE TABLE IF NOT EXISTS sims(
-                sim_id SERIAL PRIMARY KEY,
-                avail_calls_time int,
-                avail_cellular_data decimal(12,2),
-                avail_roam_data decimal(12,2),
-                avail_roam_calls_time int,
-                created_at timestamp,
-                last_updated timestamp
-                );
-    """
-    conn.run(query)
 
     query = """CREATE TABLE IF NOT EXISTS contract_details_sims(
         con_detail_sims_id SERIAL PRIMARY KEY,
@@ -120,8 +134,8 @@ contract_details_id int REFERENCES contract_details(contract_details_id),
 """
     conn.run(query)
 
-    query = """CREATE TABLE IF NOT EXISTS devices_type(
-            devices_type_id SERIAL PRIMARY KEY,
+    query = """CREATE TABLE IF NOT EXISTS devices_types(
+            device_type_id SERIAL PRIMARY KEY,
             device_type varchar(100)
             );
     """
@@ -142,7 +156,7 @@ contract_details_id int REFERENCES contract_details(contract_details_id),
 device_id SERIAL PRIMARY KEY,
 model varchar(200),
 brand varchar(200),
-device_type_id int REFERENCES devices_type(devices_type_id),
+device_type_id int REFERENCES devices_types(device_type_id),
 created_at timestamp,
 last_updated timestamp
 );
@@ -193,7 +207,7 @@ last_updated timestamp
     query = """CREATE TABLE IF NOT EXISTS customers_sims(
             customer_sim_id SERIAL PRIMARY KEY,
             customer_id int REFERENCES customers(customer_id),
-            sims_id int REFERENCES sims(sim_id)
+            sim_id int REFERENCES sims(sim_id)
             );
     """
     conn.run(query)
@@ -214,7 +228,9 @@ last_updated timestamp
             post_code varchar(200),
             address_type_id int REFERENCES address_type(address_type_id),
             start_date timestamp,
-            end_date timestamp
+            end_date timestamp,
+            created_at timestamp,
+            last_updated timestamp
             );
     """
     conn.run(query)
@@ -268,16 +284,6 @@ last_updated timestamp
     """
     conn.run(query)
 
-    query = """CREATE TABLE IF NOT EXISTS personal_data(
-    personl_data_id SERIAL PRIMARY KEY,
-  sims_id int REFERENCES sims(sim_id),
-  avail_calls_time int,
-  avail_cellular_data decimal(12,2),
-  avail_roam_data decimal(12,2),
-  avail_roam_calls_time int,
-  start_date timestamp,
-  end_date timestamp
-    );
-"""
+
 
     close_db(conn)
