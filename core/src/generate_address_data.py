@@ -18,7 +18,7 @@ def generate_address_data():
     if randint(1, 5) > 1:
         address.append(
             {
-                "fist_line": random_string(randint(10, 20)),
+                "first_line": random_string(randint(10, 20)),
                 "second_line": random_string(randint(10, 20)),
                 "city": random_string(randint(4, 20)),
                 "county": random_string(randint(6, 30)),
@@ -30,7 +30,7 @@ def generate_address_data():
     else:
         address.append(
             {
-                "fist_line": random_string(randint(10, 20)),
+                "first_line": random_string(randint(10, 20)),
                 "second_line": random_string(randint(10, 20)),
                 "city": random_string(randint(4, 20)),
                 "county": random_string(randint(6, 30)),
@@ -40,7 +40,7 @@ def generate_address_data():
         )
         address.append(
             {
-                "fist_line": random_string(randint(10, 20)),
+                "first_line": random_string(randint(10, 20)),
                 "second_line": random_string(randint(10, 20)),
                 "city": random_string(randint(4, 20)),
                 "county": random_string(randint(6, 30)),
