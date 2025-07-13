@@ -14,7 +14,7 @@ def con_period(period: int, weight: float):
     return: a dict containing the contract details for that period
     """
     if not isinstance(period, int) or period not in [12, 24, 36]:
-        return "Invalid input for period"
+        return f"Invalid input for period {period}"
     if not isinstance(weight, float):
         return "Invalid input for weight"
 
