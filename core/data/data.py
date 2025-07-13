@@ -625,7 +625,7 @@ address_type = ["Home", "Billing"]
 
 contract_type = ["Pgo", "commitment"]
 
-periods = [12, 24, 36]
+periods = [0, 12, 24, 36]
 
 devices = [
     "Laptop",
@@ -643,6 +643,7 @@ laptops_details = [
         "ram": 16,
         "storage": 512,
         "price": 450.00,
+        "device_type":"Laptop"
     },
     {
         "device_model": "2",
@@ -651,6 +652,7 @@ laptops_details = [
         "ram": 8,
         "storage": 512,
         "price": 250.00,
+        "device_type":"Laptop"
     },
     {
         "device_model": "3",
@@ -659,6 +661,7 @@ laptops_details = [
         "ram": 8,
         "storage": 512,
         "price": 300.00,
+        "device_type":"Laptop"
     },
     {
         "device_model": "1",
@@ -667,6 +670,7 @@ laptops_details = [
         "ram": 16,
         "storage": 512,
         "price": 250.00,
+        "device_type":"Laptop"
     },
 ]
 tablets_details = [
@@ -677,6 +681,7 @@ tablets_details = [
         "ram": 8,
         "storage": 1024,
         "price": 799.99,
+        "device_type": "Tablet"
     },
     {
         "device_model": "Magic",
@@ -685,6 +690,7 @@ tablets_details = [
         "ram": 16,
         "storage": 512,
         "price": 749.99,
+        "device_type": "Tablet"
     },
     {
         "device_model": "Magic 2",
@@ -693,6 +699,7 @@ tablets_details = [
         "ram": 16,
         "storage": 1024,
         "price": 1499.99,
+        "device_type": "Tablet"
     },
 ]
 
@@ -704,6 +711,7 @@ watchs_details = [
         "ram": 512,
         "storage": 4,
         "price": 499.99,
+        "device_type": "Smartwatch"
     },
     {
         "device_model": "active",
@@ -712,6 +720,7 @@ watchs_details = [
         "ram": 512,
         "storage": 512,
         "price": 499.99,
+        "device_type": "Smartwatch"
     },
     {
         "device_model": "spell",
@@ -720,6 +729,7 @@ watchs_details = [
         "ram": 2,
         "storage": 256,
         "price": 99.99,
+        "device_type": "Smartwatch"
     },
 ]
 router_details = [
@@ -730,6 +740,7 @@ router_details = [
         "ram": 128,
         "storage": 0,
         "price": 59.99,
+        "device_type": "Router"
     },
     {
         "device_model": "NetGate",
@@ -738,6 +749,7 @@ router_details = [
         "ram": 128,
         "storage": 0,
         "price": 49.99,
+        "device_type": "Router"
     },
     {
         "device_model": "Homes",
@@ -746,6 +758,7 @@ router_details = [
         "ram": 40,
         "storage": 0,
         "price": 20.99,
+        "device_type": "Router"
     },
 ]
 
@@ -757,6 +770,7 @@ phones_details = [
         "ram": 4,
         "storage": 128,
         "price": 329.98,
+        "device_type": "Phone"
     },
     {
         "device_model": "Phone 1",
@@ -765,6 +779,7 @@ phones_details = [
         "ram": 4,
         "storage": 256,
         "price": 399.98,
+        "device_type": "Phone"
     },
     {
         "device_model": "Industry XO",
@@ -773,6 +788,7 @@ phones_details = [
         "ram": 8,
         "storage": 512,
         "price": 1099.99,
+        "device_type": "Phone"
     },
     {
         "device_model": "Industry XO",
@@ -781,6 +797,7 @@ phones_details = [
         "ram": 8,
         "storage": 512,
         "price": 1099.99,
+        "device_type": "Phone"
     },
     {
         "device_model": "Industry XO",
@@ -789,6 +806,7 @@ phones_details = [
         "ram": 8,
         "storage": 1024,
         "price": 1299.99,
+        "device_type": "Phone"
     },
     {
         "device_model": "cheap",
@@ -797,5 +815,6 @@ phones_details = [
         "ram": 4,
         "storage": 128,
         "price": 500.00,
+        "device_type": "Phone"
     },
 ]
