@@ -7,8 +7,8 @@ from core.database.core_tables import create_tables
 from core.database.insert_tables import insert_tables
 
 
-def main():
-    customers = {"customers": generate_customers_data(20)}
+def main(num_cust):
+    customers = {"customers": generate_customers_data(num_cust)}
     
     for i in customers["customers"]:
         i["cust_status"] = customers_status_data(i["join_date"])
