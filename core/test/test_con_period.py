@@ -3,11 +3,8 @@ from core.utils.con_period import con_period
 
 class TestOnePeriodGenerator:
     def test_handles_wrong_input(self):
-        result = con_period(11, 1.2)
-        assert result == "Invalid input for period"
-
-        result = con_period("11", 1.2)
-        assert result == "Invalid input for period"
+        result = con_period(11.1, 1.2)
+        assert result == "Invalid input for period 11.1"
 
         result = con_period(12, 12)
         assert result == "Invalid input for weight"

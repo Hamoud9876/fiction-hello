@@ -125,7 +125,6 @@ last_updated timestamp
     """
     conn.run(query)
 
-
     query = """CREATE TABLE IF NOT EXISTS contract_details_sims(
         con_detail_sims_id SERIAL PRIMARY KEY,
 contract_details_id int REFERENCES contract_details(contract_details_id),
@@ -283,7 +282,5 @@ last_updated timestamp
             );
     """
     conn.run(query)
-
-
 
     close_db(conn)

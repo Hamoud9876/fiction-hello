@@ -201,7 +201,7 @@ class TestAddressData:
         result = generate_address_data()
         assert len(result) == 1
         for i in result:
-            assert isinstance(i["fist_line"], str)
+            assert isinstance(i["first_line"], str)
             assert isinstance(i["second_line"], str)
             assert isinstance(i["city"], str)
             assert isinstance(i["county"], str)
@@ -215,7 +215,7 @@ class TestAddressData:
         result = generate_address_data()
         assert len(result) == 2
         for i in result:
-            assert isinstance(i["fist_line"], str)
+            assert isinstance(i["first_line"], str)
             assert isinstance(i["second_line"], str)
             assert isinstance(i["city"], str)
             assert isinstance(i["county"], str)
