@@ -14,8 +14,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_inggress" {
   
   cidr_ipv4   = "0.0.0.0/0"
   ip_protocol = "tcp"
-  from_port = 80
-  to_port = 80
+  from_port = 8000
+  to_port = 8000
 
 }
 
@@ -69,7 +69,6 @@ resource "aws_security_group" "rds_sg" {
     Name = "rds_sg"
   }
 }
-
 
 resource "aws_security_group_rule" "allow_ec2_to_rds" {
   type                     = "ingress"
