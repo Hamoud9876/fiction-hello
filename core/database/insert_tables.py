@@ -77,7 +77,7 @@ def insert_tables(customers: dict):
         customer_status_id=customers_status.index(customer["cust_status"]["customer_status"])+1,
         join_date=customer["join_date"],
         last_updated=customer["join_date"]
-        )
+        )[0][0]
 
         query= """INSERT INTO address(
         first_line, second_line, city, county, post_code,
@@ -97,13 +97,13 @@ def insert_tables(customers: dict):
             start_date=customer["join_date"],
             created_at=customer["join_date"],
             last_updated=customer["join_date"]
-            )
+            )[0][0]
 
             query_cust_add = """INSERT INTO customers_address(customer_id, address_id)
         VALUES(:customer_id,:address_id);"""
 
-            conn.run(query_cust_add,customer_id=cust_id[0][0],
-                     address_id=address_id[0][0])
+            conn.run(query_cust_add,customer_id=cust_id,
+                     address_id=address_id)
             
         
         query = """INSERT INTO sims(number, created_at, last_updated)
@@ -123,7 +123,7 @@ def insert_tables(customers: dict):
 
         for i in sims_ids:
             conn.run(query_cust_sims,
-                     customer_id=cust_id[0][0],
+                     customer_id=cust_id,
                      sim_id=i)
             
         
@@ -197,11 +197,41 @@ def insert_tables(customers: dict):
                     
             query_dev_id_con_det_id =  """INSERT INTO contracts_details_devices(
             contract_details_id, device_id)
-            VALUES(:contract_details_id, :device_id)"""      
+            VALUES(:contract_details_id, :device_id);"""      
             for dev_id in devices_ids:
                     conn.run(query_dev_id_con_det_id,
                              contract_details_id=con_details,
                              device_id=dev_id)
+            
+            query_contracts = """INSERT INTO contracts(
+            contract_details_id, contract_type_id, created_at, 
+            last_updated
+            )
+            VALUES(
+            :contract_details_id, :contract_type_id, :created_at, 
+            :last_updated
+            )
+            RETURNING contract_id;
+            """
+
+            con_id = conn.run(query_contracts,
+                     contract_details_id=con_details,
+                     contract_type_id= (1
+                                        if con["con_period"] ==0 
+                                        else 2),
+                     created_at=customer["join_date"],
+                     last_updated= customer["join_date"])[0][0]
+            
+            query_cust_con = """INSERT INTO customers_contracts(
+            customer_id, contract_id)
+            VALUES(:customer_id, :contract_id);"""
+
+            conn.run(query_cust_con,
+                     customer_id=cust_id,
+                     contract_id=con_id)
+
+
+
             
 
 
