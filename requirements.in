@@ -1,3 +1,4 @@
 pg8000
 python-dotenv
 Faker
+FastAPI[standard]
