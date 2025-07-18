@@ -1,14 +1,18 @@
 from core.utils.get_devices import get_devices
 from unittest.mock import patch
+import pytest
+from core.exceptions.invalid_input_exception import InvalidInput
 
 
 class TestGetDevices:
     def test_handles_wrong_input(self):
-        result = get_devices("2")
-        assert result == "Invalid value for number of devices"
+        with pytest.raises(InvalidInput) as e:
+            get_devices("2")
+        assert "Invalid input in function 'get_devices': num_devices" in str(e.value)
 
-        result = get_devices(0)
-        assert result == "Invalid value for number of devices"
+        with pytest.raises(InvalidInput) as e:
+            get_devices(0)
+        assert "Invalid input in function 'get_devices': num_devices" in str(e.value)
 
     def test_return_list(self):
         result = get_devices(1)

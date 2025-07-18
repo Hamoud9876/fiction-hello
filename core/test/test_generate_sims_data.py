@@ -1,13 +1,17 @@
 from core.src.generate_sim_data import generate_sims_data
+from core.exceptions.invalid_input_exception import InvalidInput
+import pytest
 
 
 class TestSimsData:
     def test_handles_wrong_input(self):
-        result = generate_sims_data("1")
-        assert result == "Invalid value input"
+        with pytest.raises(InvalidInput) as e:
+            generate_sims_data("1")
+        assert "Invalid input in function 'generate_sims_data': value" in str(e.value)
 
-        result = generate_sims_data(0)
-        assert result == "Invalid value input"
+        with pytest.raises(InvalidInput) as e:
+            generate_sims_data(0)
+        assert "Invalid input in function 'generate_sims_data': value" in str(e.value)
 
     def test_return_list(self):
         result = generate_sims_data(1)
