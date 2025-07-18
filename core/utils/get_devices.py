@@ -4,11 +4,22 @@ from core.data.data import tablets_details
 from core.data.data import router_details
 from core.data.data import phones_details
 from random import randint
+import inspect
+from core.exceptions.invalid_input_exception import InvalidInput
 
 
 def get_devices(num_devices: int):
+    """
+    retrieves a random devices from a list of devices
+    -----------------------------------------
+    args:  "num_devices" representing the number of
+    devices to be retreived
+    -----------------------------------------
+    return: a list of devices
+    """
     if not isinstance(num_devices, int) or num_devices == 0:
-        return "Invalid value for number of devices"
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in function '{func_name}': num_devices")
 
     picker = randint(0, 19)
     devices_lst = []
