@@ -72,7 +72,7 @@ run-black:
 
 ## Run the flake8
 run-flake8:
-	$(call execute_in_env, flake8 core)
+	$(call execute_in_env, flake8 --max-line-length 100 core)
 
 ## Run the unit tests
 unit-test:
