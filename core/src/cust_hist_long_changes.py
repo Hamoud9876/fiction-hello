@@ -2,11 +2,13 @@ from datetime import date, timedelta
 from faker import Faker
 from random import randint, sample
 from core.utils.days_between import days_between
+import inspect
+from core.exceptions.invalid_input_exception import InvalidInput
 
 
 def cust_hist_long_changes(cust_status: list, join_date: date):
     """
-    creates one recored for a customer with many changes
+    creates one recored for a customer with one to  many changes
     -----------------------------------------
     args: "customers_status" represent the available status
     any custoemr can have
@@ -18,9 +20,11 @@ def cust_hist_long_changes(cust_status: list, join_date: date):
     """
 
     if not isinstance(cust_status, list):
-        return "Not a valid customer status input"
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in function '{func_name}': list")
     if not isinstance(join_date, date):
-        return "Not a valid date input"
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in function '{func_name}': date")
 
     # customers always active when created
     hist_lst = [

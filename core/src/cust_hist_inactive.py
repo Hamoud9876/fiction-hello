@@ -1,5 +1,7 @@
 from datetime import date
 from faker import Faker
+import inspect
+from core.exceptions.invalid_input_exception import InvalidInput
 
 
 def cust_hist_inactive(customers_status: list, join_date: date):
@@ -15,9 +17,11 @@ def cust_hist_inactive(customers_status: list, join_date: date):
     along with the status history
     """
     if not isinstance(customers_status, list):
-        return "Not a valid customer status input"
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in function '{func_name}': list")
     if not isinstance(join_date, date):
-        return "Not a valid date input"
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in function '{func_name}': date")
 
     fake = Faker()
 
