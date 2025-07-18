@@ -10,15 +10,19 @@ from core.utils.days_between import days_between
 from core.utils.random_string import random_string
 from unittest.mock import patch
 from datetime import datetime, date
+import pytest
+from core.exceptions.invalid_input_exception import InvalidInput
 
 
 class TestGenerateCustomerData:
     def test_handle_wrong_input(self):
-        result = generate_customers_data("nna")
-        assert result == "Value is not valid"
+        with pytest.raises(InvalidInput) as e:
+            generate_customers_data("nna")
+        assert "Invalid input in 'generate_customers_data': value" in str(e.value)
 
-        result = generate_customers_data({"nna": "hamoud"})
-        assert result == "Value is not valid"
+        with pytest.raises(InvalidInput) as e:
+            generate_customers_data({"nna": "hamoud"})
+        assert "Invalid input in 'generate_customers_data': value" in str(e.value)
 
     def test_output_seccessful(self):
         result = generate_customers_data(1)
@@ -46,8 +50,9 @@ class TestGenerateCustomerData:
 class TestCustomerStatus:
     def test_handle_wrong_input(self):
         date = "10/1/2025"
-        result = customers_status_data(join_date=date)
-        assert result == "Not a valid input"
+        with pytest.raises(InvalidInput) as e:
+            customers_status_data(join_date=date)
+        assert "Invalid input in function 'customers_status_data': date" in str(e.value)
 
     def test_return_dict(self):
         date = "10/2/2025"
@@ -104,11 +109,13 @@ class TestCustHistActive:
     def test_handles_wrong_input(self):
         date = "10/2/2025"
         date_obj = datetime.strptime(date, "%d/%m/%Y")
-        result = cust_hist_active({}, date_obj)
-        assert result == "Not a valid customer status input"
+        with pytest.raises(InvalidInput) as e:
+            cust_hist_active({}, date_obj)
+        assert "Invalid input in function 'cust_hist_active': list" in str(e.value)
 
-        result = cust_hist_active(customers_status, date)
-        assert result == "Not a valid date input"
+        with pytest.raises(InvalidInput) as e:
+            cust_hist_active(customers_status, date)
+        assert "Invalid input in function 'cust_hist_active': date" in str(e.value)
 
     def test_return_dict(self):
         date = "10/2/2025"
@@ -133,11 +140,13 @@ class TestCustHistInactive:
     def test_handles_wrong_input(self):
         date = "10/2/2025"
         date_obj = datetime.strptime(date, "%d/%m/%Y")
-        result = cust_hist_inactive({}, date_obj)
-        assert result == "Not a valid customer status input"
+        with pytest.raises(InvalidInput) as e:
+            cust_hist_inactive({}, date_obj)
+        assert "Invalid input in function 'cust_hist_inactive': list" in str(e.value)
 
-        result = cust_hist_inactive(customers_status, date)
-        assert result == "Not a valid date input"
+        with pytest.raises(InvalidInput) as e:
+            cust_hist_inactive(customers_status, date)
+        assert "Invalid input in function 'cust_hist_inactive': date" in str(e.value)
 
     def test_return_dict(self):
         date = "10/2/2025"
@@ -163,11 +172,17 @@ class TestCustHistLongChanges:
         date = "10/2/2025"
         date_obj = datetime.strptime(date, "%d/%m/%Y")
         date_obj = date_obj.date()
-        result = cust_hist_long_changes({}, date_obj)
-        assert result == "Not a valid customer status input"
+        with pytest.raises(InvalidInput) as e:
+            cust_hist_long_changes({}, date_obj)
+        assert "Invalid input in function 'cust_hist_long_changes': list" in str(
+            e.value
+        )
 
-        result = cust_hist_long_changes(customers_status, date)
-        assert result == "Not a valid date input"
+        with pytest.raises(InvalidInput) as e:
+            cust_hist_long_changes(customers_status, date)
+        assert "Invalid input in function 'cust_hist_long_changes': date" in str(
+            e.value
+        )
 
     def test_return_dict(self):
         date = "10/2/2025"
@@ -233,22 +248,22 @@ class TestGeneratePostCode:
 class TestDaysBetween:
     def test_handle_wrong_input(self):
         join_date1 = "10/2/2010"
-
         join_date2 = "10/2/2010"
         date_obj2 = datetime.strptime(join_date2, "%d/%m/%Y")
         date_obj2 = date_obj2.date()
 
-        result = days_between(join_date1, date_obj2)
-        assert result == "First date is not valid"
+        with pytest.raises(InvalidInput) as e:
+            days_between(join_date1, date_obj2)
+        assert "Invalid input in function 'days_between': d1" in str(e.value)
 
         join_date1 = "10/2/2010"
         date_obj1 = datetime.strptime(join_date1, "%d/%m/%Y")
         date_obj1 = date_obj1.date()
-
         join_date2 = "10/2/2010"
 
-        result = days_between(date_obj1, join_date2)
-        assert result == "Second date is not valid"
+        with pytest.raises(InvalidInput) as e:
+            days_between(date_obj1, join_date2)
+        assert "Invalid input in function 'days_between': d2" in str(e.value)
 
     def test_return_int(self):
         join_date1 = "10/2/2010"
