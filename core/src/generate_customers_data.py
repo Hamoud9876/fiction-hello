@@ -5,7 +5,9 @@ from core.data.data import female_first_names
 from core.data.data import female_middle_names
 from random import randint
 from datetime import date
+from core.exceptions.invalid_input_exception import InvalidInput
 from faker import Faker
+import inspect
 
 
 def generate_customers_data(value: int):
@@ -15,13 +17,14 @@ def generate_customers_data(value: int):
     args: "value" represent how many customer
     to be created
     -----------------------------------------
-    return: a dict containing a list of customers
+    return: a list containing of customers
     """
 
-    customers = []
     if not isinstance(value, int):
-        return "Value is not valid"
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in '{func_name}': value")
 
+    customers = []
     for i in range(1, value + 1):
         # pick a random gender
         gender = randint(0, 2)
