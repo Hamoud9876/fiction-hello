@@ -42,24 +42,25 @@ db_name     =
 db_user     = 
 db_password = 
 
-then run command:
-terrform plan
+then run command:<br>
+terrform plan<br>
 terraform apply -var-file="YourFileName.tfvars"
 
-if successful you will gt 3 outputs:
-EC2 IP
-EDS Host and port
+if successful you will gt 3 outputs:<br>
+EC2 IP<br>
+RDS Host and port
 
 create your .env file using the port and host you got, make sure to remove the port from the end of the host string you were giving.
-ssh into your EC2 instance using the up you got with the following command:
+
+ssh into your EC2 instance using the up you got with the following command:<br>
 ssh -i /path/to/your/key.pem ec2-user@your-ec2-ip
 
-once in clone the repo
-then move the .env file into your EC2 instance using the following command:
+once in clone the repo<br>
+then move the .env file into your EC2 instance using the following command:<br>
 scp -i /path/to/your/key.pem /path/to/local/file ec2-user@your-ec2-ip:/the/root/of/you/the-project/on-EC2
 
-run the make file commands again inside the EC2 to make sure everything is sill working.
-if successful start your FastAPI server with the following command:
+run the make file commands again inside the EC2 to make sure everything is sill working.<br>
+if successful start your FastAPI server with the following command:<br>
 uvicorn main:app --host 0.0.0.0 --port 8000
 
 use your browser to interact with the api, there are to paths currently:
