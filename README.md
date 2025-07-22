@@ -37,10 +37,10 @@ make dev-setup
 make run-checks
 
 navigate to terraform directory
-create your terraform .tfvars file inside the terraform directory and add the following variables to it:
-db_name     = 
-db_user     = 
-db_password = 
+create your terraform .tfvars file inside the terraform directory and add the following variables to it:<br>
+db_name     = <br>
+db_user     = <br>
+db_password = <br>
 
 then run command:<br>
 terrform plan<br>
