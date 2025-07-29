@@ -45,7 +45,7 @@ def cust_hist_long_changes(cust_status: list, join_date: date):
     if days_diff < 1095:
         # deciding how many changes
         # 30% to have a change in status
-        if randint(0, 9) > 3:
+        if randint(0, 9) < 3:
             hist_lst.append(
                 {
                     "customer_status": cust_status[randint(1, 2)],
