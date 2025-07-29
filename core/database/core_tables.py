@@ -72,11 +72,28 @@ change_date timestamp
     query = """CREATE TABLE IF NOT EXISTS sims(
                 sim_id SERIAL PRIMARY KEY,
                 number int,
+validation_id int REFERENCES sims_validation(validation_id),
                 created_at timestamp,
                 last_updated timestamp
                 );
     """
     conn.run(query)
+
+    query = """
+table sims_validation(
+validation_id SERIAL PRIMARY KEY,
+validation varchar(20)
+);
+"""
+    conn.run(query)
+
+    query= """
+table sim_valid_history(
+sim_valid_hist_id SERIAL PRIMARY KEY,
+validation_id int REFERENCES sims_validation(validation_id)
+change_date timestamp
+);
+"""
 
     query = """CREATE TABLE IF NOT EXISTS personal_data(
     personal_data_id SERIAL PRIMARY KEY,
