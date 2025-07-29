@@ -3,9 +3,10 @@ from core.utils.get_devices import get_devices
 from core.utils.random_string import random_string
 import inspect
 from core.exceptions.invalid_input_exception import InvalidInput
+from datetime import date, datetime
 
 
-def con_details(period: int, weight: float):
+def con_details(period: int, weight: float, start_date: date):
     """
     creates a period contract data
     -----------------------------------------
@@ -19,9 +20,14 @@ def con_details(period: int, weight: float):
     if not isinstance(period, int) or period not in [12, 24, 36]:
         func_name = inspect.currentframe().f_code.co_name
         raise InvalidInput(f"Invalid input in '{func_name}': period")
+    
     if not isinstance(weight, float):
         func_name = inspect.currentframe().f_code.co_name
         raise InvalidInput(f"Invalid input in '{func_name}': weight")
+    
+    if not isinstance(start_date, (date,datetime)):
+        func_name = inspect.currentframe().f_code.co_name
+        raise InvalidInput(f"Invalid input in '{func_name}': date")
 
     num_of_devices = randint(1, 2)
     devices_lst = get_devices(num_of_devices)
@@ -43,4 +49,5 @@ def con_details(period: int, weight: float):
             "roam_data": 50.0,
             "roam_call_time": 50,
         },
+        "start_date": start_date
     }
