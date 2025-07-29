@@ -818,3 +818,7 @@ phones_details = [
         "device_type": "Phone",
     },
 ]
+
+
+validdation_data = ["valid", "not valid"]
+
