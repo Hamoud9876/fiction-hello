@@ -17,5 +17,4 @@ class InvalidInput(Exception):
         default_message = f"Invalid input in function '{func_name}'"
         full_message = message or default_message
 
-        logging.error(full_message)
         super().__init__(full_message)
