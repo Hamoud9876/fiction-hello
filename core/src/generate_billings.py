@@ -24,7 +24,7 @@ def generate_bellings(usage_lst: list):
         if i["start_date"] < date.today():
             total_amount = 0
 
-            #convert from GB to MP as data charge rate is per MB
+            #convert from GB to MB as data charge rate is per MB
             data_usage = i["used_cellular_data"] * 1000
             if data_usage > usage_data_limit:
                 extra_data_usage = data_usage - usage_data_limit
@@ -35,7 +35,7 @@ def generate_bellings(usage_lst: list):
                 call_usage = i["used_call_time"] - usage_call_limit
                 total_amount += call_usage * charge_rate["call_rate"]
 
-            #convert from GB to MP as data charge rate is per MB
+            #convert from GB to MB as data charge rate is per MB
             roam_data = i["used_roam_data"] * 1000
             if roam_data > usage_roam_data_limit:
                 extra_roam_data_usage = roam_data - usage_roam_data_limit
