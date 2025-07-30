@@ -822,3 +822,11 @@ phones_details = [
 
 validdation_data = ["valid", "not valid"]
 
+
+charge_rate = {"call_rate": 2, 
+               "data_rate": 0.1, 
+               "roam_call_rate": 5,
+               "roam_data_rate": 0.5,
+               "start_date": "01/01/2000",}
+
+billing_status = ["Paid","Unpaid"]
