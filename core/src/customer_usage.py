@@ -27,15 +27,15 @@ def customer_usage(period: int, start_date: date):
     for i in range(period):
         usage_lst.append({
             "used_cellular_data": (round(uniform(30, 150.00),2) 
-                                    if randint(0,20)== 0 
+                                    if randint(0,20) != 0 
                                     else round(uniform(145.00, 200.00),2)),
-            "used_call_time": (randint(30, 150) if randint(0,20)== 0
+            "used_call_time": (randint(30, 150) if randint(0,20) != 0
                                else randint(140, 180)),
             "used_roam_data": (round(uniform(0.00, 50.00),2) 
-                               if randint(0,20)== 0
+                               if randint(0,20) != 0
                                else 0.00),
             "used_roam_call_time": (randint(0, 50)
-                                    if randint(0,20)== 0
+                                    if randint(0,20) != 0
                                     else 0),
             "start_date": (usage_lst[-1]["start_date"]
                            if len(usage_lst) >0
