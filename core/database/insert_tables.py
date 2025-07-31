@@ -5,7 +5,8 @@ from core.data.data import periods
 from core.data.data import address_type
 from core.data.data import contract_type
 from core.data.data import devices
-from core.database.db_connection import db_connection
+from core.data.data import billing_status
+from core.database.db_connection import db_connection, close_db
 
 
 def insert_tables(customers: dict):
@@ -75,6 +76,27 @@ def insert_tables(customers: dict):
             join_date=customer["join_date"],
             last_updated=customer["join_date"],
         )[0][0]
+
+        query_usage = """INSERT INTO customers_usage(
+        customer_id, used_cellular_data, used_call_time,
+        used_roam_data, used_roam_call_time, start_date, end_date
+        )
+        VALUES(
+        :customer_id, :used_cellular_data, :used_call_time,
+        :used_roam_data, :used_roam_call_time, :start_date, :end_date
+        );
+        """
+
+        for usage_record in customer["usage"]:
+            conn.run(query_usage, 
+                    customer_id=cust_id,
+                    used_cellular_data=usage_record["used_cellular_data"],
+                    used_call_time=usage_record["used_call_time"],
+                    used_roam_data=usage_record["used_roam_data"],
+                    used_roam_call_time=usage_record["used_roam_call_time"],
+                    start_date=usage_record["start_date"],
+                    end_date=usage_record["end_date"])
+
 
         query = """INSERT INTO address(
         first_line, second_line, city, county, post_code,
@@ -235,3 +257,34 @@ def insert_tables(customers: dict):
             VALUES(:customer_id, :contract_id);"""
 
             conn.run(query_cust_con, customer_id=cust_id, contract_id=con_id)
+
+            query_billing_status = """INSERT INTO billing_status(
+            status
+            )
+            VALUES(:status)
+            """
+            for status in billing_status:
+                conn.run(query_billing_status,status=status)
+
+
+            query_billing = """INSERT INTO billing(
+            customer_id, contract_id, amount, bill_status_id, issue_date,
+            completed_date, due_date
+            )
+            VALUES (
+            :customer_id, :contract_id, :amount, :bill_status_id, :issue_date,
+            :completed_date, :due_date
+            )"""
+            for bill in customer["billing"]:
+                print(bill)
+                conn.run(query_billing,
+                         customer_id=cust_id,
+                         contract_id=con_id,
+                         amount=bill["amount"],
+                         bill_status_id= 1 if bill["status"] == "Paid" else 2,
+                         issue_date=bill["issue_date"],
+                         completed_date= bill["complete_date"],
+                         due_date= bill["due_date"])
+                
+
+    close_db(conn)
