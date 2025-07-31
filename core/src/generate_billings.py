@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 from random import randint
 import inspect
 
-def generate_bellings(usage_lst: list):
+def generate_bellings(usage_lst: list, devices_price: int):
 
     func_name = inspect.currentframe().f_code.co_name
 
@@ -19,7 +19,8 @@ def generate_bellings(usage_lst: list):
     usage_roam_data_limit = 50000
     billing_lst = []
     my_bill_status = 0
-    
+
+    devices_payment = devices_price/len(usage_lst)
     for i in usage_lst:
         if i["start_date"] < date.today():
             total_amount = 0
@@ -52,7 +53,7 @@ def generate_bellings(usage_lst: list):
                 current_bill_status = 1 if randint(0,39) == 0 else 0
 
             billing_lst.append({
-            "amount": total_amount,
+            "amount": round(total_amount + devices_payment,2),
             "status": (billing_status[0]
                        if current_bill_status == 0
                        else billing_status[1]),
