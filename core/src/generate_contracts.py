@@ -85,7 +85,7 @@ def generate_contracts(value: int, con_type: int, sts_hist: dict):
         # period of 24 months
         elif i["period"] == 2:
             if randint(0, 9) < 4:
-                for x in range(i):
+                for x in range(len(i)):
                     effective_date = i["start_date"] +relativedelta(months=x*12)
                     contracts.append(con_details(periods[1], weights[0],effective_date))
             else:
@@ -121,7 +121,6 @@ def generate_contracts(value: int, con_type: int, sts_hist: dict):
                         effective_date = effective_date +relativedelta(months=12)
                         contracts.append(con_details(periods[1], weights[0], effective_date))
                         i["period"] -= 1
-                        print(effective_date)
 
                     #%20 chance to create a 2 year contract when the total years is 3 or more
                     elif rand_num < 3:
@@ -163,7 +162,7 @@ def generate_contracts(value: int, con_type: int, sts_hist: dict):
                 "contract_title": "pgo",
                 "num_of_sims": 1,
                 "num_of_devices": 0,
-                "con_details": 0,
+                "con_period": 0,
                 "devices": 0,
                 "price": 0,
                 "available_data": {
@@ -172,6 +171,7 @@ def generate_contracts(value: int, con_type: int, sts_hist: dict):
                     "roam_data": 0.0,
                     "roam_call_time": 0,
                 },
+                "start_date": sts_hist["cust_sts_hist"][0]["change_date"]
             }
         )
         
