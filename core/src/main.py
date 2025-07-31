@@ -5,6 +5,8 @@ from core.src.generate_contracts import generate_contracts
 from core.src.generate_sim_data import generate_sims_data
 from core.database.core_tables import create_tables
 from core.database.insert_tables import insert_tables
+from core.src.customer_usage import customer_usage
+from core.src.generate_billings import generate_bellings
 from core.exceptions.invalid_input_exception import InvalidInput, logging
 
 
@@ -16,12 +18,23 @@ def main(num_cust):
             i["cust_status"] = customers_status_data(i["join_date"])
             i["cust_address"] = generate_address_data()
             i["con_details"] = generate_contracts(1, 1, i["cust_status"])
+            i["usage"] = []
+            i["billing"] = []
             sims_num = 0
             for y in i["con_details"]:
                 if y["num_of_sims"] > sims_num:
                     sims_num = y["num_of_sims"]
             i["sims"] = generate_sims_data(sims_num)
+            for y in i["con_details"]:
+                if y["contract_title"] != "pgo":
+                    placeholder_usage = customer_usage(y["con_period"], y["start_date"])
+                    i["billing"].extend(generate_bellings(placeholder_usage,y["price"]))
+                    i["usage"].extend(placeholder_usage)
+            
+            
         except InvalidInput as e:
             logging.error(str(e.value))
     create_tables()
     insert_tables(customers)
+
+main(1)
