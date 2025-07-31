@@ -37,4 +37,3 @@ def main(num_cust):
     create_tables()
     insert_tables(customers)
 
-main(1)
