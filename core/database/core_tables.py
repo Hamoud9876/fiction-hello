@@ -7,7 +7,7 @@ def create_tables():
     query = """
     CREATE TABLE IF NOT EXISTS genders(
   gender_id SERIAL PRIMARY KEY,
-  gender_title varchar(200)
+  gender_title varchar(200) UNIQUE
 );
 """
     conn.run(query)
@@ -15,14 +15,14 @@ def create_tables():
     query = """
     CREATE TABLE IF NOT EXISTS pronounce(
   pronounce_id SERIAL PRIMARY KEY,
-  pronounce_title varchar(100)
+  pronounce_title varchar(100) UNIQUE
 );"""
     conn.run(query)
 
     query = """
     CREATE TABLE IF NOT  EXISTS customers_status(
             customer_status_id SERIAL PRIMARY KEY,
-            status varchar(30)
+            status varchar(30) UNIQUE
             );
     """
     conn.run(query)
@@ -56,7 +56,7 @@ change_date timestamp
     query = """
     CREATE TABLE IF NOT EXISTS contract_types(
             contract_type_id SERIAL PRIMARY KEY,
-            contract_type varchar(100)
+            contract_type varchar(100) UNIQUE
             )
     """
     conn.run(query)
@@ -64,11 +64,18 @@ change_date timestamp
     query = """
     CREATE TABLE IF NOT EXISTS contracts_periods(
         contract_period_id SERIAL PRIMARY KEY,
-        period int
+        period int UNIQUE
        );
        """
     conn.run(query)
 
+    query = """
+CREATE TABLE IF NOT EXISTS sims_validation(
+validation_id SERIAL PRIMARY KEY,
+validation varchar(20) UNIQUE
+);
+"""
+    conn.run(query)
     query = """CREATE TABLE IF NOT EXISTS sims(
                 sim_id SERIAL PRIMARY KEY,
                 number int,
@@ -79,22 +86,16 @@ validation_id int REFERENCES sims_validation(validation_id),
     """
     conn.run(query)
 
-    query = """
-table sims_validation(
-validation_id SERIAL PRIMARY KEY,
-validation varchar(20)
-);
-"""
-    conn.run(query)
 
     query= """
-table sim_valid_history(
+CREATE TABLE IF NOT EXISTS sim_valid_history(
 sim_valid_hist_id SERIAL PRIMARY KEY,
-validation_id int REFERENCES sims_validation(validation_id)
+validation_id int REFERENCES sims_validation(validation_id),
 change_date timestamp
 );
 """
-
+    conn.run(query)
+    
     query = """CREATE TABLE IF NOT EXISTS personal_data(
     personal_data_id SERIAL PRIMARY KEY,
   sim_id int REFERENCES sims(sim_id),
@@ -152,7 +153,7 @@ contract_details_id int REFERENCES contract_details(contract_details_id),
 
     query = """CREATE TABLE IF NOT EXISTS devices_types(
             device_type_id SERIAL PRIMARY KEY,
-            device_type varchar(100)
+            device_type varchar(100) UNIQUE
             );
     """
     conn.run(query)
@@ -230,7 +231,7 @@ last_updated timestamp
 
     query = """CREATE TABLE IF NOT EXISTS address_type(
             address_type_id SERIAL PRIMARY KEY,
-            address_type varchar(30)
+            address_type varchar(30) UNIQUE
             );
     """
     conn.run(query)
@@ -261,7 +262,7 @@ last_updated timestamp
 
     query = """CREATE TABLE IF NOT EXISTS billing_status(
             bill_status_id SERIAL PRIMARY KEY,
-            status varchar(30)
+            status varchar(30) UNIQUE
             );
     """
     conn.run(query)
