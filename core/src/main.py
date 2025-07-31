@@ -7,8 +7,15 @@ from core.database.core_tables import create_tables
 from core.database.insert_tables import insert_tables
 from core.src.customer_usage import customer_usage
 from core.src.generate_billings import generate_bellings
-from core.exceptions.invalid_input_exception import InvalidInput, logging
+from core.exceptions.invalid_input_exception import InvalidInput
+import logging
 
+
+logging.basicConfig(
+    filename="app_errors.log",
+    level=logging.ERROR,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 def main(num_cust):
     customers = {"customers": generate_customers_data(num_cust)}
