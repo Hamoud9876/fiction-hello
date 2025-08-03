@@ -7,4 +7,4 @@ __pycache__/
 .terraform
 .terraform.*
 secrets.tfvars
-app_error.log
+app_errors.log
