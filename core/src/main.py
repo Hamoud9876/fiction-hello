@@ -7,6 +7,7 @@ from core.database.core_tables import create_tables
 from core.database.insert_tables import insert_tables
 from core.src.customer_usage import customer_usage
 from core.src.generate_billings import generate_bellings
+from core.database.create_olap_db import create_olap_db
 from core.exceptions.invalid_input_exception import InvalidInput
 import logging
 
@@ -43,4 +44,5 @@ def main(num_cust):
             logging.error(str(e.value))
     create_tables()
     insert_tables(customers)
+    create_olap_db()
 
