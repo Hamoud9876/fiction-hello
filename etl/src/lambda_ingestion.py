@@ -1,4 +1,4 @@
-from etl.database.db_connection import db_connection
+from etl.database.db_connection_olap import db_connection
 from etl.utils.check_bucket_content import check_bucket_content
 from etl.utils.insert_into_bucket import insert_into_bucket
 from datetime import datetime, timedelta
