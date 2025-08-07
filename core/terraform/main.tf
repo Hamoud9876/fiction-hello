@@ -26,9 +26,13 @@ output "instance_public_ip" {
 }
 
 output "rds_endpoint" {
-  value = aws_db_instance.default.endpoint
+  value = aws_db_instance.core.endpoint
+}
+output "rds_endpoint_olap" {
+  value = aws_db_instance.olap.endpoint
 }
 
+
 output "rds_port" {
-  value = aws_db_instance.default.port
+  value = aws_db_instance.core.port
 }
