@@ -19,12 +19,12 @@ resource "aws_db_instance" "core" {
 
 resource "aws_db_instance" "olap" {
   allocated_storage    = 10
-  db_name              = var.db_name
+  db_name              = var.db_name_olap
   engine               = "postgres"
   engine_version       = "15.7"
   instance_class       = "db.t3.micro"
-  username             = var.db_user
-  password             = var.db_password
+  username             = var.db_user_olap
+  password             = var.db_password_olap
   vpc_security_group_ids  = [aws_security_group.rds_sg_olap.id]
   db_subnet_group_name = aws_db_subnet_group.public.name
   publicly_accessible = true
