@@ -18,9 +18,10 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
+
 def main(num_cust):
     customers = {"customers": generate_customers_data(num_cust)}
-    
+
     for i in customers["customers"]:
         try:
             i["cust_status"] = customers_status_data(i["join_date"])
@@ -36,13 +37,13 @@ def main(num_cust):
             for y in i["con_details"]:
                 if y["contract_title"] != "pgo":
                     placeholder_usage = customer_usage(y["con_period"], y["start_date"])
-                    i["billing"].extend(generate_bellings(placeholder_usage,y["price"]))
+                    i["billing"].extend(
+                        generate_bellings(placeholder_usage, y["price"])
+                    )
                     i["usage"].extend(placeholder_usage)
-            
-            
+
         except InvalidInput as e:
             logging.error(str(e.value))
     create_tables()
     insert_tables(customers)
     create_olap_db()
-
