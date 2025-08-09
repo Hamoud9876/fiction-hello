@@ -17,14 +17,14 @@ def ingest_data(event, context):
     AND table_type = 'BASE TABLE';"""
 
     conn = db_connection()
-    
+
     tables.extend(conn.run(query_table_names))
-    
+
     half_hour_before = datetime.now() - timedelta(minutes=30)
     time_now = datetime.now()
-    
+
     for table in tables:
-        #retrieving table content
+        # retrieving table content
         query_retrieve_data = f"""
         SELECT * 
         FROM {table[0]}
@@ -34,24 +34,19 @@ def ingest_data(event, context):
 
         table_content = conn.run(query_retrieve_data)
 
-        #retrieving table columns headers
+        # retrieving table columns headers
         table_headers = conn.run(
-                f"""SELECT column_name
+            f"""SELECT column_name
                 FROM information_schema.columns
                 WHERE table_schema = 'public'
                 AND table_name = '{table}';"""
-            )
+        )
 
-        #saving the content of the output in memory 
-        #and tuning it to CSV format
+        # saving the content of the output in memory
+        # and tuning it to CSV format
         buffer = io.StringIO()
         writer = csv.write(buffer)
         writer.writerow(table_headers)
         writer.writerows(table_content)
         csv_content = buffer.getvalue()
-        insert_into_bucket(bucket_name,table, csv_content)
-        
-
-
-    
-
+        insert_into_bucket(bucket_name, table, csv_content)
