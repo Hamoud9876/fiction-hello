@@ -20,12 +20,12 @@ def con_details(period: int, weight: float, start_date: date):
     if not isinstance(period, int) or period not in [12, 24, 36]:
         func_name = inspect.currentframe().f_code.co_name
         raise InvalidInput(f"Invalid input in '{func_name}': period")
-    
+
     if not isinstance(weight, float):
         func_name = inspect.currentframe().f_code.co_name
         raise InvalidInput(f"Invalid input in '{func_name}': weight")
-    
-    if not isinstance(start_date, (date,datetime)):
+
+    if not isinstance(start_date, (date, datetime)):
         func_name = inspect.currentframe().f_code.co_name
         raise InvalidInput(f"Invalid input in '{func_name}': date")
 
@@ -49,5 +49,5 @@ def con_details(period: int, weight: float, start_date: date):
             "roam_data": 50.0,
             "roam_call_time": 50,
         },
-        "start_date": start_date
+        "start_date": start_date,
     }
