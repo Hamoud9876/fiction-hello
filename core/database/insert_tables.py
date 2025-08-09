@@ -95,15 +95,16 @@ def insert_tables(customers: dict):
         """
 
         for usage_record in customer["usage"]:
-            conn.run(query_usage, 
-                    customer_id=cust_id,
-                    used_cellular_data=usage_record["used_cellular_data"],
-                    used_call_time=usage_record["used_call_time"],
-                    used_roam_data=usage_record["used_roam_data"],
-                    used_roam_call_time=usage_record["used_roam_call_time"],
-                    start_date=usage_record["start_date"],
-                    end_date=usage_record["end_date"])
-
+            conn.run(
+                query_usage,
+                customer_id=cust_id,
+                used_cellular_data=usage_record["used_cellular_data"],
+                used_call_time=usage_record["used_call_time"],
+                used_roam_data=usage_record["used_roam_data"],
+                used_roam_call_time=usage_record["used_roam_call_time"],
+                start_date=usage_record["start_date"],
+                end_date=usage_record["end_date"],
+            )
 
         query = """INSERT INTO address(
         first_line, second_line, city, county, post_code,
@@ -272,8 +273,7 @@ def insert_tables(customers: dict):
             ON CONFLICT (status) DO NOTHING
             """
             for status in billing_status:
-                conn.run(query_billing_status,status=status)
-
+                conn.run(query_billing_status, status=status)
 
             query_billing = """INSERT INTO billing(
             customer_id, contract_id, amount, bill_status_id, issue_date,
@@ -285,14 +285,15 @@ def insert_tables(customers: dict):
             )"""
             for bill in customer["billing"]:
                 print(bill)
-                conn.run(query_billing,
-                         customer_id=cust_id,
-                         contract_id=con_id,
-                         amount=bill["amount"],
-                         bill_status_id= 1 if bill["status"] == "Paid" else 2,
-                         issue_date=bill["issue_date"],
-                         completed_date= bill["complete_date"],
-                         due_date= bill["due_date"])
-                
+                conn.run(
+                    query_billing,
+                    customer_id=cust_id,
+                    contract_id=con_id,
+                    amount=bill["amount"],
+                    bill_status_id=1 if bill["status"] == "Paid" else 2,
+                    issue_date=bill["issue_date"],
+                    completed_date=bill["complete_date"],
+                    due_date=bill["due_date"],
+                )
 
     close_db(conn)
