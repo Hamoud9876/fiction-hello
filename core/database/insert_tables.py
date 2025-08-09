@@ -47,7 +47,8 @@ def insert_tables(customers: dict):
         conn.run(query, address_type=address)
 
     query = """INSERT INTO contract_types(contract_type)
-    VALUES(:contract_type);"""
+    VALUES(:contract_type)
+    ON CONFLICT (contract_type) DO NOTHING;"""
 
     for contract in contract_type:
         conn.run(query, contract_type=contract)
