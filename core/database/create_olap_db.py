@@ -1,5 +1,6 @@
 from core.database.db_connection_olap import db_connection, close_db
 
+
 def create_olap_db():
     conn = db_connection()
 
@@ -149,7 +150,6 @@ ALTER TABLE "fact_billing" ADD FOREIGN KEY ("created_at") REFERENCES "dim_date" 
 ALTER TABLE "fact_billing" ADD FOREIGN KEY ("last_updated") REFERENCES "dim_date" ("date_id");
 
 """
-
 
     conn.run(query_create_olap_tables)
     close_db(conn)
