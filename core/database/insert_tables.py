@@ -13,35 +13,35 @@ def insert_tables(customers: dict):
     conn = db_connection()
     query = """INSERT INTO genders(gender_title)
     VALUES (:gender_title)
-    ON CONFLICT (username) DO NOTHING;"""
+    ON CONFLICT (gender_title) DO NOTHING;"""
 
     for gender in genders:
         conn.run(query, gender_title=gender)
 
     query = """INSERT INTO pronounce(pronounce_title)
     VALUES(:pronounce_title)
-    ON CONFLICT (username) DO NOTHING;"""
+    ON CONFLICT (pronounce_title) DO NOTHING;"""
 
     for pronoun in pronounce:
         conn.run(query, pronounce_title=pronoun)
 
     query = """INSERT INTO customers_status(status)
     VALUES(:status)
-    ON CONFLICT (username) DO NOTHING;"""
+    ON CONFLICT (status) DO NOTHING;"""
 
     for status in customers_status:
         conn.run(query, status=status)
 
     query = """INSERT INTO contracts_periods(period)
     VALUES(:period)
-    ON CONFLICT (username) DO NOTHING;"""
+    ON CONFLICT (period) DO NOTHING;"""
 
     for period in periods:
         conn.run(query, period=period)
 
     query = """INSERT INTO address_type(address_type)
     VALUES(:address_type)
-    ON CONFLICT (username) DO NOTHING;"""
+    ON CONFLICT (address_type) DO NOTHING;"""
 
     for address in address_type:
         conn.run(query, address_type=address)
@@ -54,7 +54,7 @@ def insert_tables(customers: dict):
 
     query = """INSERT INTO devices_types(device_type)
     VALUES(:device_type)
-    ON CONFLICT (username) DO NOTHING;"""
+    ON CONFLICT (device_type) DO NOTHING;"""
 
     for device in devices:
         conn.run(query, device_type=device)
@@ -268,7 +268,7 @@ def insert_tables(customers: dict):
             status
             )
             VALUES(:status)
-            ON CONFLICT (username) DO NOTHING
+            ON CONFLICT (status) DO NOTHING
             """
             for status in billing_status:
                 conn.run(query_billing_status,status=status)
