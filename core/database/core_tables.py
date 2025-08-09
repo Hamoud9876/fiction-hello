@@ -86,8 +86,7 @@ validation_id int REFERENCES sims_validation(validation_id),
     """
     conn.run(query)
 
-
-    query= """
+    query = """
 CREATE TABLE IF NOT EXISTS sim_valid_history(
 sim_valid_hist_id SERIAL PRIMARY KEY,
 validation_id int REFERENCES sims_validation(validation_id),
@@ -95,7 +94,7 @@ change_date timestamp
 );
 """
     conn.run(query)
-    
+
     query = """CREATE TABLE IF NOT EXISTS personal_data(
     personal_data_id SERIAL PRIMARY KEY,
   sim_id int REFERENCES sims(sim_id),
