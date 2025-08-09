@@ -15,13 +15,14 @@ def aws_credentials():
     os.environ["AWS_SESSION_TOKEN"] = "testing"
     os.environ["AWS_DEFAULT_REGION"] = "eu-west-2"
 
+
 class TestInsertIntoBucket:
     @mock_aws
     @patch("etl.utils.insert_into_bucket.boto3.client")
     def test_puts_object(self, mock_boto, aws_credentials):
         bucket_name = "etl-ingestion-bucket-2025"
-        table ="first_table"
-        content= b'some content'
+        table = "first_table"
+        content = b"some content"
 
         mock_s3_client = mock_boto.return_value
 
@@ -37,8 +38,8 @@ class TestInsertIntoBucket:
     @patch("etl.utils.insert_into_bucket.boto3.client")
     def test_raises_error(self, mock_boto, aws_credentials):
         bucket_name = "etl-ingestion-bucket-2025"
-        table ="first_table"
-        content= b'some content'
+        table = "first_table"
+        content = b"some content"
 
         mock_s3 = mock_boto.return_value
         mock_s3.put_object.side_effect = Exception("exception raised")
@@ -47,7 +48,3 @@ class TestInsertIntoBucket:
             insert_into_bucket(bucket_name, table, content)
 
         assert "exception raised" in str(e.value)
-
-
-        
-        
