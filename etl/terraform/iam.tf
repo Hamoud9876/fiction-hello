@@ -22,11 +22,13 @@ resource "aws_iam_role" "lambda_role" {
 #creating the document to allow the s3 policies for the lambda
 data "aws_iam_policy_document" "s3_document" {
   statement {
-    actions = ["s3:PutObject", "s3:GetObject", "s3:ListBucket"]
+    actions = ["s3:PutObject", "s3:GetObject", "s3:ListBucket", "s3:GetObject"]
 
     resources = [
           "${aws_s3_bucket.etl_ingestion_bucket.arn}/*",
+          aws_s3_bucket.etl_ingestion_bucket.arn,
           "${aws_s3_bucket.etl_process_bucket.arn}/*",
+          aws_s3_bucket.etl_process_bucket.arn
         ]
   }
 }
