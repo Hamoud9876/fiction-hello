@@ -4,7 +4,7 @@ from core.database.db_connection_olap import db_connection, close_db
 def create_olap_db():
     conn = db_connection()
 
-    query_create_olap_tables = """CREATE TABLE "dim_contract" (
+    query_create_olap_tables = """CREATE TABLE IF NOT EXISTS "dim_contract" (
   "contract_id" int PRIMARY KEY NOT NULL,
   "contract_title" varchar(300) NOT NULL,
   "contract_type" varchar(100) NOT NULL,
@@ -17,7 +17,7 @@ def create_olap_db():
   "personal_data_id" int NOT NULL
 );
 
-CREATE TABLE "dim_locations" (
+CREATE TABLE IF NOT EXISTS "dim_locations" (
   "location_id" int PRIMARY KEY NOT NULL,
   "full_address" varchar(300) NOT NULL,
   "city" varchar(200) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE "dim_locations" (
   "address_type" varchar(30) NOT NULL
 );
 
-CREATE TABLE "dim_customers" (
+CREATE TABLE IF NOT EXISTS "dim_customers" (
   "customer_id" int PRIMARY KEY NOT NULL,
   "full_name" varchar(300) NOT NULL,
   "gender" varchar(200) NOT NULL,
@@ -36,12 +36,12 @@ CREATE TABLE "dim_customers" (
   "age_group" varchar(100) NOT NULL
 );
 
-CREATE TABLE "dim_sims" (
+CREATE TABLE IF NOT EXISTS "dim_sims" (
   "sim_id" int PRIMARY KEY NOT NULL,
   "number" int NOT NULL
 );
 
-CREATE TABLE "dim_date" (
+CREATE TABLE IF NOT EXISTS "dim_date" (
   "date_id" date PRIMARY KEY NOT NULL,
   "day" int NOT NULL,
   "month" int NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE "dim_date" (
   "quarter" int NOT NULL
 );
 
-CREATE TABLE "dim_device" (
+CREATE TABLE IF NOT EXISTS "dim_device" (
   "device_id" int PRIMARY KEY NOT NULL,
   "model" varchar(200) NOT NULL,
   "brand" varchar(200) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE "dim_device" (
   "discount_percent" int NOT NULL
 );
 
-CREATE TABLE "dim_personal_data" (
+CREATE TABLE IF NOT EXISTS "dim_personal_data" (
   "personal_data_id" int PRIMARY KEY NOT NULL,
   "avail_calls_time" int,
   "avail_cellular_data" decimal(12,2),
@@ -74,7 +74,7 @@ CREATE TABLE "dim_personal_data" (
   "end_date" timestamp
 );
 
-CREATE TABLE "fact_customers_contracts" (
+CREATE TABLE IF NOT EXISTS "fact_customers_contracts" (
   "contract_record" SERIAL PRIMARY KEY,
   "customer_id" int NOT NULL,
   "contract_id" int NOT NULL,
@@ -83,14 +83,14 @@ CREATE TABLE "fact_customers_contracts" (
   "is_active" bool NOT NULL
 );
 
-CREATE TABLE "fact_customers_demographic" (
+CREATE TABLE IF NOT EXISTS "fact_customers_demographic" (
   "demographic_record" SERIAL PRIMARY KEY,
   "customer_id" int NOT NULL,
   "location_id" int NOT NULL,
   "date_id" date NOT NULL
 );
 
-CREATE TABLE "fact_customers_usage" (
+CREATE TABLE IF NOT EXISTS "fact_customers_usage" (
   "customer_usage_id" SERIAL PRIMARY KEY,
   "customer_id" int NOT NULL,
   "used_cellular_data" decimal(12,2) NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE "fact_customers_usage" (
   "end_date" date NOT NULL
 );
 
-CREATE TABLE "fact_billing" (
+CREATE TABLE IF NOT EXISTS "fact_billing" (
   "billing_id" SERIAL PRIMARY KEY,
   "customer_id" int NOT NULL,
   "contract_id" int NOT NULL,
