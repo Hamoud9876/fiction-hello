@@ -10,5 +10,5 @@ secrets.tfvars
 app_errors.log
 dep_ingestion
 archives
-packages_ingestion
 utils_ingestion_dep
+build_ingestion_layer
