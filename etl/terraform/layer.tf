@@ -2,8 +2,6 @@
 resource "null_resource" "build_ingestion_layer" {
   provisioner "local-exec" {
     command = <<EOT
-      set -e
-
       # Remove old build
       rm -rf ${path.module}/../build_ingestion_layer
       mkdir -p ${path.module}/../build_ingestion_layer/python
@@ -12,7 +10,7 @@ resource "null_resource" "build_ingestion_layer" {
       pip install -r ${path.module}/../src/lambda_ingestion/requirement_ingestion.txt \
         -t ${path.module}/../build_ingestion_layer/python
 
-      # Copy your ETL Python modules into python/ so imports work
+      # Copying python files into the same directroy to be one layer
       mkdir -p ${path.module}/../build_ingestion_layer/python/etl/utils
       mkdir -p ${path.module}/../build_ingestion_layer/python/etl/database
 
@@ -48,6 +46,5 @@ data "archive_file" "ingestion_layer_zip" {
 resource "aws_lambda_layer_version" "ingestion_layer" {
   filename   = data.archive_file.ingestion_layer_zip.output_path
   layer_name = "ingestion_combined_layer"
-  compatible_runtimes = ["python3.12"]
   depends_on = [data.archive_file.ingestion_layer_zip]
 }
