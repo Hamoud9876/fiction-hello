@@ -21,15 +21,15 @@ def ingest_data(event, context):
     tables.extend(conn.run(query_table_names))
 
     half_hour_before = datetime.now() - timedelta(minutes=30)
-    time_now = datetime.now()
-
+    effective_time = (half_hour_before if check_bucket_content(bucket_name) 
+                      else datetime(day=1,month=1,year=1954,hour=00,minute=00,second=00))
+    
     for table in tables:
         # retrieving table content
         query_retrieve_data = f"""
         SELECT * 
         FROM {table[0]}
-        WHERE last_updated >= {half_hour_before 
-         if check_bucket_content(bucket_name) else time_now}
+        WHERE last_updated >= '{effective_time}'
         """
 
         table_content = conn.run(query_retrieve_data)
