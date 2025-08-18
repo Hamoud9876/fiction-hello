@@ -334,7 +334,6 @@ def insert_tables(customers: dict):
             :completed_date, :due_date, :created_at, :last_updated
             )"""
             for bill in customer["billing"]:
-                print(bill)
                 conn.run(
                     query_billing,
                     customer_id=cust_id,
