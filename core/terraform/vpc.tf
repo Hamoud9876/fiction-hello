@@ -67,6 +67,36 @@ resource "aws_route_table_association" "public2" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public1.id
+}
+
+resource "aws_eip" "nat" {
+  domain = "vpc"
+  tags = {
+    Name = "nat-eip"
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+}
+
+resource "aws_route_table_association" "private1" {
+  subnet_id      = aws_subnet.private1.id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private2" {
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.private.id
+}
 
 
 resource "aws_security_group" "allow_internet_traffic" {
@@ -133,15 +163,6 @@ resource "aws_vpc_security_group_egress_rule" "allow_rds_engress" {
   ip_protocol = "-1"
 }
 
-resource "aws_security_group_rule" "allow_internet_access" {
-  type                     = "ingress"
-  from_port                = 5432
-  to_port                  = 5432
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.rds_sg_olap.id
-  cidr_blocks = ["0.0.0.0/0"]
-}
-
 resource "aws_db_subnet_group" "private" {
   name       = "my-db-subnet-group-private"
   subnet_ids = [aws_subnet.private1.id, aws_subnet.private2.id] 
@@ -169,4 +190,14 @@ resource "aws_db_subnet_group" "public" {
   tags = {
     Name = "My db Subnet Group"
   }
+}
+
+
+resource "aws_security_group_rule" "allow_lambda_ingress" {
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  security_group_id        = aws_security_group.rds_sg.id
+  source_security_group_id = data.terraform_remote_state.etl.outputs.lambda_sg_id
 }
