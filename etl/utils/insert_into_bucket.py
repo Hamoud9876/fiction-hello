@@ -12,13 +12,13 @@ def insert_into_bucket(bucket_name, table, content):
     month = datetime.now().month
     day = datetime.now().day
     time = datetime.now().time().replace(microsecond=0)
-    s3_key = f"{table}/{year}/{month}/{day}/{table}-{time}"
+    s3_key = f"{table}/{year}/{month}/{day}/{table}-{time}.csv"
 
     try:
         s3_client.put_object(
             Body=content,
-            bucket= bucket_name,
-            key = s3_key
+            Bucket= bucket_name,
+            Key = s3_key
         )
     except Exception as e:
         logger.error(
