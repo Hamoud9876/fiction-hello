@@ -39,14 +39,14 @@ def ingest_data(event, context):
             f"""SELECT column_name
                 FROM information_schema.columns
                 WHERE table_schema = 'public'
-                AND table_name = '{table}';"""
+                AND table_name = '{table[0]}';"""
         )
 
         # saving the content of the output in memory
         # and tuning it to CSV format
         buffer = io.StringIO()
-        writer = csv.write(buffer)
-        writer.writerow(table_headers)
+        writer = csv.writer(buffer)
+        writer.writerow([col[0] for col in table_headers])
         writer.writerows(table_content)
         csv_content = buffer.getvalue()
-        insert_into_bucket(bucket_name, table, csv_content)
+        insert_into_bucket(bucket_name, table[0], csv_content)
