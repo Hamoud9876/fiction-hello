@@ -57,6 +57,18 @@ resource "aws_route_table" "public" {
   }
 }
 
+resource "aws_vpc_dhcp_options" "default" {
+  domain_name         = "ec2.internal"
+  domain_name_servers = ["AmazonProvidedDNS"]
+  
+  tags = { Name = "default-dhcp-options" }
+}
+
+resource "aws_vpc_dhcp_options_association" "vpc" {
+  vpc_id          = aws_vpc.main.id
+  dhcp_options_id = aws_vpc_dhcp_options.default.id
+}
+
 resource "aws_route_table_association" "public1" {
   subnet_id = aws_subnet.public1.id
   route_table_id = aws_route_table.public.id
