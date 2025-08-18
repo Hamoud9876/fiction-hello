@@ -28,6 +28,15 @@ resource "aws_lambda_function" "ingestion_lambda" {
       DB_OLAP_PORT= var.DB_OLAP_PORT
     }
   }
+
+  vpc_config {
+    subnet_ids         = [
+      data.terraform_remote_state.backend.outputs.private1_subnet_id,
+      data.terraform_remote_state.backend.outputs.private2_subnet_id
+    ]
+    security_group_ids = [aws_security_group.lambda_sg.id]
+  }
+  
   tags = {
     Environment = "production"
     Application = "example"
