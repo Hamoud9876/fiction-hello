@@ -213,3 +213,12 @@ resource "aws_security_group_rule" "allow_lambda_ingress" {
   security_group_id        = aws_security_group.rds_sg.id
   source_security_group_id = data.terraform_remote_state.etl.outputs.lambda_sg_id
 }
+
+resource "aws_security_group_rule" "allow_ec2_to_rds_olap" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg_olap.id
+  source_security_group_id = aws_security_group.allow_internet_traffic.id
+}
