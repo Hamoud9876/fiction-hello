@@ -13,8 +13,7 @@ from datetime import datetime
 def insert_tables(customers: dict):
     conn = db_connection()
 
-    created_date = datetime(day=1,month=1,year=1954,hour=00,minute=00,second=00)
- 
+    created_date = datetime(day=1, month=1, year=1954, hour=00, minute=00, second=00)
 
     query = """INSERT INTO genders(gender_title,
     created_at, last_updated)
@@ -22,10 +21,12 @@ def insert_tables(customers: dict):
     ON CONFLICT (gender_title) DO NOTHING;"""
 
     for gender in genders:
-        conn.run(query, gender_title=gender,
-                 created_at=created_date,
-                 last_updated=created_date )
-
+        conn.run(
+            query,
+            gender_title=gender,
+            created_at=created_date,
+            last_updated=created_date,
+        )
 
     query = """INSERT INTO pronounce(pronounce_title,
       created_at, last_updated)
@@ -33,10 +34,12 @@ def insert_tables(customers: dict):
     ON CONFLICT (pronounce_title) DO NOTHING;"""
 
     for pronoun in pronounce:
-        conn.run(query, pronounce_title=pronoun,
-                 created_at=created_date,
-                 last_updated=created_date )
-
+        conn.run(
+            query,
+            pronounce_title=pronoun,
+            created_at=created_date,
+            last_updated=created_date,
+        )
 
     query = """INSERT INTO customers_status(status,
     created_at, last_updated)
@@ -44,10 +47,9 @@ def insert_tables(customers: dict):
     ON CONFLICT (status) DO NOTHING;"""
 
     for status in customers_status:
-        conn.run(query, status=status,
-                 created_at=created_date,
-                 last_updated=created_date)
-
+        conn.run(
+            query, status=status, created_at=created_date, last_updated=created_date
+        )
 
     query = """INSERT INTO contracts_periods(period,
     created_at, last_updated)
@@ -55,10 +57,9 @@ def insert_tables(customers: dict):
     ON CONFLICT (period) DO NOTHING;"""
 
     for period in periods:
-        conn.run(query, period=period,
-                 created_at=created_date,
-                 last_updated=created_date)
-
+        conn.run(
+            query, period=period, created_at=created_date, last_updated=created_date
+        )
 
     query = """INSERT INTO address_type(address_type,
     created_at, last_updated)
@@ -66,33 +67,38 @@ def insert_tables(customers: dict):
     ON CONFLICT (address_type) DO NOTHING;"""
 
     for address in address_type:
-        conn.run(query, address_type=address,
-                 created_at=created_date,
-                 last_updated=created_date)
-
+        conn.run(
+            query,
+            address_type=address,
+            created_at=created_date,
+            last_updated=created_date,
+        )
 
     query = """INSERT INTO contract_types(contract_type,
     created_at, last_updated)
     VALUES(:contract_type, :created_at, :last_updated)
     ON CONFLICT (contract_type) DO NOTHING;"""
 
-
     for contract in contract_type:
-        conn.run(query, contract_type=contract,
-                 created_at=created_date,
-                 last_updated=created_date)
+        conn.run(
+            query,
+            contract_type=contract,
+            created_at=created_date,
+            last_updated=created_date,
+        )
 
     query = """INSERT INTO devices_types(device_type,
     created_at, last_updated)
     VALUES(:device_type,:created_at, :last_updated)
     ON CONFLICT (device_type) DO NOTHING;"""
 
-
     for device in devices:
-        conn.run(query, device_type=device,
-                 created_at=created_date,
-                 last_updated=created_date)
-
+        conn.run(
+            query,
+            device_type=device,
+            created_at=created_date,
+            last_updated=created_date,
+        )
 
     for customer in customers["customers"]:
         query = """INSERT INTO customers(
@@ -141,7 +147,7 @@ def insert_tables(customers: dict):
                 start_date=usage_record["start_date"],
                 end_date=usage_record["end_date"],
                 created_at=usage_record["start_date"],
-                last_updated=usage_record["start_date"]
+                last_updated=usage_record["start_date"],
             )
 
         query = """INSERT INTO address(
@@ -190,9 +196,13 @@ def insert_tables(customers: dict):
         VALUES(:customer_id,:sim_id, :created_at,:last_updated);"""
 
         for i in sims_ids:
-            conn.run(query_cust_sims, customer_id=cust_id, sim_id=i,
-                     created_at=created_date,
-                     last_updated=created_date)
+            conn.run(
+                query_cust_sims,
+                customer_id=cust_id,
+                sim_id=i,
+                created_at=created_date,
+                last_updated=created_date,
+            )
 
         query_con_details = """INSERT INTO contract_details(
         contract_title, initial_price, discount_percent,contract_period_id,
@@ -231,7 +241,7 @@ def insert_tables(customers: dict):
                 start_date=customer["join_date"],
                 end_date=customer["join_date"],
                 created_at=customer["join_date"],
-                last_updated=customer["join_date"]
+                last_updated=customer["join_date"],
             )[0][0]
 
             con_details = conn.run(
@@ -282,7 +292,7 @@ def insert_tables(customers: dict):
                     contract_details_id=con_details,
                     device_id=dev_id,
                     created_at=customer["join_date"],
-                    last_updated=customer["join_date"]
+                    last_updated=customer["join_date"],
                 )
 
             query_contracts = """INSERT INTO contracts(
@@ -308,11 +318,13 @@ def insert_tables(customers: dict):
             customer_id, contract_id, created_at, last_updated)
             VALUES(:customer_id, :contract_id, :created_at, :last_updated);"""
 
-            conn.run(query_cust_con,
-                     customer_id=cust_id,
-                     contract_id=con_id,
-                     created_at=customer["join_date"] ,
-                     last_updated=customer["join_date"])
+            conn.run(
+                query_cust_con,
+                customer_id=cust_id,
+                contract_id=con_id,
+                created_at=customer["join_date"],
+                last_updated=customer["join_date"],
+            )
 
             query_billing_status = """INSERT INTO billing_status(
             status, created_at, last_updated
@@ -321,9 +333,12 @@ def insert_tables(customers: dict):
             ON CONFLICT (status) DO NOTHING
             """
             for status in billing_status:
-                conn.run(query_billing_status, status=status,
-                         created_at=customer["join_date"],
-                         last_updated=customer["join_date"])
+                conn.run(
+                    query_billing_status,
+                    status=status,
+                    created_at=customer["join_date"],
+                    last_updated=customer["join_date"],
+                )
 
             query_billing = """INSERT INTO billing(
             customer_id, contract_id, amount, bill_status_id, issue_date,
@@ -344,7 +359,7 @@ def insert_tables(customers: dict):
                     completed_date=bill["complete_date"],
                     due_date=bill["due_date"],
                     created_at=bill["issue_date"],
-                    last_updated=bill["issue_date"]
+                    last_updated=bill["issue_date"],
                 )
 
     close_db(conn)
