@@ -21,9 +21,12 @@ def ingest_data(event, context):
     tables.extend(conn.run(query_table_names))
 
     half_hour_before = datetime.now() - timedelta(minutes=30)
-    effective_time = (half_hour_before if check_bucket_content(bucket_name) 
-                      else datetime(day=1,month=1,year=1954,hour=00,minute=00,second=00))
-    
+    effective_time = (
+        half_hour_before
+        if check_bucket_content(bucket_name)
+        else datetime(day=1, month=1, year=1954, hour=00, minute=00, second=00)
+    )
+
     for table in tables:
         # retrieving table content
         query_retrieve_data = f"""
