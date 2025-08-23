@@ -31,4 +31,6 @@ def get_bucket_dirs(bucket_name: str):
         logging.error(f"retrieving directory from {bucket_name} failed: {e}")
         raise e 
 
+    logging.info(f"directories retrieved succussfully from {bucket_name}")
+    
     return directories
