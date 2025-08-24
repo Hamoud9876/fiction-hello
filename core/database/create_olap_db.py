@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS "dim_customers" (
   "gender" varchar(200) NOT NULL,
   "pronoun" varchar(200) NOT NULL,
   "join_date" date NOT NULL,
+  "customer_status" varchar(100) NOT NULL,
   "age" int NOT NULL,
   "age_group" varchar(100) NOT NULL
 );
