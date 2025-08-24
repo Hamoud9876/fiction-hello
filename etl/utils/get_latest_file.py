@@ -1,12 +1,26 @@
 import logging
 import boto3
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 import pandas as pd
 
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
 
 def get_latest_file(directory: str, ing_buck_name: str, procs_buck_name: str):
+    """
+    retrieves the latest file in the provided directory 
+    and turning it into df
+    if no file can be found, will will check the directory
+    for previous and make sure that the latest file was processed.
+    -----------------------------------------
+    args: directory: sirectory to be searched.
+    ing_buck_name: the ingestion bucket where the raw 
+    file is stored
+    procs_buck_name: the processed bucket where the processed 
+    file is stored
+    -----------------------------------------
+    return: datafram contaning the content of the retrieved file
+    """
     s3_client = boto3.client("s3")
 
     #date to store and ompare last modifed to
