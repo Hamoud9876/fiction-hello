@@ -78,11 +78,11 @@ class TestTransformDimCustomers:
         assert "age" in response
         assert "age_group" in response
         assert "customer_id" in response
+        assert "last_updated" in response
 
         assert "first_name" not in response
         assert "middle_name" not in response
         assert "last_name" not in response
-        assert "last_updated" not in response
         assert "birthdate" not in response
         assert "gender_id" not in response
         assert "customer_status_id" not in response
@@ -101,5 +101,6 @@ class TestTransformDimCustomers:
         assert isinstance(response["age"].loc[0], (int, np.integer))
         assert isinstance(response["age_group"].loc[0], str)
         assert isinstance(response["customer_id"].loc[0], (int, np.integer))
+        assert isinstance(response["last_updated"], datetime)
 
 
