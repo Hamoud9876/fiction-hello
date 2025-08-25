@@ -7,7 +7,7 @@ logger.setLevel(logging.ERROR)
 
 def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
     """
-    transform the provided tables into dim_customers table structure
+    transform the provided tables/df into dim_customers table structure
     -----------------------------------------
     args: 
     df_customer: df contaning the customer data.
@@ -20,6 +20,7 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
     -----------------------------------------
     return: datafram contaning exact structure of dim_custoemrs table
     """
+
     #filling all the empty middle name series with empty string
     df_customer["middle_name"] = df_customer["middle_name"].fillna("")
 
@@ -52,6 +53,7 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
         else:
             age_group.append("40+")
     
+
     #mergning the others df to create a new df that matches the destenation table
     df_customer = df_customer.merge(df_gender, on="gender_id", how="left")
     df_customer = df_customer.merge(df_pronounce, on="pronounce_id", how="left")
@@ -81,7 +83,6 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
     df_customer = df_customer.drop("middle_name", axis=1)
     df_customer = df_customer.drop("last_name", axis=1)
     df_customer = df_customer.drop("birthdate", axis=1)
-    df_customer = df_customer.drop("last_updated", axis=1)
     df_customer = df_customer.drop("gender_id", axis=1)
     df_customer = df_customer.drop("pronounce_id", axis=1)
     df_customer = df_customer.drop("customer_status_id", axis=1)
