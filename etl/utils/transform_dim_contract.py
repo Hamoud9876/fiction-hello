@@ -18,7 +18,7 @@ def transform_dim_contract(df_contracts, df_contracts_details, df_periods, df_co
     return: datafram contaning exact structure of dim_contract table
     """
 
-    df =  df_contracts_details
+    df =  df_contracts_details.copy()
 
     #mergning all the dfs
     df = df.merge(df_periods, on="contract_period_id", how="left")
