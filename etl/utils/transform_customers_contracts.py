@@ -29,7 +29,7 @@ def transform_customers_contracts(df_cust_con, df_con, df_con_details,df_periods
         logger.log(f"df_cust_con was empty")
         return df_cust_con
 
-
+    
     #merging period with contract details
     df_con_details = df_con_details.merge(df_periods,on="contract_period_id",
                                           how="left" )
