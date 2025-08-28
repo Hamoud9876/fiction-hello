@@ -25,11 +25,20 @@ def transform_customers_contracts(df_cust_con, df_con, df_con_details,df_periods
     fact_customers_contracts table
     """
 
+    #if the cust contract is empty then nothing diretly
+    #changed in the ownership of the contract
     if df_cust_con.empty:
-        logger.log(f"df_cust_con was empty")
+        logger.info(f"df_cust_con was empty")
+        return df_cust_con
+    
+
+    #if mothing changed in the contract of its details then 
+    #only the owner ship of the contract is different
+    if df_con.empty or df_con_details.empty:
+        logger.info(f"df_con or df_con_details was empty")
         return df_cust_con
 
-    
+
     #merging period with contract details
     df_con_details = df_con_details.merge(df_periods,on="contract_period_id",
                                           how="left" )
