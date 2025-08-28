@@ -113,5 +113,20 @@ class TestTransformCustomersContracts:
         assert isinstance(response["is_active"].loc[0], np.bool)
 
 
-    def test_handles_empty_input():
+    def test_handles_empty_input(self, create_data):
+        #df_con empty
+        df_periods, df_con_detail, df_con, df_cust_con = create_data
+        df_con = pd.DataFrame()
+        response = transform_customers_contracts(df_cust_con, df_con, df_con_detail,df_periods)
+
+        assert response is df_cust_con
+
+        #df_cust_con empty
+        df_periods, df_con_detail, df_con, df_cust_con = create_data
+        df_cust_con = pd.DataFrame()
+
+        response = transform_customers_contracts(df_cust_con, df_con, df_con_detail,df_periods)
+
+        assert response is df_cust_con
+
 
