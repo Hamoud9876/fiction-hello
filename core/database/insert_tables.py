@@ -206,10 +206,10 @@ def insert_tables(customers: dict):
 
         query_con_details = """INSERT INTO contract_details(
         contract_title, initial_price, discount_percent,contract_period_id,
-        num_of_sims,num_of_devices, personal_data_id, created_at, last_updated)
+        num_of_sims,num_of_devices,start_date, personal_data_id, created_at, last_updated)
         VALUES(:contract_title, :initial_price, :discount_percent,
-        :contract_period_id, :num_of_sims, :num_of_devices, :personal_data_id,
-        :created_at, :last_updated)
+        :contract_period_id, :num_of_sims, :num_of_devices, :start_date,
+        :personal_data_id, :created_at, :last_updated)
         RETURNING contract_details_id;"""
 
         query_per_data = """INSERT INTO personal_data(avail_calls_time,
@@ -252,6 +252,7 @@ def insert_tables(customers: dict):
                 contract_period_id=periods.index(con["con_period"]) + 1,
                 num_of_sims=con["num_of_sims"],
                 num_of_devices=con["num_of_devices"],
+                start_date= customer["join_date"],
                 personal_data_id=personal_data,
                 created_at=customer["join_date"],
                 last_updated=customer["join_date"],
