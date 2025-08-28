@@ -135,6 +135,7 @@ last_updated timestamp
 contract_period_id int REFERENCES contracts_periods(contract_period_id),
             num_of_sims int,
             num_of_devices int,
+            start_date date,
             personal_data_id int REFERENCES personal_data(personal_data_id),
             created_at timestamp,
             last_updated timestamp
