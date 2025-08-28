@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS "fact_billing" (
   "customer_id" int NOT NULL,
   "contract_id" int NOT NULL,
   "amount_billed" decimal(10,2) NOT NULL,
-  "ammount_paid" decimal(10,2) NOT NULL,
+  "amount_paid" decimal(10,2) NOT NULL,
   "is_paid" bool NOT NULL,
   "days_overdue" int NOT NULL,
   "bill_status" varchar NOT NULL,
