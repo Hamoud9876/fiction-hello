@@ -1,25 +1,50 @@
 from etl.database.db_connection_olap import db_connection
 from etl.utils.check_bucket_content import check_bucket_content
-from etl.utils.insert_into_bucket import insert_into_bucket
 from datetime import datetime, timedelta
-import io
-import csv
+from etl.utils.convert_into_csv import convert_into_csv
+
 
 
 def ingest_data(event, context):
 
     bucket_name = "etl-ingestion-bucket-2025"
-    tables = []
 
-    query_table_names = """
-    SELECT table_name FROM information_schema.tables 
-    WHERE table_schema = 'public' 
-    AND table_type = 'BASE TABLE';"""
+    tables = [
+    "customers",
+    "contracts",
+    "contract_details",
+    "customers_contracts",
+    "contracts_details_sims",
+    "contracts_details_devices",
+    "customers_usage",
+    "customers_sims",             
+    "customers_address",          
+    "device_details",
+    "billing",
+    "sim_valid_history",
+    "customer_status_history",
+    "billing_status_history",
+    "address",
+    "charge_rates",
+    "personal_data"
+]
+    
+    ref_tables= ["pronounce",
+    "genders",
+    "contract_types",
+    "contracts_periods",
+    "sims",
+    "sims_validation",
+    "devices",
+    "devices_types",
+    "address_type",
+    "customers_status",
+    "billing_status"
+]
 
     conn = db_connection()
 
-    tables.extend(conn.run(query_table_names))
-
+    #checking if this is the first ever data pull or a normal 30 min
     half_hour_before = datetime.now() - timedelta(minutes=30)
     effective_time = (
         half_hour_before
@@ -29,27 +54,18 @@ def ingest_data(event, context):
 
     for table in tables:
         # retrieving table content
-        query_retrieve_data = f"""
+        query_normal = f"""
         SELECT * 
-        FROM {table[0]}
+        FROM {table}
         WHERE last_updated >= '{effective_time}'
         """
+        convert_into_csv(table,bucket_name,conn,query_normal)
 
-        table_content = conn.run(query_retrieve_data)
 
-        # retrieving table columns headers
-        table_headers = conn.run(
-            f"""SELECT column_name
-                FROM information_schema.columns
-                WHERE table_schema = 'public'
-                AND table_name = '{table[0]}';"""
-        )
+    for ref_table in ref_tables:
+        query_ref = f"""
+        SELECT *
+        FROM {ref_table}
+        """
+        convert_into_csv(ref_table,bucket_name,conn,query_ref)
 
-        # saving the content of the output in memory
-        # and tuning it to CSV format
-        buffer = io.StringIO()
-        writer = csv.writer(buffer)
-        writer.writerow([col[0] for col in table_headers])
-        writer.writerows(table_content)
-        csv_content = buffer.getvalue()
-        insert_into_bucket(bucket_name, table[0], csv_content)
