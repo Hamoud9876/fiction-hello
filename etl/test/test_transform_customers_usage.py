@@ -51,5 +51,11 @@ class TestCustomersUsage:
 
         response = transform_customers_usage(df)
 
-        assert isinstance(response,pd.DataFrame)
+        assert isinstance(response["customer_id"],) 
+        assert isinstance(response["used_cellular_data"],) 
+        assert isinstance(response["used_call_time"],) 
+        assert isinstance(response["used_roam_call_time"],) 
+        assert isinstance(response["used_roam_data"],) 
+        assert isinstance(response["start_date"],) 
+        assert isinstance(response["end_date"],) 
 
