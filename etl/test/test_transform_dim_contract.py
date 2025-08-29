@@ -72,7 +72,7 @@ class TestDimContract:
         assert isinstance(response, pd.DataFrame)
 
 
-    def test_transform_into_single_df(self,con_data):
+    def test_correct_columns(self,con_data):
         contracts, ontract_details, contract_periods, contract_types = con_data
 
         response = transform_dim_contract(contracts, 
