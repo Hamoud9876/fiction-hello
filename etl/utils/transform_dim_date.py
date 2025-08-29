@@ -3,6 +3,16 @@ import numpy as np
 
 
 def transform_dim_date(**kwargs):
+    """
+    transform the provided dictionary of dfs
+    into dim_date table structure
+    -----------------------------------------
+    args: 
+    kwargs: takes any number of key value pairs as input
+    (expected it to be df_name and the df conten)
+    -----------------------------------------
+    return: datafram contaning exact structure of dim_date table
+    """
 
     all_dates = []
 
