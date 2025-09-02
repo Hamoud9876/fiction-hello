@@ -22,4 +22,4 @@ def convert_into_csv(table, bucket_name, conn, query):
     writer.writerows(table_content)
     csv_content = buffer.getvalue()
         
-    insert_into_bucket(bucket_name, table, csv_content)
+    insert_into_bucket(bucket_name, table, csv_content,"csv")
