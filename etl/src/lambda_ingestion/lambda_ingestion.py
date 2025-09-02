@@ -2,10 +2,28 @@ from etl.database.db_connection_olap import db_connection
 from etl.utils.check_bucket_content import check_bucket_content
 from datetime import datetime, timedelta
 from etl.utils.convert_into_csv import convert_into_csv
+import logging
 
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def ingest_data(event, context):
+    """
+    ingest the predefined tables and retrieve data based
+    on if the bucket had been populated before or not,
+    if yes will just pull data from the last 30 minutes
+    else retrieve everything in the table
+
+    reference tables get pulled fully all the
+    time to maintain it consistentcy
+    -----------------------------------------
+    args: 
+    event: AWS required; not used
+    context: AWS required; not used
+    -----------------------------------------
+    return: status code 200 if passing with no problems
+    """
 
     bucket_name = "etl-ingestion-bucket-2025"
 
@@ -41,31 +59,40 @@ def ingest_data(event, context):
     "customers_status",
     "billing_status"
 ]
+    logging.info("started ingestion process")
+    try:
+        conn = db_connection()
 
-    conn = db_connection()
+        #checking if this is the first ever data pull or a normal 30 min
+        half_hour_before = datetime.now() - timedelta(minutes=30)
+        effective_time = (
+            half_hour_before
+            if check_bucket_content(bucket_name)
+            else datetime(day=1, month=1, year=1954, hour=00, minute=00, second=00)
+        )
 
-    #checking if this is the first ever data pull or a normal 30 min
-    half_hour_before = datetime.now() - timedelta(minutes=30)
-    effective_time = (
-        half_hour_before
-        if check_bucket_content(bucket_name)
-        else datetime(day=1, month=1, year=1954, hour=00, minute=00, second=00)
-    )
-
-    for table in tables:
-        # retrieving table content
-        query_normal = f"""
-        SELECT * 
-        FROM {table}
-        WHERE last_updated >= '{effective_time}'
-        """
-        convert_into_csv(table,bucket_name,conn,query_normal)
+        for table in tables:
+            # retrieving table content
+            query_normal = f"""
+            SELECT * 
+            FROM {table}
+            WHERE last_updated >= '{effective_time}'
+            """
+            convert_into_csv(table,bucket_name,conn,query_normal)
 
 
-    for ref_table in ref_tables:
-        query_ref = f"""
-        SELECT *
-        FROM {ref_table}
-        """
-        convert_into_csv(ref_table,bucket_name,conn,query_ref)
+        for ref_table in ref_tables:
+            query_ref = f"""
+            SELECT *
+            FROM {ref_table}
+            """
+            convert_into_csv(ref_table,bucket_name,conn,query_ref)
 
+        
+    except Exception as e:
+        logger.error(f"Somehing went wrong while ingesting data: {e}")
+        return {"status":400}
+
+    
+    logging.info(f"finished the ingestion process")
+    return {"status": 200}
