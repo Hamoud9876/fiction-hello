@@ -145,7 +145,8 @@ def lambda_transform(event, context):
          buffer.seek(0)
          insert_into_bucket(bucket_processed,
          inx, 
-         buffer)
+         buffer,
+         "parquet")
 
     except Exception as e:
        logging.error(f"Something went wrong: {e}")
