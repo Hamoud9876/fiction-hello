@@ -8,6 +8,8 @@ from etl.utils.transofrm_customers_demo import transform_customers_demo
 from etl.utils.transform_customers_usage import transform_customers_usage
 from etl.utils.transform_billing import transform_billing
 from etl.utils.transform_customers_contracts import transform_customers_contracts
+from etl.utils.insert_into_bucket import insert_into_bucket
+import io
 
 import logging
 
@@ -126,6 +128,24 @@ def lambda_transform(event, context):
          tables["contract_details"],
          tables["contracts_periods"],
       )
+
+
+      #converting the content into parquet and inserting it
+      #into the processed bucket
+      for inx, df in olap_tables.items():
+         logging.info(f"insert {inx} into proc bucket")
+         
+         #creating in-memory buffer
+         buffer = io.BytesIO()
+
+         #converting the dataframe into parquet
+         df.to_parquet(buffer, engine="pyarrow", index=False)
+         
+         #moving the buffer cursor to the start
+         buffer.seek(0)
+         insert_into_bucket(bucket_processed,
+         inx, 
+         buffer)
 
     except Exception as e:
        logging.error(f"Something went wrong: {e}")
