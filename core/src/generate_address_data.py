@@ -1,7 +1,9 @@
-from random import randint
+from random import randint, choice
 from core.data.data import address_type
-from core.utils.generate_post_code import generate_post_code
-from core.utils.random_string import random_string
+from faker import Faker
+
+
+fake = Faker("en_GB")
 
 
 def generate_address_data():
@@ -13,39 +15,47 @@ def generate_address_data():
     return: a dict containing all available address
     for the customer
     """
+
+    #a list of counties as faker does not support uk counties
+    COUNTIES = [
+    "Greater London", "West Midlands", "Greater Manchester", "Merseyside",
+    "South Yorkshire", "West Yorkshire", "Tyne and Wear", "Hampshire",
+    "Kent", "Essex", "Surrey", "Lancashire", "Devon", "Cornwall"
+]
     address = []
-    # generate one address
+    # 80% chance to generate one address
     if randint(1, 5) > 1:
         address.append(
             {
-                "first_line": random_string(randint(10, 20)),
-                "second_line": random_string(randint(10, 20)),
-                "city": random_string(randint(4, 20)),
-                "county": random_string(randint(6, 30)),
-                "post_code": generate_post_code(),
+                "first_line": fake.street_address(),
+                "second_line": fake.secondary_address() if randint(1,5) > 1 else "",
+                "city": fake.city(),
+                "county": choice(COUNTIES),
+                "post_code": fake.postcode(),
                 "address_type": address_type[0],
             }
         )
 
     else:
+        #20% chance to generate 2 address type home and work
         address.append(
             {
-                "first_line": random_string(randint(10, 20)),
-                "second_line": random_string(randint(10, 20)),
-                "city": random_string(randint(4, 20)),
-                "county": random_string(randint(6, 30)),
-                "post_code": generate_post_code(),
+                "first_line": fake.street_address(),
+                "second_line": fake.secondary_address() if randint(1,5) > 1 else "",
+                "city": fake.city(),
+                "county": choice(COUNTIES),
+                "post_code": fake.postcode(),
                 "address_type": address_type[0],
             }
         )
         address.append(
             {
-                "first_line": random_string(randint(10, 20)),
-                "second_line": random_string(randint(10, 20)),
-                "city": random_string(randint(4, 20)),
-                "county": random_string(randint(6, 30)),
-                "post_code": generate_post_code(),
-                "address_type": address_type[1],
+                "first_line": fake.street_address(),
+                "second_line": fake.secondary_address() if randint(1,5) > 1 else "",
+                "city": fake.city(),
+                "county": choice(COUNTIES),
+                "post_code": fake.postcode(),
+                "address_type": address_type[0],
             }
         )
 
