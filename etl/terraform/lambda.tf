@@ -43,3 +43,11 @@ resource "aws_lambda_function" "ingestion_lambda" {
   }
   depends_on = [ data.archive_file.ingestion_lambda ]
 }
+
+
+resource "aws_lambda_function" "lambda_transform" {
+  function_name = "lambda-transform"
+  package_type  = "Image"
+  image_uri     = "452732946735.dkr.ecr.eu-west-2.amazonaws.com/lambda-transform:latest"
+  role          = aws_iam_role.lambda_exec.arn
+}
