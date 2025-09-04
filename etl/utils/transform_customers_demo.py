@@ -1,4 +1,7 @@
+import logging
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def transform_customers_demo(df_location,df_cust_address):
@@ -15,6 +18,8 @@ def transform_customers_demo(df_location,df_cust_address):
     return: datafram contaning exact structure of
     tact_customers_demographic table
     """
+    
+    logger.info("started transforming customers_demo")
 
     df_cust_demo = df_location.copy()
 
@@ -30,5 +35,6 @@ def transform_customers_demo(df_location,df_cust_address):
     df_cust_demo.drop(["city", "county","post_code",
                    "address_type", "full_address"],axis=1,  inplace=True)
     
+    logger.info("finished transforming customers_demo")
 
     return df_cust_demo
