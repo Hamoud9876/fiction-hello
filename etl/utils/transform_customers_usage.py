@@ -1,5 +1,8 @@
+import logging
 
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def transform_customers_usage(df_cust_usage):
     """
@@ -13,13 +16,23 @@ def transform_customers_usage(df_cust_usage):
     facr_customer_usage table.
     """
 
+    logger.info("started transforming customers_usage")
+
     if df_cust_usage.empty:
         return df_cust_usage
+    
 
-    #making sure the dates types are correct
-    df_cust_usage["start_date"] = df_cust_usage["start_date"].dt.date
-    df_cust_usage["end_date"] = df_cust_usage["end_date"].dt.date
+    try:
+        
+        #making sure the dates types are correct
+        df_cust_usage["start_date"] = df_cust_usage["start_date"].dt.date
+        df_cust_usage["end_date"] = df_cust_usage["end_date"].dt.date
 
+
+    except Exception as e:
+        logger.error(f"failed to transform customers_usage: {e}")
+
+    logger.info("finished transforming customers_usage")
 
     return df_cust_usage
 
