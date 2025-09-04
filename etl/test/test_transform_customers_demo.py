@@ -1,4 +1,4 @@
-from etl.utils.transofrm_customers_demo import transform_customers_demo
+from etl.utils.transform_customers_demo import transform_customers_demo
 import pandas as pd
 import numpy as np
 import pytest
