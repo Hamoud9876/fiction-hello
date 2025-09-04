@@ -1,6 +1,5 @@
 from random import randint
 from core.utils.get_devices import get_devices
-from core.utils.random_string import random_string
 import inspect
 from core.exceptions.invalid_input_exception import InvalidInput
 from datetime import date, datetime
@@ -37,7 +36,7 @@ def con_details(period: int, weight: float, start_date: date):
         total_devices_price += i["price"]
 
     return {
-        "contract_title": random_string(randint(5, 20)),
+        "contract_title": "contract title",
         "num_of_sims": randint(1, 2),
         "num_of_devices": num_of_devices,
         "con_period": period,
