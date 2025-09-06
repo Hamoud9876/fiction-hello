@@ -103,9 +103,9 @@ def insert_tables(customers: dict):
     for customer in customers["customers"]:
         query = """INSERT INTO customers(
         first_name, middle_name,last_name,birthdate, gender_id,
-        pronounce_id, customer_status_id, join_date,last_updated)
+        pronounce_id, customer_status_id, join_date,created_at,last_updated)
         VALUES (:first_name, :middle_name, :last_name, :birthdate, :gender_id,
-        :pronounce_id, :customer_status_id, :join_date,:last_updated)
+        :pronounce_id, :customer_status_id, :join_date,, :created_at,:last_updated)
         RETURNING customer_id;"""
 
         cust_id = conn.run(
@@ -121,6 +121,7 @@ def insert_tables(customers: dict):
             )
             + 1,
             join_date=customer["join_date"],
+            created_date=customer["join_date"],
             last_updated=customer["join_date"],
         )[0][0]
 
