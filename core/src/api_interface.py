@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get("/healthcheck")
 def get_healthcheck():
-    return {"status": "The server is running"}
+    return {"status": "200", "message": "server is up and running"}
 
 
 @app.get("/create_records")
@@ -16,4 +16,4 @@ def get_create_records(num_records: int | None = 1):
         return JSONResponse(content={"status": "Failed"}, status_code=400)
 
     main(num_records)
-    return {"status": "Ok", "records_created": num_records}
+    return {"status": "200", "records_created": num_records}
