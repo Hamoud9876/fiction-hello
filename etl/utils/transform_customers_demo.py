@@ -22,10 +22,10 @@ def transform_customers_demo(df_location,df_cust_address):
     logger.info("started transforming customers_demo")
 
     df_cust_demo = df_location.copy()
-
+    df_copy_cust_address = df_cust_address.copy
 
     #merging the dfs together
-    df_cust_demo = df_cust_demo.merge(df_cust_address, on="location_id", how="left")
+    df_cust_demo = df_cust_demo.merge(df_copy_cust_address, on="location_id", how="left")
 
 
     #converting the date time into date to be used in the fact table

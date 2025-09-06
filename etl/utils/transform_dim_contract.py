@@ -23,12 +23,26 @@ def transform_dim_contract(df_contracts, df_contracts_details, df_periods, df_co
 
     logger.info("started to transform dim_contracts")
 
-    df =  df_contracts_details.copy()
+    
     try:
+        #copying the dfs to preserve the original from any changes
+        df_copy_contracts = df_contracts.copy()
+        df =  df_contracts_details.copy()
+        df_copy_periods = df_periods.copy()
+        df_copy_contract_type = df_contract_type.copy()
+
+
+        #droping unwated dates to avoid suffixes clashing when merged
+        df.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        df_copy_periods.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        df_copy_contract_type.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        df_copy_contracts.drop(["last_updated","created_at"],axis=1,  inplace=True)
+
+
         #mergning all the dfs
-        df = df.merge(df_periods, on="contract_period_id", how="left")
-        df = df.merge(df_contracts, on="contract_details_id", how="left")
-        df = df.merge(df_contract_type, on="contract_type_id", how="left")
+        df = df.merge(df_copy_periods, on="contract_period_id", how="left")
+        df = df.merge(df_copy_contracts, on="contract_details_id", how="left")
+        df = df.merge(df_copy_contract_type, on="contract_type_id", how="left")
 
 
         #using initial and discount to get the effective price
@@ -46,7 +60,7 @@ def transform_dim_contract(df_contracts, df_contracts_details, df_periods, df_co
         df = df.drop(["contract_details_id", "contract_type_id", "contract_period_id"], axis=1)
 
     except Exception as e:
-        logger.error(f"falied to transform dim_contract: {e}")
+        logger.error(f"falied to transform dim_contract: {type(e).__name__}: {e}")
 
     logger.info("finished transforming dim_contract")
     return df

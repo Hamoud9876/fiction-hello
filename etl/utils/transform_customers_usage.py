@@ -18,15 +18,19 @@ def transform_customers_usage(df_cust_usage):
 
     logger.info("started transforming customers_usage")
 
-    if df_cust_usage.empty:
-        return df_cust_usage
+    
     
 
     try:
+
+        df_copy_cust_usage = df_cust_usage.copy()
+
+        if df_copy_cust_usage.empty:
+            return df_copy_cust_usage
         
         #making sure the dates types are correct
-        df_cust_usage["start_date"] = df_cust_usage["start_date"].dt.date
-        df_cust_usage["end_date"] = df_cust_usage["end_date"].dt.date
+        df_copy_cust_usage["start_date"] = df_copy_cust_usage["start_date"].dt.date
+        df_copy_cust_usage["end_date"] = df_copy_cust_usage["end_date"].dt.date
 
 
     except Exception as e:
@@ -34,5 +38,5 @@ def transform_customers_usage(df_cust_usage):
 
     logger.info("finished transforming customers_usage")
 
-    return df_cust_usage
+    return df_copy_cust_usage
 

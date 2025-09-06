@@ -19,12 +19,20 @@ def transform_dim_location(df_address, df_address_type):
     logger.info("started transforming dim_location")
 
 
+
     address = []
 
     try:
-        df_address["second_line"] = df_address["second_line"].fillna("")
+        #copying the dfs to preserve the original from any changes
+        df_copy_address = df_address.copy()
+        df_copy_address_type = df_address_type.copy()
 
-        for inx, row in df_address.iterrows():
+        #making sure any empty address are filled with empty string
+        df_copy_address["second_line"] = df_copy_address["second_line"].fillna("")
+
+        #joining address parts to make full address
+        #without added ampty string
+        for inx, row in df_copy_address.iterrows():
             parts = [row["first_line"]]
 
             if row["second_line"]:
@@ -34,22 +42,22 @@ def transform_dim_location(df_address, df_address_type):
 
 
         #assigning the new address to a new column
-        df_address["full_address"] = address
+        df_copy_address["full_address"] = address
         
 
         #merging on address type id to get the text for each address
-        df_address = df_address.merge(df_address_type, on="address_type_id", how="left")
+        df_copy_address = df_copy_address.merge(df_copy_address_type, on="address_type_id", how="left")
 
 
         #dropping unwanted columns
-        df_address = df_address.drop("address_type_id", axis=1)
-        df_address = df_address.drop("first_line", axis=1)
-        df_address = df_address.drop("second_line", axis=1)
+        df_copy_address = df_copy_address.drop("address_type_id", axis=1)
+        df_copy_address = df_copy_address.drop("first_line", axis=1)
+        df_copy_address = df_copy_address.drop("second_line", axis=1)
 
     except Exception as e:
-        logger.error("faild to transform dim_location")
+        logger.error(f"faild to transform dim_location: {type(e).__name__}: {e}")
 
     logger.info("finished transforming dim_location")
 
 
-    return df_address
+    return df_copy_address

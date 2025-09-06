@@ -21,12 +21,32 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
     return: datafram contaning exact structure of dim_custoemrs table
     """
 
-    logger.info("started transforming dim_custoners")
+    logger.info("started transforming dim_customers")
 
 
     try:
+        #copying the dfs to preserve the original from any changes
+        df_copy_gender = df_gender.copy()
+        df_copy_pronounce = df_pronounce.copy()
+        df_copy_cust_sts = df_cust_sts.copy()
+        df_copy_customer = df_customer.copy()
+
+
+        #making sure dates are correct
+        df_copy_customer["birthdate"] = pd.to_datetime(df_copy_customer["birthdate"])
+        df_copy_customer["birthdate"] = df_copy_customer["birthdate"].dt.date
+        df_copy_customer["join_date"] = pd.to_datetime(df_copy_customer["join_date"])
+        df_copy_customer["join_date"] = df_copy_customer["join_date"].dt.date
+
+
+        #droping unwated dates to avoid suffixes clashing when merged
+        df_copy_gender.drop(["last_updated","created_at"], axis=1, inplace=True)
+        df_copy_pronounce.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        df_copy_cust_sts.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        
+
         #filling all the empty middle name series with empty string
-        df_customer["middle_name"] = df_customer["middle_name"].fillna("")
+        df_copy_customer["middle_name"] = df_copy_customer["middle_name"].fillna("")
 
 
         full_names = []
@@ -35,7 +55,7 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
         today = pd.Timestamp("today")
 
 
-        for idx, row in df_customer.iterrows():
+        for idx, row in df_copy_customer.iterrows():
             #merging name sigments into one full name
             parts = [row["first_name"]]
             if row["middle_name"]:  
@@ -43,10 +63,12 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
             parts.append(row["last_name"])
             full_names.append(" ".join(parts))
 
+
             #retrieving the age from the birthdate
             ages.append(today.year - row["birthdate"].year - 
                     ((today.month, today.day) < (row["birthdate"].month, row["birthdate"].day)))
-            
+
+
             #deciding the age group based on age
             if ages[-1] >=18 and ages[-1] <=28:
                 age_group.append("18 - 25")
@@ -59,17 +81,17 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
         
 
         #mergning the others df to create a new df that matches the destenation table
-        df_customer = df_customer.merge(df_gender, on="gender_id", how="left")
-        df_customer = df_customer.merge(df_pronounce, on="pronounce_id", how="left")
-        df_customer = df_customer.merge(df_cust_sts, on="customer_status_id", how="left")
+        df_copy_customer = df_copy_customer.merge(df_copy_gender, on="gender_id", how="left")
+        df_copy_customer = df_copy_customer.merge(df_copy_pronounce, on="pronounce_id", how="left")
+        df_copy_customer = df_copy_customer.merge(df_copy_cust_sts, on="customer_status_id", how="left")
 
 
         #making sure that it is date type as expected
-        df_customer["join_date"] = pd.to_datetime(df_customer["join_date"]).dt.date
+        df_copy_customer["join_date"] = pd.to_datetime(df_copy_customer["join_date"]).dt.date
         
 
         #renaming the column that were merged to match the distenation table
-        df_customer.rename(columns={"gender_title": "gender",
+        df_copy_customer.rename(columns={"gender_title": "gender",
                                     "pronounce_title": "pronounce",
                                     "status": "customer_status"},
                                     inplace=True)
@@ -77,23 +99,23 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
 
 
         #adding the new column to the df
-        df_customer["full_name"] = full_names
-        df_customer["age"] = ages
-        df_customer["age_group"] = age_group
+        df_copy_customer["full_name"] = full_names
+        df_copy_customer["age"] = ages
+        df_copy_customer["age_group"] = age_group
 
 
         #dropping unwated columns to match the distenation table
-        df_customer = df_customer.drop("first_name", axis=1)
-        df_customer = df_customer.drop("middle_name", axis=1)
-        df_customer = df_customer.drop("last_name", axis=1)
-        df_customer = df_customer.drop("birthdate", axis=1)
-        df_customer = df_customer.drop("gender_id", axis=1)
-        df_customer = df_customer.drop("pronounce_id", axis=1)
-        df_customer = df_customer.drop("customer_status_id", axis=1)
+        df_copy_customer = df_copy_customer.drop("first_name", axis=1)
+        df_copy_customer = df_copy_customer.drop("middle_name", axis=1)
+        df_copy_customer = df_copy_customer.drop("last_name", axis=1)
+        df_copy_customer = df_copy_customer.drop("birthdate", axis=1)
+        df_copy_customer = df_copy_customer.drop("gender_id", axis=1)
+        df_copy_customer = df_copy_customer.drop("pronounce_id", axis=1)
+        df_copy_customer = df_copy_customer.drop("customer_status_id", axis=1)
 
     except Exception as e:
-        logger.error(f"failed to transform dim_customers: {e}")
+        logger.error(f"failed to transform dim_customers: {type(e).__name__}: {e}")
 
-    logger.info("finished transforming dim_custoners")
+    logger.info("finished transforming dim_customers")
 
-    return df_customer
+    return df_copy_customer
