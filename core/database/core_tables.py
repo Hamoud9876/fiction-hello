@@ -44,6 +44,7 @@ def create_tables():
     gender_id int REFERENCES genders(gender_id),
     pronounce_id int REFERENCES pronounce(pronounce_id),
     customer_status_id int REFERENCES customers_status(customer_status_id),
+    created_at timestamp,
     last_updated timestamp
     );
     """
