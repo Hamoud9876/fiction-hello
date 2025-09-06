@@ -105,7 +105,7 @@ def insert_tables(customers: dict):
         first_name, middle_name,last_name,birthdate, gender_id,
         pronounce_id, customer_status_id, join_date,created_at,last_updated)
         VALUES (:first_name, :middle_name, :last_name, :birthdate, :gender_id,
-        :pronounce_id, :customer_status_id, :join_date,, :created_at,:last_updated)
+        :pronounce_id, :customer_status_id, :join_date, :created_at,:last_updated)
         RETURNING customer_id;"""
 
         cust_id = conn.run(
