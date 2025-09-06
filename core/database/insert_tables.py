@@ -121,7 +121,7 @@ def insert_tables(customers: dict):
             )
             + 1,
             join_date=customer["join_date"],
-            created_date=customer["join_date"],
+            created_at=customer["join_date"],
             last_updated=customer["join_date"],
         )[0][0]
 
