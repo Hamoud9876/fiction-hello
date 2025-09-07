@@ -44,10 +44,10 @@ def get_latest_file(directory: str, ing_buck_name: str, procs_buck_name: str):
     )
 
 
-    #checking if the bucket is empty
+    # #checking if the bucket is empty
     if "Contents" not in s3_response or not s3_response["Contents"]:
         logger.info(f"No file was found for dir {directory}")
-        return -1
+        return pd.DataFrame()
 
 
     #finding the most recent file
@@ -62,7 +62,15 @@ def get_latest_file(directory: str, ing_buck_name: str, procs_buck_name: str):
 
 
     #turning the file into a df
-    df = pd.read_csv(s3_file["Body"])
+    df = pd.read_csv(s3_file["Body"], parse_dates=["created_at", "last_updated"])
+
+
+    #convert any object type into date if more than 50% of the data
+    #can be converted into a date
+    # for col in df.select_dtypes(include="object").columns:
+    #     sample = pd.to_datetime(df[col], errors="coerce")
+    #     if sample.notna().sum() / len(sample) > 0.5:
+    #         df[col] = sample
         
     
     return df
