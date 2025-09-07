@@ -1,4 +1,5 @@
 import logging
+import pandas as pd
 
 
 logger = logging.getLogger()
@@ -24,17 +25,14 @@ def transform_customers_usage(df_cust_usage):
     try:
 
         df_copy_cust_usage = df_cust_usage.copy()
-
-        if df_copy_cust_usage.empty:
-            return df_copy_cust_usage
         
         #making sure the dates types are correct
-        df_copy_cust_usage["start_date"] = df_copy_cust_usage["start_date"].dt.date
-        df_copy_cust_usage["end_date"] = df_copy_cust_usage["end_date"].dt.date
+        df_copy_cust_usage["start_date"] = pd.to_datetime(df_copy_cust_usage["start_date"]).dt.date
+        df_copy_cust_usage["end_date"] = pd.to_datetime(df_copy_cust_usage["end_date"]).dt.date
 
 
     except Exception as e:
-        logger.error(f"failed to transform customers_usage: {e}")
+        logger.error(f"failed to transform customers_usage: {type(e).__name__}: {e}")
 
     logger.info("finished transforming customers_usage")
 
