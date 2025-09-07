@@ -30,10 +30,29 @@ def transform_dim_date(**kwargs):
 
     try:
         #added only data from columns that are subtype of datetime
-        #to the date list
+        #to the date list, also making sure any date field gets casted
+        #to the correct data type
         for df_name, df in kwargs.items():
             if df.empty:
                 continue
+            
+            if df_name == "customers":
+                df["birthdate"] = pd.to_datetime(df["birthdate"]).dt.date
+                df["join_date"] = pd.to_datetime(df["join_date"]).dt.date
+
+            if df_name == "billing":
+                df["issue_date"] = pd.to_datetime(df["issue_date"]).dt.date
+                df["completed_date"] = pd.to_datetime(df["completed_date"]).dt.date
+                df["due_date"] = pd.to_datetime(df["due_date"]).dt.date
+
+            if df_name == "customer_status_history" or "billing_status_history":
+                df["change_date"] = pd.to_datetime[df["change_date"]].dt.date
+
+            if (df_name == "customers_usage" or "charge_rates" or "address"
+            or "personal_data"):
+                df["start_date"] = pd.to_datetime(df["start_date"])
+                df["end_date"] = pd.to_datetime(df["end_date"])
+
             for col in df.columns:
                 if np.issubdtype(df[col].dtype, np.datetime64):
                     all_dates.append(df[col].dropna())
