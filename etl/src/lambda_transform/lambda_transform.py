@@ -4,7 +4,7 @@ from etl.utils.transform_dim_customers import transform_dim_customers
 from etl.utils.transform_dim_contract import transform_dim_contract
 from etl.utils.transform_dim_date import transform_dim_date
 from etl.utils.transform_dim_location import transform_dim_location
-from etl.utils.transofrm_customers_demo import transform_customers_demo
+from etl.utils.transform_customers_demo import transform_customers_demo
 from etl.utils.transform_customers_usage import transform_customers_usage
 from etl.utils.transform_billing import transform_billing
 from etl.utils.transform_customers_contracts import transform_customers_contracts
@@ -40,7 +40,9 @@ def lambda_transform(event, context):
     try:
       logger.info("starting to retrieve latest files")
       for directory in directories:
-         tables[directory]= get_latest_file(directory,bucket_name, bucket_processed)
+         tables[directory]= get_latest_file(directory,bucket_name, bucket_processed) 
+
+         
       logger.info("finished retrieving latest files")
 
 
@@ -68,40 +70,39 @@ def lambda_transform(event, context):
 
       #transforming the date from all the tables to make sure no date is missing
       olap_tables["dim_date"] = transform_dim_date(
-      tables["customers"],
-      tables["contracts"],
-      tables["contract_details"],
-      tables["customers_contracts"],
-      tables["contracts_details_sims"],
-      tables["contracts_details_devices"],
-      tables["customers_usage"],
-      tables["customers_sims"],
-      tables["customers_address"],
-      tables["device_details"],
-      tables["billing"],
-      tables["sim_valid_history"],
-      tables["customer_status_history"],
-      tables["billing_status_history"],
-      tables["address"],
-      tables["charge_rates"],
-      tables["personal_data"],
-      tables["genders"],
-      tables["contract_types"],
-      tables["contracts_periods"],
-      tables["sims"],
-      tables["sims_validation"],
-      tables["devices"],
-      tables["devices_types"],
-      tables["address_type"],
-      tables["customers_status"],
-      tables["billing_status"]
+      customers=tables["customers"],
+      contracts=tables["contracts"],
+      contract_details=tables["contract_details"],
+      customers_contracts=tables["customers_contracts"],
+      # contract_details_sims=tables["contract_details_sims"],
+      contracts_details_devices=tables["contracts_details_devices"],
+      customers_usage=tables["customers_usage"],
+      customers_sims=tables["customers_sims"],
+      customers_address=tables["customers_address"],
+      device_details=tables["device_details"],
+      billing=tables["billing"],
+      # sim_valid_history=tables["sim_valid_history"],
+      customer_status_history=tables["customer_status_history"],
+      billing_status_history=tables["billing_status_history"],
+      address=tables["address"],
+      # charge_rates=tables["charge_rates"],
+      # personal_data=tables["personal_data"],
+      genders=tables["genders"],
+      contract_types=tables["contract_types"],
+      contracts_periods=tables["contracts_periods"],
+      sims=tables["sims"],
+      sims_validation=tables["sims_validation"],
+      devices=tables["devices"],
+      devices_types=tables["devices_types"],
+      address_type=tables["address_type"],
+      customers_status=tables["customers_status"],
+      billing_status=tables["billing_status"]
       )
 
 
       #transform customers location and their address history data to
       #create knowledge about where they are and track their changes
       olap_tables["fact_customers_demographic"] = transform_customers_demo(
-         olap_tables["dim_location"],
          tables["customers_address"]
       )
 

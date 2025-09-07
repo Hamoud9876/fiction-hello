@@ -14,6 +14,7 @@ resource "aws_lambda_function" "ingestion_lambda" {
   handler          = "lambda_ingestion.ingest_data"
   runtime          = "python3.10"
   timeout          = 521
+  memory_size      = 1024
 
 
   layers =  [aws_lambda_layer_version.ingestion_layer.arn]
@@ -49,5 +50,7 @@ resource "aws_lambda_function" "lambda_transform" {
   function_name = "lambda-transform"
   package_type  = "Image"
   image_uri     = "452732946735.dkr.ecr.eu-west-2.amazonaws.com/lambda-transform:latest"
-  role          = aws_iam_role.lambda_exec.arn
+  role          = aws_iam_role.lambda_role.arn
+  timeout          = 521
+  memory_size      = 1024
 }
