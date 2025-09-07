@@ -1,4 +1,4 @@
-# Create a build directory with correct Lambda layer structure
+# Create a build directory with correct Lambda ingestion layer structure
 resource "null_resource" "build_ingestion_layer" {
   provisioner "local-exec" {
     command = <<EOT
@@ -16,6 +16,7 @@ resource "null_resource" "build_ingestion_layer" {
 
       cp ${path.module}/../utils/check_bucket_content.py \
          ${path.module}/../utils/insert_into_bucket.py \
+         ${path.module}/../utils/convert_into_csv.py \
          ${path.module}/../build_ingestion_layer/python/etl/utils/
 
       cp ${path.module}/../database/db_connection_olap.py \
@@ -48,3 +49,4 @@ resource "aws_lambda_layer_version" "ingestion_layer" {
   layer_name = "ingestion_combined_layer"
   depends_on = [data.archive_file.ingestion_layer_zip]
 }
+
