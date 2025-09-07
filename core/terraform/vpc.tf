@@ -31,6 +31,8 @@ resource "aws_subnet" "private1" {
   map_public_ip_on_launch = false
   availability_zone = "eu-west-2a"
   tags = { Name = "private1-subnet" }
+
+  depends_on = [ aws_nat_gateway.nat ]
 }
 
 #private2 subnet for the for core DB
@@ -40,6 +42,8 @@ resource "aws_subnet" "private2" {
   map_public_ip_on_launch = false
   availability_zone = "eu-west-2b"
   tags = { Name = "private2-subnet" }
+
+  depends_on = [ aws_nat_gateway.nat ]
 }
 
 #internet gateway to allow internet access to 
