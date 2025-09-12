@@ -12,6 +12,7 @@ def db_connection():
         database=os.getenv("DB_OLAP_DATABASE"),
         host=os.getenv("DB_OLAP_HOST"),
         port=os.getenv("DB_OLAP_PORT"),
+        allow_multi_statements=True 
     )
 
 
