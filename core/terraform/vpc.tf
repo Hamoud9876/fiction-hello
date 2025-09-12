@@ -226,3 +226,12 @@ resource "aws_security_group_rule" "allow_ec2_to_rds_olap" {
   security_group_id        = aws_security_group.rds_sg_olap.id
   source_security_group_id = aws_security_group.allow_internet_traffic.id
 }
+
+
+resource "aws_vpc_security_group_ingress_rule" "allow_all_to_rds_olap" {
+  security_group_id = aws_security_group.rds_sg_olap.id
+  from_port         = 5432
+  to_port           = 5432
+  ip_protocol          = "tcp"
+  cidr_ipv4         = "0.0.0.0/0"
+}
