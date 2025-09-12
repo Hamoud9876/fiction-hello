@@ -45,7 +45,9 @@ def insert_df_into_db(df, table_name):
             sql = f"{sql} {conflict}"
 
             conn.run(sql, **row.to_dict())
+
+            close_db(conn)
     except Exception as e:
         logger.info(f"failed to insert into table: {table_name}, {type(e).__name__}: {e}")
 
-    close_db(conn)
+    
