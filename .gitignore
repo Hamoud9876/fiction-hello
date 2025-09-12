@@ -13,3 +13,4 @@ archives
 utils_ingestion_dep
 build_ingestion_layer
 build_transform_layer
+build_load_layer
