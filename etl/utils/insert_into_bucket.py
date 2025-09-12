@@ -19,4 +19,3 @@ def insert_into_bucket(bucket_name, table, content, format):
         s3_client.put_object(Body=content, Bucket=bucket_name, Key=s3_key)
     except Exception as e:
         logger.error(f"Failed to upload ingested the content for {table} to S3: {e}")
-        raise e
