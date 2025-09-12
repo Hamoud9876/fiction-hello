@@ -3,7 +3,7 @@ import csv
 from etl.utils.insert_into_bucket import insert_into_bucket
 
 
-def convert_into_csv(table, bucket_name, conn, query):
+def convert_to_csv(table, bucket_name, conn, query):
 
     table_content = conn.run(query)
     #retrieving table columns headers
@@ -21,5 +21,5 @@ def convert_into_csv(table, bucket_name, conn, query):
     writer.writerow([col[0] for col in table_headers])
     writer.writerows(table_content)
     csv_content = buffer.getvalue()
-        
+
     insert_into_bucket(bucket_name, table, csv_content,"csv")
