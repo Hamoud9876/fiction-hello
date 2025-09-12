@@ -6,26 +6,25 @@ import pandas as pd
 logger = logging.getLogger()
 logger.setLevel(logging.ERROR)
 
-def get_latest_file(directory: str, ing_buck_name: str, procs_buck_name: str):
+def get_latest_file(directory: str, buck_name: str):
     """
     retrieves the latest file in the provided directory 
     and turning it into df
-    if no file can be found, will will check the directory
-    for previous and make sure that the latest file was processed.
-    -----------------------------------------
-    args: directory: sirectory to be searched.
-    ing_buck_name: the ingestion bucket where the raw 
-    file is stored
-    procs_buck_name: the processed bucket where the processed 
-    file is stored
-    -----------------------------------------
-    return: datafram contaning the content of the retrieved file
+    if no file can be found, an empty df will be returned.
+    
+    Args: 
+        directory: sirectory to be searched.
+        ing_buck_name: the ingestion bucket where the raw 
+        file is stored
+    
+  
+    Return:
+        datafram contaning the content of the retrieved file
     """
     s3_client = boto3.client("s3")
 
     #date to store and ompare last modifed to
     output_file = datetime(2000,1,1, tzinfo=timezone.utc)
-    output_prev = datetime(2000,1,1, tzinfo=timezone.utc)
 
     #timestamp to retieve file dir based on
     timestamp = datetime.now()
@@ -39,7 +38,7 @@ def get_latest_file(directory: str, ing_buck_name: str, procs_buck_name: str):
 
     #retrieving all the files in the dir
     s3_response = s3_client.list_objects_v2(
-        Bucket=ing_buck_name ,
+        Bucket=buck_name ,
         Prefix=prefix
     )
 
@@ -58,19 +57,11 @@ def get_latest_file(directory: str, ing_buck_name: str, procs_buck_name: str):
 
 
     #retrieving the file
-    s3_file = s3_client.get_object(Bucket=ing_buck_name, Key=key)
+    s3_file = s3_client.get_object(Bucket=buck_name, Key=key)
 
 
     #turning the file into a df
     df = pd.read_csv(s3_file["Body"], parse_dates=["created_at", "last_updated"])
-
-
-    #convert any object type into date if more than 50% of the data
-    #can be converted into a date
-    # for col in df.select_dtypes(include="object").columns:
-    #     sample = pd.to_datetime(df[col], errors="coerce")
-    #     if sample.notna().sum() / len(sample) > 0.5:
-    #         df[col] = sample
         
     
     return df
