@@ -8,11 +8,13 @@ def get_bucket_dirs(bucket_name: str):
     """
     retrieves the diretory in the provided bucket
     name
-    -----------------------------------------
-    args: bucket_name: a sting represeting the
-    S3 bucket name
-    -----------------------------------------
-    return: list contaning all the available directories
+    
+    Args:
+        bucket_name: a sting represeting the
+        S3 bucket name
+    
+    Return:
+        list contaning all the available directories
     """
     try:
         s3_client = boto3.client("s3")
