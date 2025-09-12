@@ -348,6 +348,4 @@ last_updated timestamp
     """
     conn.run(query)
 
-    conn.commit()
-
     close_db(conn)

@@ -363,6 +363,5 @@ def insert_tables(customers: dict):
                     created_at=bill["issue_date"],
                     last_updated=bill["issue_date"],
                 )
-    conn.commit()
 
     close_db(conn)
