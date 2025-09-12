@@ -2,7 +2,7 @@ resource "aws_db_instance" "core" {
   allocated_storage    = 10
   db_name              = var.db_name
   engine               = "postgres"
-  engine_version       = "15.7"
+  engine_version       = "15.12"
   instance_class       = "db.t3.micro"
   username             = var.db_user
   password             = var.db_password
@@ -21,7 +21,7 @@ resource "aws_db_instance" "olap" {
   allocated_storage    = 10
   db_name              = var.db_name_olap
   engine               = "postgres"
-  engine_version       = "15.7"
+  engine_version       = "15.12"
   instance_class       = "db.t3.micro"
   username             = var.db_user_olap
   password             = var.db_password_olap
