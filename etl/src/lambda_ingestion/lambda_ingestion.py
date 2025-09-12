@@ -1,7 +1,6 @@
 from etl.database.db_connection_olap import db_connection
 from etl.utils.check_bucket_content import check_bucket_content
 from datetime import datetime, timedelta
-from etl.utils.convert_into_csv import convert_into_csv
 import logging
 
 
@@ -24,6 +23,7 @@ def ingest_data(event, context):
     -----------------------------------------
     return: status code 200 if passing with no problems
     """
+    from etl.utils.convert_to_csv import convert_to_csv
 
     bucket_name = "etl-ingestion-bucket-2025"
 
@@ -32,7 +32,7 @@ def ingest_data(event, context):
     "contracts",
     "contract_details",
     "customers_contracts",
-    "contracts_details_sims",
+    "contract_details_sims",
     "contracts_details_devices",
     "customers_usage",
     "customers_sims",             
@@ -78,7 +78,7 @@ def ingest_data(event, context):
             FROM {table}
             WHERE last_updated >= '{effective_time}'
             """
-            convert_into_csv(table,bucket_name,conn,query_normal)
+            convert_to_csv(table,bucket_name,conn,query_normal)
 
 
         for ref_table in ref_tables:
@@ -86,7 +86,7 @@ def ingest_data(event, context):
             SELECT *
             FROM {ref_table}
             """
-            convert_into_csv(ref_table,bucket_name,conn,query_ref)
+            convert_to_csv(ref_table,bucket_name,conn,query_ref)
 
         
     except Exception as e:
