@@ -1,7 +1,7 @@
 from etl.utils.transform_dim_customers import transform_dim_customers
 import pandas as pd
 from faker import Faker
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import numpy as np
 import random
 import pytest
@@ -22,15 +22,19 @@ def create_custs():
         "pronounce_id": [random.choice([1, 2, 3]) for _ in range(n)],
         "join_date": [fake.date_time_this_decade() for _ in range(n)],
         "customer_status_id": [random.choice([1, 2, 3]) for _ in range(n)],
+        "created_at": [datetime.now() for _ in range(n)],
         "last_updated": [datetime.now() for _ in range(n)]
     }
     yield pd.DataFrame(customers)
 
 @pytest.fixture(scope="function")
 def gender():
+    n = 3
     df = pd.DataFrame({
         "gender_id" : [1,2,3],
-        "gender_title" : ["Male", "Female", "Non-Binary"]
+        "gender_title" : ["Male", "Female", "Non-Binary"],
+        "created_at": [datetime.now() for _ in range(n)],
+        "last_updated": [datetime.now() for _ in range(n)]
     })
 
     yield df
@@ -39,9 +43,12 @@ def gender():
 
 @pytest.fixture(scope="function")
 def pronounce():
+    n=3
     df = pd.DataFrame({
         "pronounce_id": [1,2,3],
-        "pronounce_title": ["He/Him", "She/Her", "They/Them"]
+        "pronounce_title": ["He/Him", "She/Her", "They/Them"],
+        "created_at": [datetime.now() for _ in range(n)],
+        "last_updated": [datetime.now() for _ in range(n)]
     })
 
     yield df
@@ -49,9 +56,12 @@ def pronounce():
 
 @pytest.fixture(scope="function")
 def cust_sts():
+    n=4
     df = pd.DataFrame({
         "customer_status_id": [1,2,3,4],
-        "status": ["Active", "Inactive", "Blocked", "departed"]
+        "status": ["Active", "Inactive", "Blocked", "departed"],
+        "created_at": [datetime.now() for _ in range(n)],
+        "last_updated": [datetime.now() for _ in range(n)]
     })
 
     yield df
@@ -78,7 +88,6 @@ class TestTransformDimCustomers:
         assert "age" in response
         assert "age_group" in response
         assert "customer_id" in response
-        assert "last_updated" in response
 
         assert "first_name" not in response
         assert "middle_name" not in response
@@ -87,6 +96,8 @@ class TestTransformDimCustomers:
         assert "gender_id" not in response
         assert "customer_status_id" not in response
         assert "pronounce_id" not in response
+        assert "created_at" not in response
+        assert "last_updated" not in response
 
 
     def test_output_correct_data_type(self, create_custs, gender, pronounce,cust_sts):
@@ -101,6 +112,5 @@ class TestTransformDimCustomers:
         assert isinstance(response["age"].loc[0], (int, np.integer))
         assert isinstance(response["age_group"].loc[0], str)
         assert isinstance(response["customer_id"].loc[0], (int, np.integer))
-        assert isinstance(response["last_updated"], datetime)
 
 
