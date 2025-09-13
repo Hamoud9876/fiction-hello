@@ -66,35 +66,32 @@ class TestTRansformDimLocation:
     def test_transform_into_single_df(self,address, address_type):
         response = transform_dim_location(address,address_type)
 
-        assert "address_id" in response
+        assert "location_id" in response
         assert "city" in response
         assert "county" in response
         assert "post_code" in response
-        assert "start_date" in response
-        assert "end_date" in response
-        assert "created_at" in response
-        assert "last_updated" in response
         assert "address_type" in response
         assert "full_address" in response
     
         assert "address_type_id" not in response
         assert "first_line" not in response
         assert "second_line" not in response
+        assert "start_date" not in response
+        assert "end_date" not in response
+        assert "created_at" not in response
+        assert "last_updated" not in response
 
 
     def test_output_correct_data_type(self,address, address_type):
         response = transform_dim_location(address,address_type)
 
         
-        assert isinstance(response["address_id"].loc[0], (int, np.integer))
+        assert isinstance(response["location_id"].loc[0], (int, np.integer))
         assert isinstance(response["city"].loc[0], str)
         assert isinstance(response["county"].loc[0], str )
         assert isinstance(response["post_code"].loc[0], str)
         assert isinstance(response["full_address"].loc[0], str)
         assert isinstance(response["address_type"].loc[0], str )
-        assert isinstance(response["start_date"].loc[0],datetime)
-        assert isinstance(response["end_date"].loc[0],datetime)
-        assert isinstance(response["last_updated"].loc[0],datetime)
-        assert isinstance(response["created_at"].loc[0],datetime)
+
 
 
