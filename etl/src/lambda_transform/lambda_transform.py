@@ -9,6 +9,7 @@ from etl.utils.transform_customers_usage import transform_customers_usage
 from etl.utils.transform_billing import transform_billing
 from etl.utils.transform_customers_contracts import transform_customers_contracts
 from etl.utils.insert_into_bucket import insert_into_bucket
+from etl.utils.transform_dim_personal_data import transform_personal_data
 import io
 
 import logging
@@ -40,7 +41,7 @@ def lambda_transform(event, context):
     try:
       logger.info("starting to retrieve latest files")
       for directory in directories:
-         tables[directory]= get_latest_file(directory,bucket_name, bucket_processed) 
+         tables[directory]= get_latest_file(directory,bucket_name) 
 
          
       logger.info("finished retrieving latest files")
@@ -62,9 +63,14 @@ def lambda_transform(event, context):
       )
 
       #transform address data to match dim_location table structure
-      olap_tables["dim_location"] = transform_dim_location(
+      olap_tables["dim_locations"] = transform_dim_location(
          tables["address"],
          tables["address_type"]
+      )
+
+      #transform personal data to match dim_personal_data table structure
+      olap_tables["dim_personal_data"] = transform_personal_data(
+         tables["personal_data"]
       )
 
 
