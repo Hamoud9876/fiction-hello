@@ -87,7 +87,7 @@ data "archive_file" "load_layer_zip" {
   type        = "zip"
   source_dir  = "${path.module}/../build_load_layer"
   output_path = "${path.module}/../archives/lambda_load/load.zip"
-  depends_on  = [null_resource.build_ingestion_layer]
+  depends_on  = [null_resource.build_load_layer]
 }
 
 # Create the Lambda layer
