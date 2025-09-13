@@ -20,13 +20,19 @@ def insert_df_into_db(df, table_name):
     """
 
     conflict_strategies = {
-    "dim_date": "ON CONFLICT (date_id) DO NOTHING",
-    "dim_customers": "ON CONFLICT (customer_id) DO UPDATE SET {updates}",
-    "dim_contract": "ON CONFLICT (contract_id) DO UPDATE SET {updates}",
-    "dim_location": "ON CONFLICT (contract_id) DO UPDATE SET {updates}",
+        "dim_date": "ON CONFLICT (date_id) DO NOTHING",
+        "dim_customers": "ON CONFLICT (customer_id) DO UPDATE SET {updates}",
+        "dim_contract": "ON CONFLICT (contract_id) DO UPDATE SET {updates}",
+        "dim_location": "ON CONFLICT (contract_id) DO UPDATE SET {updates}",
     }
+
+    if df.empty:
+        logger.info(f"No data to insert for {table_name}")
+        return
+
     try:
         conn = db_connection()
+        conflict = "" 
 
         for _, row in df.iterrows():
             cols = ",".join(row.index)
@@ -36,18 +42,19 @@ def insert_df_into_db(df, table_name):
             if table_name in conflict_strategies:
                 conflict = conflict_strategies[table_name]
 
-            if "{updates}" in conflict:
-                updates = ",".join([f"{c} = EXCLUDED.{c}" 
-                                    for c in row.index 
-                                    if c not in ("date_id", "customer_id", "contract_id","location_id")])
-                conflict = conflict.format(updates=updates)
+                if "{updates}" in conflict:
+                    updates = ",".join([
+                        f"{c} = EXCLUDED.{c}" 
+                        for c in row.index 
+                        if c not in ("date_id", "customer_id", "contract_id", "location_id")
+                    ])
+                    conflict = conflict.format(updates=updates)
 
             sql = f"{sql} {conflict}"
-
             conn.run(sql, **row.to_dict())
 
-            close_db(conn)
+        conn.commit()  
+        close_db(conn)
+
     except Exception as e:
         logger.info(f"failed to insert into table: {table_name}, {type(e).__name__}: {e}")
-
-    
