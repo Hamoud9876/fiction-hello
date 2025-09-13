@@ -10,22 +10,26 @@ fake = Faker()
 
 @pytest.fixture(scope="function")
 def con_data():
+    created_at = fake.date_time_between(start_date="-3y", end_date="now")
+    last_updated = created_at + timedelta(days=np.random.randint(1, 500))
+
     contract_periods = pd.DataFrame({
             "contract_period_id": range(1, 4), 
-            "period": [12, 24, 36]
+            "period": [12, 24, 36],
+            "created_at": created_at,
+            "last_updated": last_updated
         })
     
     contract_types = pd.DataFrame({
             "contract_type_id": range(1, 4),
-            "contract_type": ["Mobile", "Broadband", "Bundle"]
+            "contract_type": ["Mobile", "Broadband", "Bundle"],
+            "created_at": created_at,
+            "last_updated": last_updated
         })
 
     details_rows = []
     n =5
     for i in range(n+1):
-        created_at = fake.date_time_between(start_date="-3y", end_date="now")
-        last_updated = created_at + timedelta(days=np.random.randint(1, 500))
-
         details_rows.append({
             "contract_details_id": i,
             "contract_title": fake.catch_phrase(),
@@ -35,6 +39,7 @@ def con_data():
             "num_of_sims": np.random.randint(1, 5),
             "num_of_devices": np.random.randint(0, 3),
             "personal_data_id": 1, 
+            "start_date": created_at,
             "created_at": created_at,
             "last_updated": last_updated
         })
@@ -43,9 +48,6 @@ def con_data():
 
     contracts_rows = []
     for i in range(n+1):
-        created_at = contract_details.iloc[i - 1]["created_at"]
-        last_updated = contract_details.iloc[i - 1]["last_updated"]
-
         contracts_rows.append({
             "contract_id": i,
             "contract_details_id": i,
@@ -80,19 +82,14 @@ class TestDimContract:
                                contract_periods, 
                                contract_types)
 
-    
         assert "contract_title" in response
         assert "initial_price" in response
         assert "discount_percent" in response
         assert "num_of_sims" in response
         assert "num_of_devices" in response
         assert "personal_data_id" in response
-        assert "created_at_x" in response
-        assert "last_updated_x" in response
         assert "contract_period" in response
         assert "contract_id" in response
-        assert "created_at_y" in response
-        assert "last_updated_y" in response
         assert "contract_type" in response
         assert "effective_price" in response
 
@@ -115,11 +112,7 @@ class TestDimContract:
         assert isinstance(response["num_of_sims"].loc[0], np.integer)
         assert isinstance(response["num_of_devices"].loc[0], np.integer)
         assert isinstance(response["personal_data_id"].loc[0], np.integer)
-        assert isinstance(response["created_at_x"].loc[0], datetime)
-        assert isinstance(response["last_updated_x"].loc[0], datetime)
         assert isinstance(response["contract_period"].loc[0], np.integer)
         assert isinstance(response["contract_id"].loc[0], np.integer)
-        assert isinstance(response["created_at_y"].loc[0], datetime)
-        assert isinstance(response["last_updated_y"].loc[0], datetime)
         assert isinstance(response["contract_type"].loc[0], str)
         assert isinstance(response["effective_price"].loc[0], np.floating)
