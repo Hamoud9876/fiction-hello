@@ -7,13 +7,13 @@ logger.setLevel(logging.INFO)
 def transform_dim_location(df_address, df_address_type):
     """
     transform the provided tables/df into dim_location table structure
-    -----------------------------------------
-    args: 
-    df_address: df contaning the address data.
-
-    df_address_type: df contaning the addres type data.
-    -----------------------------------------
-    return: datafram contaning exact structure of dim_location table
+    
+    Args: 
+        df_address: df contaning the address data.
+        df_address_type: df contaning the addres type data.
+    
+    Return: 
+        datafram contaning exact structure of dim_location table
     """
 
     logger.info("started transforming dim_location")
@@ -48,11 +48,14 @@ def transform_dim_location(df_address, df_address_type):
         #merging on address type id to get the text for each address
         df_copy_address = df_copy_address.merge(df_copy_address_type, on="address_type_id", how="left")
 
+        df_copy_address.rename(columns={"address_id": "location_id"},
+                                    inplace=True)
 
-        #dropping unwanted columns
-        df_copy_address = df_copy_address.drop("address_type_id", axis=1)
-        df_copy_address = df_copy_address.drop("first_line", axis=1)
-        df_copy_address = df_copy_address.drop("second_line", axis=1)
+
+        #keeping only wanted columns
+        df_copy_address = df_copy_address[["location_id", "full_address",
+                                           "city", "county", "post_code",
+                                           "address_type"]]
 
     except Exception as e:
         logger.error(f"faild to transform dim_location: {type(e).__name__}: {e}")

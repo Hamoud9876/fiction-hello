@@ -36,18 +36,6 @@ def transform_customers_contracts(df_cust_con, df_con, df_con_details,df_periods
         df_copy_periods = df_periods.copy()
 
 
-        df_copy_cust_con.columns = df_copy_cust_con.columns.str.strip()
-        df_copy_con.columns = df_con.columns.str.strip()
-        df_copy_con_details.columns = df_con_details.columns.str.strip()
-        df_copy_periods.columns = df_periods.columns.str.strip()
-
-        
-        #droping unwated dates to avoid suffixes clashing when merged
-        df_copy_con.drop(["last_updated","created_at"],axis=1,  inplace=True)
-        df_copy_con_details.drop(["last_updated","created_at"],axis=1,  inplace=True)
-        df_copy_periods.drop(["last_updated","created_at"],axis=1,  inplace=True)
-
-
         #if the cust contract is empty then nothing diretly
         #changed in the ownership of the contract
         if df_copy_cust_con.empty:
@@ -60,6 +48,12 @@ def transform_customers_contracts(df_cust_con, df_con, df_con_details,df_periods
         if df_copy_con.empty or df_copy_con_details.empty:
             logger.info(f"df_con or df_con_details was empty")
             return df_copy_cust_con
+        
+        
+        #droping unwated dates to avoid suffixes clashing when merged
+        df_copy_con.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        df_copy_con_details.drop(["last_updated","created_at"],axis=1,  inplace=True)
+        df_copy_periods.drop(["last_updated","created_at"],axis=1,  inplace=True)
 
 
         #merging period with contract details
@@ -98,8 +92,10 @@ def transform_customers_contracts(df_cust_con, df_con, df_con_details,df_periods
         df_copy_cust_con["is_active"] = df_copy_cust_con["end_date"] > pd.Timestamp.now()
 
 
-        #droping unwanted serie
-        df_copy_cust_con.drop("customer_contract_id", axis=1, inplace=True)
+
+        #keeping only the wanted columns
+        df_copy_cust_con = df_copy_cust_con[["customer_id","contract_id","start_date",
+                                             "end_date", "is_active"]]
     except Exception as e:
         logger.error(f"failed to transform customers_contracts: {type(e).__name__}: {e}")
 

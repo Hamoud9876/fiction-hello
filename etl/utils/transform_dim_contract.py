@@ -56,8 +56,11 @@ def transform_dim_contract(df_contracts, df_contracts_details, df_periods, df_co
         #renaming the column that were merged to match the distenation table
         df.rename(columns={"period": "contract_period"}, inplace=True)
 
-        #droppping unwanted columns
-        df = df.drop(["contract_details_id", "contract_type_id", "contract_period_id"], axis=1)
+        #keeping only wanted columns
+        df = df[["contract_title", "contract_type","initial_price",
+                  "discount_percent", "effective_price", "contract_period",
+                  "num_of_sims", "num_of_devices", "personal_data_id",
+                  "contract_id"]]
 
     except Exception as e:
         logger.error(f"falied to transform dim_contract: {type(e).__name__}: {e}")

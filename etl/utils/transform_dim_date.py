@@ -45,11 +45,11 @@ def transform_dim_date(**kwargs):
                 df["completed_date"] = pd.to_datetime(df["completed_date"]).dt.date
                 df["due_date"] = pd.to_datetime(df["due_date"]).dt.date
 
-            if df_name == "customer_status_history" or "billing_status_history":
+            if df_name in ["customer_status_history","billing_status_history"]:
                 df["change_date"] = pd.to_datetime[df["change_date"]].dt.date
 
-            if (df_name == "customers_usage" or "charge_rates" or "address"
-            or "personal_data"):
+            if df_name in ["customers_usage","charge_rates",
+            "address", "personal_data"]:
                 df["start_date"] = pd.to_datetime(df["start_date"])
                 df["end_date"] = pd.to_datetime(df["end_date"])
 

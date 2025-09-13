@@ -104,14 +104,10 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
         df_copy_customer["age_group"] = age_group
 
 
-        #dropping unwated columns to match the distenation table
-        df_copy_customer = df_copy_customer.drop("first_name", axis=1)
-        df_copy_customer = df_copy_customer.drop("middle_name", axis=1)
-        df_copy_customer = df_copy_customer.drop("last_name", axis=1)
-        df_copy_customer = df_copy_customer.drop("birthdate", axis=1)
-        df_copy_customer = df_copy_customer.drop("gender_id", axis=1)
-        df_copy_customer = df_copy_customer.drop("pronounce_id", axis=1)
-        df_copy_customer = df_copy_customer.drop("customer_status_id", axis=1)
+        #keeping only wanted columns
+        df_copy_customer = df_copy_customer[["join_date","full_name","gender",
+                                            "pronounce","customer_status","age",
+                                            "age_group","customer_id"]]
 
     except Exception as e:
         logger.error(f"failed to transform dim_customers: {type(e).__name__}: {e}")

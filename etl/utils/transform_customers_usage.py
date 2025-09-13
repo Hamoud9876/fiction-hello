@@ -30,6 +30,12 @@ def transform_customers_usage(df_cust_usage):
         df_copy_cust_usage["start_date"] = pd.to_datetime(df_copy_cust_usage["start_date"]).dt.date
         df_copy_cust_usage["end_date"] = pd.to_datetime(df_copy_cust_usage["end_date"]).dt.date
 
+        #keeping only wanted columns
+        df_copy_cust_usage = df_copy_cust_usage[["customer_id","used_cellular_data",
+                                                 "used_call_time","used_roam_call_time",
+                                                 "used_roam_data","start_date",
+                                                 "end_date"]]
+
 
     except Exception as e:
         logger.error(f"failed to transform customers_usage: {type(e).__name__}: {e}")
