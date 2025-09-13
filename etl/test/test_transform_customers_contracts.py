@@ -15,6 +15,9 @@ def create_data():
         "contract_period_id": range(1, 4),
         "period": [12, 24, 36]
     })
+    contract_periods["created_at"] = [fake.date_time_between(start_date="-2y", end_date="now") for _ in range(3)]
+    contract_periods["last_updated"] = contract_periods["created_at"] + pd.to_timedelta(np.random.randint(0, 365, size=3), unit='d')
+
 
 
     details_rows = []
@@ -57,10 +60,14 @@ def create_data():
   
     customers_contracts_rows = []
     for i in range(n + 1):
+        created_at = fake.date_time_between(start_date="-3y", end_date="now")
+        last_updated = created_at + timedelta(days=np.random.randint(1, 500))
         customers_contracts_rows.append({
             "customer_contract_id": i,
             "customer_id": np.random.randint(1, 50),
-            "contract_id": contracts.iloc[i]["contract_id"]
+            "contract_id": contracts.iloc[i]["contract_id"],
+            "created_at": created_at,
+            "last_updated" : last_updated
         })
 
     customers_contracts = pd.DataFrame(customers_contracts_rows)
@@ -84,9 +91,6 @@ class TestTransformCustomersContracts:
         
         assert "customer_id" in response
         assert "contract_id" in response
-        assert "created_at" in response
-        assert "last_updated" in response
-        assert "period" in response
         assert "start_date" in response
         assert "end_date" in response
         assert "is_active" in response
@@ -94,6 +98,9 @@ class TestTransformCustomersContracts:
 
 
         assert "customer_contract_id" not in response
+        assert "created_at" not in response
+        assert "last_updated" not in response
+        assert "period" not in response
         
 
 
@@ -105,9 +112,6 @@ class TestTransformCustomersContracts:
 
         assert isinstance(response["customer_id"].loc[0], np.integer)
         assert isinstance(response["contract_id"].loc[0], np.integer )
-        assert isinstance(response["created_at"].loc[0], date)
-        assert isinstance(response["last_updated"].loc[0],date)
-        assert isinstance(response["period"].loc[0], np.integer)
         assert isinstance(response["start_date"].loc[0], date)
         assert isinstance(response["end_date"].loc[0], date)
         assert isinstance(response["is_active"].loc[0], np.bool)
@@ -119,7 +123,7 @@ class TestTransformCustomersContracts:
         df_con = pd.DataFrame()
         response = transform_customers_contracts(df_cust_con, df_con, df_con_detail,df_periods)
 
-        assert response is df_cust_con
+        pd.testing.assert_frame_equal(response, df_cust_con)
 
         #df_cust_con empty
         df_periods, df_con_detail, df_con, df_cust_con = create_data
@@ -127,6 +131,6 @@ class TestTransformCustomersContracts:
 
         response = transform_customers_contracts(df_cust_con, df_con, df_con_detail,df_periods)
 
-        assert response is df_cust_con
+        pd.testing.assert_frame_equal(response, df_cust_con)
 
 
