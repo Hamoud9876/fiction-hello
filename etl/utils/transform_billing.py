@@ -73,13 +73,17 @@ def transform_billing(df_billing, df_billing_status):
             else (row["completed_date"] -row["due_date"] ).days,
             axis=1 )
 
+        #renaming columns
+        df_copy_billing.rename(columns={"status": "bill_status",
+                                        "completed_date":"complete_date"},
+                                         inplace=True)
 
         #dropping unwated columns
-        df_copy_billing.drop(["bill_status_id","amount"],axis=1,inplace=True)
+        df_copy_billing = df_copy_billing[["customer_id", "contract_id","amount_billed",
+                                           "amount_paid", "is_paid","days_overdue",
+                                            "bill_status", "issue_date", "complete_date",
+                                            "due_date","created_at", "last_updated"]]
 
-
-        #renaming columns
-        df_copy_billing.rename(columns={"status": "bill_status"}, inplace=True)
     except Exception as e:
         logger.error(f"failed to transform billing: {type(e).__name__}: {e}")
 
