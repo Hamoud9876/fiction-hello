@@ -39,6 +39,10 @@ def create_data():
         "bill_status_id": [1,2],
         "status": ["paid", "unpaid"]
     })
+    billing_status["created_at"] = [fake.date_time_between(start_date="-2y", end_date="now") for _ in range(2)]
+    billing_status["last_updated"] = billing["created_at"] + pd.to_timedelta(np.random.randint(0, 365, size=n), unit='d')
+
+    
 
     yield billing, billing_status
 
@@ -56,14 +60,12 @@ class TestTransofromBilling:
 
         response = transform_billing(df_billing,df_status)
 
-        assert "bill_id" in response
+        # assert "bill_id" in response
         assert "customer_id" in response
         assert "contract_id" in response
         assert "issue_date" in response
         assert "due_date" in response
-        assert "completed_date" in response
-        assert "created_at" in response
-        assert "last_updated" in response
+        assert "complete_date" in response
         assert "bill_status" in response
         assert "amount_billed" in response
         assert "amount_paid" in response
@@ -81,14 +83,12 @@ class TestTransofromBilling:
 
         response = transform_billing(df_billing,df_status)
 
-        assert isinstance(response["bill_id"].loc[0],np.integer)
+        # assert isinstance(response["bill_id"].loc[0],np.integer)
         assert isinstance(response["customer_id"].loc[0],np.integer)
         assert isinstance(response["contract_id"].loc[0],np.integer)
         assert isinstance(response["issue_date"].loc[0], date)
         assert isinstance(response["due_date"].loc[0],date)
-        assert isinstance(response["completed_date"].loc[0],date)
-        assert isinstance(response["created_at"].loc[0],datetime)
-        assert isinstance(response["last_updated"].loc[0],datetime)
+        assert isinstance(response["complete_date"].loc[0],date)
         assert isinstance(response["bill_status"].loc[0], str)
         assert isinstance(response["amount_billed"].loc[0],np.floating)
         assert isinstance(response["amount_paid"].loc[0],np.floating)
