@@ -15,7 +15,7 @@ def generate_contracts(value: int, con_type: int, sts_hist: dict):
     -----------------------------------------
     args: "value" represent the number of contracts to be created
 
-    "con_type" represent contract type
+    "con_type" represent contract type_id
 
     "sts_hist" represent status history for a client
     -----------------------------------------
@@ -96,24 +96,7 @@ def generate_contracts(value: int, con_type: int, sts_hist: dict):
                     )
             else:
                 contracts.append(con_details(periods[2], weights[1], i["start_date"]))
-        # elif i["period"] == 0:
-        #     if len(contracts) == 0:
-        #         contracts.append(
-        #             {
-        #                 "contract_title": "pgo",
-        #                 "num_of_sims": 1,
-        #                 "num_of_devices": 0,
-        #                 "con_details": 0,
-        #                 "devices": 0,
-        #                 "price": 0,
-        #                 "available_data": {
-        #                     "calls_times": 0,
-        #                     "cellular_data": 0.0,
-        #                     "roam_data": 0.0,
-        #                     "roam_call_time": 0,
-        #                 },
-        #             }
-        #         )
+
         # period is more than 24 months
         else:
             effective_date = i["start_date"]

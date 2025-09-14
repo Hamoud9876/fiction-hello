@@ -33,7 +33,7 @@ class TestCreateRecords:
     @patch("core.src.main.insert_tables")
     def test_contains_correct_body(self, mock_insert, mock_create, client):
         response = client.get("/create_records?num_records=1")
-        assert response.json()["status"] == "Ok"
+        assert response.json()["status"] == "200"
         assert response.json()["records_created"] == 1
         mock_insert.assert_called_once()
         mock_create.assert_called_once()

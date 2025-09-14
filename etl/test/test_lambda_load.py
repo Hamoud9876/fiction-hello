@@ -3,6 +3,7 @@ import pandas as pd
 import pytest
 from etl.src.lambda_load.lambda_load import lambda_load
 
+
 @patch("etl.src.lambda_load.lambda_load.insert_df_into_db")
 @patch("etl.src.lambda_load.lambda_load.read_parquet_file")
 @patch("etl.src.lambda_load.lambda_load.get_bucket_dirs")

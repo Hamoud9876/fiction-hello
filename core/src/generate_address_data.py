@@ -16,19 +16,30 @@ def generate_address_data():
     for the customer
     """
 
-    #a list of counties as faker does not support uk counties
+    # a list of counties as faker does not support uk counties
     COUNTIES = [
-    "Greater London", "West Midlands", "Greater Manchester", "Merseyside",
-    "South Yorkshire", "West Yorkshire", "Tyne and Wear", "Hampshire",
-    "Kent", "Essex", "Surrey", "Lancashire", "Devon", "Cornwall"
-]
+        "Greater London",
+        "West Midlands",
+        "Greater Manchester",
+        "Merseyside",
+        "South Yorkshire",
+        "West Yorkshire",
+        "Tyne and Wear",
+        "Hampshire",
+        "Kent",
+        "Essex",
+        "Surrey",
+        "Lancashire",
+        "Devon",
+        "Cornwall",
+    ]
     address = []
     # 80% chance to generate one address
     if randint(1, 5) > 1:
         address.append(
             {
                 "first_line": fake.street_address(),
-                "second_line": fake.secondary_address() if randint(1,5) > 1 else "",
+                "second_line": fake.secondary_address() if randint(1, 5) > 1 else "",
                 "city": fake.city(),
                 "county": choice(COUNTIES),
                 "post_code": fake.postcode(),
@@ -37,11 +48,11 @@ def generate_address_data():
         )
 
     else:
-        #20% chance to generate 2 address type home and work
+        # 20% chance to generate 2 address type home and work
         address.append(
             {
                 "first_line": fake.street_address(),
-                "second_line": fake.secondary_address() if randint(1,5) > 1 else "",
+                "second_line": fake.secondary_address() if randint(1, 5) > 1 else "",
                 "city": fake.city(),
                 "county": choice(COUNTIES),
                 "post_code": fake.postcode(),
@@ -51,7 +62,7 @@ def generate_address_data():
         address.append(
             {
                 "first_line": fake.street_address(),
-                "second_line": fake.secondary_address() if randint(1,5) > 1 else "",
+                "second_line": fake.secondary_address() if randint(1, 5) > 1 else "",
                 "city": fake.city(),
                 "county": choice(COUNTIES),
                 "post_code": fake.postcode(),

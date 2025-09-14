@@ -28,8 +28,8 @@ class TestCustomerUsage:
         result = customer_usage(12, date_obj)
 
         for i in result:
-            assert "used_cerllular_data" in i
-            assert isinstance(i["used_cerllular_data"], float)
+            assert "used_cellular_data" in i
+            assert isinstance(i["used_cellular_data"], float)
             assert "used_call_time" in i
             assert isinstance(i["used_call_time"], int)
             assert "used_roam_data" in i
@@ -49,8 +49,8 @@ class TestCustomerUsage:
         result = customer_usage(24, date_obj)
 
         for i in result:
-            assert "used_cerllular_data" in i
-            assert isinstance(i["used_cerllular_data"], float)
+            assert "used_cellular_data" in i
+            assert isinstance(i["used_cellular_data"], float)
             assert "used_call_time" in i
             assert isinstance(i["used_call_time"], int)
             assert "used_roam_data" in i
@@ -70,8 +70,8 @@ class TestCustomerUsage:
         result = customer_usage(36, date_obj)
 
         for i in result:
-            assert "used_cerllular_data" in i
-            assert isinstance(i["used_cerllular_data"], float)
+            assert "used_cellular_data" in i
+            assert isinstance(i["used_cellular_data"], float)
             assert "used_call_time" in i
             assert isinstance(i["used_call_time"], int)
             assert "used_roam_data" in i

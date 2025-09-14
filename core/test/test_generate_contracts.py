@@ -20,7 +20,19 @@ class TestGeneratContracts:
         assert "Invalid input in 'generate_contracts': sts_hist" in str(e.value)
 
     def test_returns_list(self):
-        result = generate_contracts(1, 1, {"cust_sts_hist": []})
+        join_date = date(day=1, month=1, year=2024)
+        result = generate_contracts(
+            1,
+            1,
+            {
+                "cust_sts_hist": [
+                    {
+                        "customer_status": customers_status[0],
+                        "change_date": join_date,
+                    }
+                ]
+            },
+        )
         assert isinstance(result, list)
 
     def test_generate_one_commitment(self):

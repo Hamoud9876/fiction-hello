@@ -1,6 +1,5 @@
 from core.src.generate_billings import generate_bellings
 from core.exceptions.invalid_input_exception import InvalidInput
-from random import uniform, randint
 from dateutil.relativedelta import relativedelta
 from datetime import date
 import pytest
@@ -64,11 +63,11 @@ class TestGeneratBillings:
             assert isinstance(i["amount"], float)
             assert isinstance(i["status"], str)
             assert isinstance(i["issue_date"], date)
-            assert isinstance(i["complete_date"], (date, None))
+            assert isinstance(i["complete_date"], (date, type(None)))
             assert isinstance(i["due_date"], date)
 
     def test_doesnot_generate_future_bills(self):
-        my_date = date(day=1, month=7, year=2025)
+        my_date = date.today() - relativedelta(months=1)
         usage = [
             {
                 "used_cellular_data": 155.00,

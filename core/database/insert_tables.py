@@ -193,7 +193,9 @@ def insert_tables(customers: dict):
                 )[0][0]
             )
 
-        query_cust_sims = """INSERT INTO customers_sims(customer_id, sim_id, created_at, last_updated)
+        query_cust_sims = """INSERT INTO customers_sims(customer_id,
+        sim_id, created_at,
+        last_updated)
         VALUES(:customer_id,:sim_id, :created_at,:last_updated);"""
 
         for i in sims_ids:
@@ -253,7 +255,7 @@ def insert_tables(customers: dict):
                 contract_period_id=periods.index(con["con_period"]) + 1,
                 num_of_sims=con["num_of_sims"],
                 num_of_devices=con["num_of_devices"],
-                start_date= customer["join_date"],
+                start_date=customer["join_date"],
                 personal_data_id=personal_data,
                 created_at=customer["join_date"],
                 last_updated=customer["join_date"],

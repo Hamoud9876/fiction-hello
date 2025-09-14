@@ -302,4 +302,3 @@ class TestDaysBetween:
 
         result = days_between(date_obj1, date_obj2)
         assert result == 38
-

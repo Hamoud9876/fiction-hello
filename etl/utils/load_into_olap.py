@@ -8,6 +8,7 @@ import traceback
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+
 def load_into_olap(table_df: pd.DataFrame, table: str):
     """
     Insert a DataFrame into a PostgreSQL table using pg8000,
@@ -37,7 +38,8 @@ def load_into_olap(table_df: pd.DataFrame, table: str):
 
             with engine.begin() as conn:
                 # Fetch the primary key column(s) for the table
-                pk_query = text(f"""
+                pk_query = text(
+                    f"""
                     SELECT a.attname
                     FROM   pg_index i
                     JOIN   pg_attribute a 
@@ -45,11 +47,14 @@ def load_into_olap(table_df: pd.DataFrame, table: str):
                           AND a.attnum = ANY(i.indkey)
                     WHERE  i.indrelid = '{table}'::regclass
                     AND    i.indisprimary;
-                """)
+                """
+                )
                 pk_result = conn.execute(pk_query).fetchall()
 
                 if pk_result:
-                    pk_columns = [row[0] for row in pk_result]  # supports multi-column PKs
+                    pk_columns = [
+                        row[0] for row in pk_result
+                    ]  # supports multi-column PKs
                     existing_df = pd.read_sql(
                         f"SELECT {', '.join(pk_columns)} FROM {table}", conn
                     )
@@ -63,12 +68,13 @@ def load_into_olap(table_df: pd.DataFrame, table: str):
                         table_df = table_df[~table_df[pk_column].isin(existing_ids)]
                     else:
                         # Composite key: drop if all PK columns match
-                        table_df = table_df.merge(
-                            existing_df,
-                            on=pk_columns,
-                            how="left",
-                            indicator=True
-                        ).query("_merge == 'left_only'").drop(columns=["_merge"])
+                        table_df = (
+                            table_df.merge(
+                                existing_df, on=pk_columns, how="left", indicator=True
+                            )
+                            .query("_merge == 'left_only'")
+                            .drop(columns=["_merge"])
+                        )
 
                     after_count = len(table_df)
                     logger.info(
