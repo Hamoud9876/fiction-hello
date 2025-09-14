@@ -1,6 +1,5 @@
-from etl.utils.get_bucket_dirs import get_bucket_dirs
 from etl.utils.read_parquet_file import read_parquet_file
-from etl.utils.load_into_olap import insert_df_into_db
+from etl.utils.load_into_olap import load_into_olap
 from datetime import datetime
 import logging
 
@@ -25,7 +24,17 @@ def lambda_load(event, context):
 
     bucket_name = "etl-process-bucket-2025"
 
-    directories = get_bucket_dirs(bucket_name)
+    directories = [
+    "dim_date",
+    "dim_customers",
+    "dim_locations",
+    "dim_contract",
+    "dim_personal_data",
+    "fact_billing",
+    "fact_customers_contracts",
+    "fact_customers_demographic",
+    "fact_customers_usage",
+]
     timestamp = datetime.now()
     
     # Step 1: Read parquet
@@ -33,7 +42,7 @@ def lambda_load(event, context):
         df = read_parquet_file(bucket_name, timestamp,drictory)
     
         
-        insert_df_into_db(df, drictory)
+        load_into_olap(df, drictory)
 
         logger.info(f"rows_inserted: {len(df)} in {drictory}")
 
