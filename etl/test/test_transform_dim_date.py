@@ -92,13 +92,13 @@ class TestTransformDimDate:
         
         response = transform_dim_date(df1=df1,df2=df2,df3=df3,df4=df4,df5=df5)
 
-
         assert isinstance(response["date_id"].loc[0], date)
         assert isinstance(response["day"].loc[0], np.integer)
         assert isinstance(response["month"].loc[0], np.integer)
         assert isinstance(response["year"].loc[0], np.integer)
         assert isinstance(response["day_of_week"].loc[0], np.integer)
         assert isinstance(response["day_name"].loc[0], str)
+        assert isinstance(response["month_name"].loc[0], str)
         assert isinstance(response["quarter"].loc[0], np.integer)
 
 
