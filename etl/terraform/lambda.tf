@@ -49,7 +49,7 @@ resource "aws_lambda_function" "ingestion_lambda" {
 resource "aws_lambda_function" "lambda_transform" {
   function_name = "lambda-transform"
   package_type  = "Image"
-  image_uri     = "452732946735.dkr.ecr.eu-west-2.amazonaws.com/lambda-transform:v1"
+  image_uri     = "452732946735.dkr.ecr.eu-west-2.amazonaws.com/lambda-transform:v3"
   role          = aws_iam_role.lambda_role.arn
   timeout          = 521
   memory_size      = 1024
