@@ -58,13 +58,9 @@ resource "null_resource" "build_load_layer" {
       mkdir -p ${path.module}/../build_load_layer/python/etl/utils
       mkdir -p ${path.module}/../build_load_layer/python/etl/database
 
-      cp ${path.module}/../utils/get_bucket_dirs.py \
-         ${path.module}/../utils/read_parquet_file.py \
+      cp ${path.module}/../utils/read_parquet_file.py \
          ${path.module}/../utils/load_into_olap.py \
          ${path.module}/../build_load_layer/python/etl/utils/
-
-      cp ${path.module}/../database/db_connection_olap.py \
-         ${path.module}/../build_load_layer/python/etl/database/
 
       touch ${path.module}/../build_load_layer/python/etl/__init__.py
       touch ${path.module}/../build_load_layer/python/etl/utils/__init__.py
@@ -94,7 +90,7 @@ data "archive_file" "load_layer_zip" {
 resource "aws_lambda_layer_version" "load_layer" {
   filename   = data.archive_file.load_layer_zip.output_path
   layer_name = "load_combined_layer"
-  # description = "Force new version: ${timestamp()}"
+  description = "Force new version: ${timestamp()}"
   depends_on = [data.archive_file.load_layer_zip]
 }
 
