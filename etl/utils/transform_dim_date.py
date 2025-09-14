@@ -67,6 +67,7 @@ def transform_dim_date(**kwargs):
                                     "year": all_dates.dt.year,
                                     "day_of_week": all_dates.dt.dayofweek,
                                     "day_name": all_dates.dt.day_name(),
+                                    "month_name": all_dates.dt.month_name(),
                                     "quarter": all_dates.dt.quarter})
         else:
             logger.info("no dates columns found")
