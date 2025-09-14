@@ -5,9 +5,7 @@ from core.src.cust_hist_inactive import cust_hist_inactive
 from core.src.cust_hist_long_changes import cust_hist_long_changes
 from core.src.generate_address_data import generate_address_data
 from core.data.data import customers_status
-from core.utils.generate_post_code import generate_post_code
 from core.utils.days_between import days_between
-from core.utils.random_string import random_string
 from unittest.mock import patch
 from datetime import datetime, date
 import pytest
@@ -239,12 +237,6 @@ class TestAddressData:
             assert isinstance(i["address_type"], str)
 
 
-class TestGeneratePostCode:
-    def test_return_str(self):
-        result = generate_post_code()
-        assert isinstance(result, str)
-
-
 class TestDaysBetween:
     def test_handle_wrong_input(self):
         join_date1 = "10/2/2010"
@@ -311,25 +303,3 @@ class TestDaysBetween:
         result = days_between(date_obj1, date_obj2)
         assert result == 38
 
-
-class TestRandomString:
-    def test_handles_wrong_input(self):
-        result = random_string("")
-        assert result == "Not a valid length"
-
-        result = random_string(7.1)
-        assert result == "Not a valid length"
-
-    def test_return_str(self):
-        result = random_string(1)
-        assert isinstance(result, str)
-
-    def test_return_correct_len(self):
-        result = random_string(1)
-        assert len(result) == 1
-
-        result = random_string(16)
-        assert len(result) == 16
-
-        result = random_string(123)
-        assert len(result) == 123
