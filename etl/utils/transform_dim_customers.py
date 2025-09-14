@@ -92,7 +92,7 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
 
         #renaming the column that were merged to match the distenation table
         df_copy_customer.rename(columns={"gender_title": "gender",
-                                    "pronounce_title": "pronounce",
+                                    "pronounce_title": "pronoun",
                                     "status": "customer_status"},
                                     inplace=True)
 
@@ -106,7 +106,7 @@ def transform_dim_customers(df_customer, df_gender, df_pronounce, df_cust_sts):
 
         #keeping only wanted columns
         df_copy_customer = df_copy_customer[["join_date","full_name","gender",
-                                            "pronounce","customer_status","age",
+                                            "pronoun","customer_status","age",
                                             "age_group","customer_id"]]
 
     except Exception as e:
