@@ -1,5 +1,5 @@
 from unittest.mock import patch, MagicMock
-from core.database.db_connection import db_connection, close_db
+from etl.database.db_connection_olap import db_connection, close_db
 import os
 
 
@@ -14,7 +14,7 @@ class TestDBConnection:
             "DB_OLAP_PORT": "5432",
         },
     )
-    @patch("core.database.db_connection.Connection")
+    @patch("etl.database.db_connection_olap.Connection")
     def test_db_connection(self, mock_connection):
         mock_conn_instance = MagicMock()
         mock_connection.return_value = mock_conn_instance

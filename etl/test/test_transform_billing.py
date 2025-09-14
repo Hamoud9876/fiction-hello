@@ -2,7 +2,7 @@ from etl.utils.transform_billing import transform_billing
 import pandas as pd
 import numpy as np
 from faker import Faker
-from datetime import timedelta, date, datetime
+from datetime import timedelta, date
 import pytest
 
 

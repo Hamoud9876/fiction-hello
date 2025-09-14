@@ -56,7 +56,7 @@ def transform_billing(df_billing, df_billing_status):
         # getting the billed and paid amount
         df_copy_billing["amount_billed"] = df_copy_billing["amount"]
         df_copy_billing["amount_paid"] = df_copy_billing.apply(
-            lambda row: row["amount"] if row["status"] == "paid" else 0, axis=1
+            lambda row: row["amount"] if row["status"] == "paid" else 0.0, axis=1
         )
 
         # setting the is_paid value

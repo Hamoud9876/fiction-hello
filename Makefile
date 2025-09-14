@@ -77,10 +77,12 @@ run-flake8:
 ## Run the unit tests
 unit-test:
 	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest -vvvrP core/test/)
+	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest -vvvrP etl/test/)
 
 ## Run the coverage check
 check-coverage:
 	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest --cov=core core/test/)
+	$(call execute_in_env, PYTHONPATH=${PYTHONPATH} pytest --cov=etl etl/test/)
 	
 ## Run all checks
 run-checks: security-test run-black unit-test check-coverage pip-audit-check run-flake8

@@ -92,7 +92,7 @@ class TestTransformDimCustomers:
         assert "join_date" in response
         assert "full_name" in response
         assert "gender" in response
-        assert "pronounce" in response
+        assert "pronoun" in response
         assert "customer_status" in response
         assert "age" in response
         assert "age_group" in response
@@ -114,7 +114,7 @@ class TestTransformDimCustomers:
         assert isinstance(response["join_date"].loc[0], date)
         assert isinstance(response["full_name"].loc[0], str)
         assert isinstance(response["gender"].loc[0], str)
-        assert isinstance(response["pronounce"].loc[0], str)
+        assert isinstance(response["pronoun"].loc[0], str)
         assert isinstance(response["customer_status"].loc[0], str)
         assert isinstance(response["age"].loc[0], (int, np.integer))
         assert isinstance(response["age_group"].loc[0], str)
