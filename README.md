@@ -1,94 +1,91 @@
+# 📡 Fiction Hello
 
-# fiction_hello
-This project is a work in progress and this read me file will be updated overtime.
+A sample project mimicking a telecommunications company’s backend system and ETL / OLAP data pipeline.  
+Generates synthetic data, stores it transactionally, transforms and loads into an OLAP database for analytics.
 
-The project aims to copy some of the behaviours that would be expected in a telecommunication company. The project is devided into 2 components: core and ETL.
-### core
-The goal from core is to create backend for the project. This includes:
-* database design, modeling and normlization. 
-* the logic to generate the data.
-* AWS EC2 to host the application.
-* PistgreSQL hosted on AWS RDS.
+---
 
-### ETL
-Aims to create a data pipeline from the previously generateed data to analyse it as well as the new OLAP database to house the data (also hosted on AWS RDS). 
+## 📑 Table of Contents
 
+1. [Project Overview](#project-overview)  
+2. [Architecture](#architecture)  
+3. [Tech Stack](#tech-stack)  
+4. [Setup & Installation](#setup--installation)  
+5. [Docker](#docker)  
+6. [Usage](#usage)  
+7. [Database Schema](#database-schema)  
+8. [Testing](#testing)  
+9. [Roadmap](#roadmap)  
+10. [Author](#author)  
+11. [License](#license)  
 
-# Getting started
-#### 1- To setup your environment locally, run the following commands:
+---
 
+## 🚀 Project Overview
+
+This project simulates operations of a telecom provider. It provides:
+
+- Backend service for data like customers, contracts, devices, billing, and SIMs.  
+- ETL pipeline to ingest, transform, and load into an OLAP schema.  
+- Two database layers: transactional + analytical.  
+
+---
+
+## 🏗 Architecture
+
+- **Core**:  
+  - API / service layer, data generation (Faker), transactional DB schema.  
+- **ETL**:  
+  - Ingestion, transformations, OLAP loading.  
+- **OLAP DB**:  
+  - Dimension and fact tables for analytics.  
+
+---
+
+## ⚙️ Tech Stack
+
+- Python 3.10+  
+- FastAPI  
+- PostgreSQL  
+- SQLAlchemy + pg8000  
+- Faker  
+- python-dotenv  
+- Docker  
+- Pytest  
+
+---
+
+## 🛠 Setup & Installation
+
+### Prerequisites
+
+- Python 3.10+  
+- PostgreSQL (local or remote)  
+- Docker (if using the container)  
+
+### Local Setup (without Docker)
+
+```bash
+# Clone repo
+git clone https://github.com/Hamoud9876/fiction-hello.git
+cd fiction-hello
+
+# Create virtual environment and install dependencies
 make requirements
 
-make dev-setup
+# Create .env file with DB credentials for both OLTP and OLAP:
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=fiction_hello
+DB_USERNAME=...
+DB_PASSWORD=...
 
-make run-checks
-
-to setup the database:
-please navigate to core directory, then run: 
-psql -f fiction_hello_db.sql
-
-and make sure to add your .env file to the root directory.
-
-#### 2- to setup your environment on AWS, run the following commands:
-make requirements
-
-make dev-setup
-
-make run-checks
-
-navigate to terraform directory
-create your terraform .tfvars file inside the terraform directory and add the following variables to it:<br>
-db_name     = <br>
-db_user     = <br>
-db_password = <br>
-
-then run command:<br>
-terrform plan<br>
-terraform apply -var-file="YourFileName.tfvars"
-
-if successful you will gt 3 outputs:<br>
-EC2 IP<br>
-RDS Host and port
-
-create your .env file using the port and host you got, make sure to remove the port from the end of the host string you were giving.
-
-ssh into your EC2 instance using the up you got with the following command:<br>
-ssh -i /path/to/your/key.pem ec2-user@your-ec2-ip
-
-once in clone the repo<br>
-then move the .env file into your EC2 instance using the following command:<br>
-scp -i /path/to/your/key.pem /path/to/local/file ec2-user@your-ec2-ip:/the/root/of/you/the-project/on-EC2
-
-run the make file commands again inside the EC2 to make sure everything is sill working.<br>
-if successful start your FastAPI server with the following command:<br>
-uvicorn main:app --host 0.0.0.0 --port 8000
-
-use your browser to interact with the api, there are to paths currently:
-- `healthcheck` which return ok if the server is working .
-- `create_records` to generate new Fake customers.
+DB_OLAP_HOST=localhost
+DB_OLAP_PORT=5432
+DB_OLAP_NAME=fiction_hello
+DB_OLAP_USERNAME=...
+DB_OLAP_PASSWORD=...
 
 
-
-# tech stack
-- Python
-
-- Postgresql
-
-- terraform
-
-- AWS (EC2, RDS)
-
-## key dependencies
-
-- `pg8000` – PostgreSQL database driver for Python  
-- `python-dotenv` – Loads environment variables from `.env` files  
-- `Faker` – Generates realistic fake data for testing and development 
-- `FastAPI` – High-performance Python framework for building APIs 
-
-
-# Auther
-Hamoud Alzafiry
-
-[Linkedin](www.linkedin.com/in/hamoud-alzafiry-613135357)
-
-[github](https://github.com/Hamoud9876)
+# Run backend locally
+uvicorn core.src.api_interface:app --reload
